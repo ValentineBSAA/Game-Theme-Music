@@ -14,9 +14,9 @@
 
 ## Download
 
-**[Download Game Theme Music 3.6.9](https://github.com/ValentineBSAA/Game-Theme-Music-/releases/download/V3.6.9/Game-Theme-Music-3.6.9.zip)**
+**[Download Game Theme Music 3.6.9](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V3.6.9/Game-Theme-Music-3.6.9.zip)**
 
-[View release notes](https://github.com/ValentineBSAA/Game-Theme-Music-/releases/tag/V3.6.9) · [Report a problem](https://github.com/ValentineBSAA/Game-Theme-Music-/issues)
+[View release notes](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.6.9) · [Report a problem](https://github.com/ValentineBSAA/Game-Theme-Music/issues)
 
 Game Theme Music is currently distributed as a manual Decky Loader plugin while wider community testing continues.
 
