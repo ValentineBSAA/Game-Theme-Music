@@ -1,108 +1,112 @@
-# Game Theme Music
+<p align="center">
+  <img src="assets/game-theme-music-glyph.webp" width="140" alt="Game Theme Music icon">
+</p>
 
-**Controller-first soundtrack management for Steam Deck Gaming Mode.**
+<h1 align="center">Game Theme Music</h1>
 
-Game Theme Music gives Steam and non-Steam games their own soundtrack playlists, plus separate Ambient and Steam Store music. It is built around Steam Deck controls, local/offline playback, artwork, and a full-screen Soundtrack Manager instead of a mouse-first settings page.
+<p align="center">
+  Give Steam and non-Steam games their own soundtrack on Steam Deck.
+</p>
 
-> **Current public tester:** v3.6.9  
-> This repository is the public home for Valentine’s continuation of Game Theme Music. Wider independent Steam Deck testing is welcome.
+<p align="center">
+  <strong>Current public tester: 3.6.9</strong>
+</p>
 
-## What it does
+## Download
 
-- Up to **15 tracks per game**, with ordered playlists, active-track selection, preview, shuffle, looping, timing, and fades.
-- Separate **Ambient** and **Steam Store** playlists with independent playback behavior and volume.
-- **Find Music** with preview-before-download.
-- Import audio you already own.
-- Local-first playback and cached/embedded artwork for offline use.
-- Full-screen **Soundtrack Manager** for Games, Ambient, Store, Library, Find Music, Import, Settings, and diagnostics.
-- Controller-first navigation designed for Gaming Mode.
-- CSS Loader / Steam-theme-aware presentation.
-- Non-Steam shortcut support.
-- Optional read-only media bridge for companion visual plugins.
-- Cooperative audio-focus support for **ResonaDeck** in v3.6.9.
+**[Download Game Theme Music 3.6.9](https://github.com/ValentineBSAA/Game-Theme-Music-/releases/download/V3.6.9/Game-Theme-Music-3.6.9.zip)**
 
-## What changed in 3.6.9
+[View release notes](https://github.com/ValentineBSAA/Game-Theme-Music-/releases/tag/V3.6.9) · [Report a problem](https://github.com/ValentineBSAA/Game-Theme-Music-/issues)
 
-v3.6.9 preserves the stable 3.6.8 playback/artwork baseline and adds a small cooperative audio-focus bridge for ResonaDeck.
+Game Theme Music is currently distributed as a manual Decky Loader plugin while wider community testing continues.
 
-When ResonaDeck reports that it has audio focus, GTM can pause its current soundtrack and remember the exact owner/track. When focus is released, GTM resumes only when that same soundtrack is still the valid paused owner. The existing Media Bridge remains read-only.
+## Install
 
-See [the 3.6.9 validation notes](docs/VALIDATION_3.6.9.md).
+1. Open **Decky Loader** on your Steam Deck.
+2. Enable the Developer/manual plugin installation option in Decky settings.
+3. Download **Game-Theme-Music-3.6.9.zip** from the link above.
+4. Install the ZIP through Decky’s manual plugin installer.
+5. Reload Decky if prompted.
 
-## Download and install
+That is the whole install. You do not need to clone this repository or build anything yourself.
 
-Game Theme Music is a Decky Loader plugin.
+## What Game Theme Music does
 
-**Current release:** [Game Theme Music 3.6.9](https://github.com/ValentineBSAA/Game-Theme-Music-/releases/tag/V3.6.9)
+- Give individual Steam and non-Steam games their own music playlists.
+- Add separate **Ambient** and **Steam Store** music.
+- Import music you already own.
+- Find and preview music from supported sources.
+- Shuffle, repeat, change tracks, adjust volume, fades, and timing.
+- Keep artwork available locally for a cleaner offline experience.
+- Manage everything from a full-screen, controller-first **Soundtrack Manager**.
+- Work with Steam Deck Gaming Mode instead of feeling like a desktop settings app.
 
-**Direct ZIP:** [Game-Theme-Music-3.6.9.zip](https://github.com/ValentineBSAA/Game-Theme-Music-/releases/download/V3.6.9/Game-Theme-Music-3.6.9.zip)
+Game Theme Music supports up to **15 tracks per game**.
 
-SHA-256:
+## 3.6.9 tester release
+
+This release keeps the existing 3.6.8 playback, artwork, Store, Ambient, and library behavior and adds cooperative **ResonaDeck audio focus**.
+
+When ResonaDeck takes audio focus, GTM can pause its current soundtrack. When focus is released, GTM resumes only when the same soundtrack is still the valid paused owner.
+
+The build has been installed and used on the developer’s Steam Deck. More independent hardware testing is welcome.
+
+### Especially useful tests
+
+- Steam and non-Steam games
+- Steam Store playback
+- Ambient playback
+- artwork and notifications
+- controller navigation
+- local imports
+- coexistence with ThemeDeck or other audio plugins
+- ResonaDeck audio-focus pause/resume
+
+If something breaks, use the **Report a problem** link above. The issue form will ask for the useful details.
+
+## Screenshots
+
+Real Steam Deck screenshots can be added here later. The download and project are already usable without them.
+
+## Download safety
+
+Use the release files from this repository rather than similarly named mirrors.
+
+**3.6.9 ZIP SHA-256**
 
 `84364fe71ef5a65b9fae513ba0e8449cf670017f9d51b2da2807df9186d6a1df`
 
-### Install steps
+<details>
+<summary><strong>Decky Plugin Explorer</strong></summary>
 
-1. Install and open Decky Loader.
-2. Open Decky settings and enable the Developer options required for manual plugin installation.
-3. Download `Game-Theme-Music-3.6.9.zip` from the release above.
-4. Install the ZIP through Decky’s manual/developer plugin installation flow.
-5. Reload Decky if prompted.
+This repository includes a root-level `plugin.json` so community discovery tools can recognize it as a Decky plugin.
 
-**Use releases from this repository or tester packages linked by Valentine. Do not install similarly named mirrors.**
+Decky Plugin Explorer:
+https://safetzahirovic.github.io/decky-plugins-explorer/
 
-## Decky Plugin Explorer
+</details>
 
-The repository contains a root-level `plugin.json` matching Decky’s plugin metadata shape. The community Decky Plugin Explorer scans public GitHub repositories for compatible `plugin.json` files and refreshes its index nightly.
+<details>
+<summary><strong>Development, licensing, and project lineage</strong></summary>
 
-Explorer: https://safetzahirovic.github.io/decky-plugins-explorer/
+Game Theme Music uses AI-assisted development under Valentine’s direction with iterative Steam Deck hardware testing.
 
-## Testing status
+Current developer: **Valentine**
 
-- v3.6.9 package: published on GitHub and installed and running on the developer’s Steam Deck.
-- Core playback/artwork behavior is inherited from the tested 3.6.8 baseline.
-- The 3.6.9 ResonaDeck audio-focus bridge has static validation and needs broader independent hardware coverage.
-- Community tester reports are welcome, especially around Store playback, notifications, artwork, non-Steam games, controller focus, and coexistence with other audio plugins.
+Project lineage:
+- OMGDuke / SDH-GameThemeMusic
+- MegalonVII / SDH-GameThemeMusic
+- Valentine / Game Theme Music
 
-## Trust and transparency
+Game Theme Music continues the GPL-licensed project lineage and is distributed under **GPL-3.0-only**. See [LICENSE](LICENSE).
 
-Decky plugins can run with significant access on a Steam Deck. Review code and metadata before installing third-party plugins.
+Bundled/runtime third-party software has its own licensing requirements. In particular, yt-dlp itself uses the Unlicense, while upstream standalone executables can contain third-party components under additional licenses. The v3.6.9 bundled executable is therefore documented using the complete upstream third-party licensing information rather than being described simply as “Unlicense.”
 
-Game Theme Music uses AI-assisted development under Valentine’s direction, with iterative hardware testing and versioned validation notes. AI assistance does not replace release testing or developer responsibility.
+See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for details.
 
-This project continues the GPL-licensed SDH Game Theme Music lineage and preserves upstream and third-party notices.
+Technical validation:
+- [3.6.9 validation notes](docs/VALIDATION_3.6.9.md)
+- [3.6.9 release manifest](docs/RELEASE_MANIFEST_3.6.9.md)
+- [ResonaDeck audio-focus notes](docs/RESONADECK_AUDIO_FOCUS_3.6.9.md)
 
-## Lineage
-
-- Current developer: **Valentine**
-- Original project lineage: **OMGDuke / SDH-GameThemeMusic**
-- Continuation lineage: **MegalonVII / SDH-GameThemeMusic**
-
-Historical attribution is separate from the current public developer identity.
-
-## License and third-party components
-
-Game Theme Music is distributed under the GNU General Public License v3 lineage of the project. See [LICENSE](LICENSE).
-
-Bundled/runtime third-party components include:
-
-- **yt-dlp** — The Unlicense
-- **QuickJS** — MIT
-- **Mutagen** — GPL-2.0-or-later
-- ThemeDeck research attribution — BSD 3-Clause
-
-See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
-
-## Feedback
-
-If you test GTM on real Steam Deck hardware, open an issue with:
-
-- SteamOS version
-- Decky Loader version
-- GTM version
-- whether the game is Steam or non-Steam
-- what you expected
-- what actually happened
-- screenshots or logs when useful
-
-That kind of report is gold. It turns “works on my Deck” into something the community can actually trust.
+</details>
