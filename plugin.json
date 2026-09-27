@@ -1,0 +1,15 @@
+{
+  "name": "Game Theme Music",
+  "author": "Valentine",
+  "flags": [],
+  "api_version": 1,
+  "publish": {
+    "tags": [
+      "audio",
+      "music"
+    ],
+    "description": "Controller-first Steam Deck soundtrack manager with per-game, Ambient, and Store playlists.",
+    "image": "https://raw.githubusercontent.com/ValentineBSAA/Game-Theme-Music-/main/assets/game-theme-music-glyph.webp"
+  },
+  "description": "Game Theme Music 3.6.9 is a controller-first soundtrack manager for Steam Deck Gaming Mode with per-game playlists, Ambient and Steam Store music, local-first playback, artwork, imports, and cooperative ResonaDeck audio focus."
+}
