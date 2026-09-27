@@ -29,18 +29,27 @@ When ResonaDeck reports that it has audio focus, GTM can pause its current sound
 
 See [the 3.6.9 validation notes](docs/VALIDATION_3.6.9.md).
 
-## Install
+## Download and install
 
 Game Theme Music is a Decky Loader plugin.
 
+**Current release:** [Game Theme Music 3.6.9](https://github.com/ValentineBSAA/Game-Theme-Music-/releases/tag/V3.6.9)
+
+**Direct ZIP:** [Game-Theme-Music-3.6.9.zip](https://github.com/ValentineBSAA/Game-Theme-Music-/releases/download/V3.6.9/Game-Theme-Music-3.6.9.zip)
+
+SHA-256:
+
+`84364fe71ef5a65b9fae513ba0e8449cf670017f9d51b2da2807df9186d6a1df`
+
+### Install steps
+
 1. Install and open Decky Loader.
 2. Open Decky settings and enable the Developer options required for manual plugin installation.
-3. Install a **versioned Game Theme Music ZIP**.
-4. Reload Decky if prompted.
+3. Download `Game-Theme-Music-3.6.9.zip` from the release above.
+4. Install the ZIP through Decky’s manual/developer plugin installation flow.
+5. Reload Decky if prompted.
 
 **Use releases from this repository or tester packages linked by Valentine. Do not install similarly named mirrors.**
-
-The full v3.6.9 binary ZIP is being mirrored to GitHub separately. The repository is being published first so the project can be inspected and discovered by community tools such as the Decky Plugin Explorer.
 
 ## Decky Plugin Explorer
 
@@ -50,7 +59,7 @@ Explorer: https://safetzahirovic.github.io/decky-plugins-explorer/
 
 ## Testing status
 
-- v3.6.9 package: installed and running on the developer’s Steam Deck.
+- v3.6.9 package: published on GitHub and installed and running on the developer’s Steam Deck.
 - Core playback/artwork behavior is inherited from the tested 3.6.8 baseline.
 - The 3.6.9 ResonaDeck audio-focus bridge has static validation and needs broader independent hardware coverage.
 - Community tester reports are welcome, especially around Store playback, notifications, artwork, non-Steam games, controller focus, and coexistence with other audio plugins.
@@ -73,7 +82,7 @@ Historical attribution is separate from the current public developer identity.
 
 ## License and third-party components
 
-Game Theme Music is distributed under the GNU General Public License v3 lineage of the project. See the packaged `LICENSE` in release builds.
+Game Theme Music is distributed under the GNU General Public License v3 lineage of the project. See [LICENSE](LICENSE).
 
 Bundled/runtime third-party components include:
 
