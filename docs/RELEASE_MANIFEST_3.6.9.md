@@ -6,8 +6,8 @@ This records the exact public tester ZIP published by Valentine.
 - Version: **3.6.9**
 - Size: **41,687,184 bytes**
 - SHA-256: `84364fe71ef5a65b9fae513ba0e8449cf670017f9d51b2da2807df9186d6a1df`
-- GitHub release: https://github.com/ValentineBSAA/Game-Theme-Music-/releases/tag/V3.6.9
-- Direct ZIP: https://github.com/ValentineBSAA/Game-Theme-Music-/releases/download/V3.6.9/Game-Theme-Music-3.6.9.zip
+- GitHub release: https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.6.9
+- Direct ZIP: https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V3.6.9/Game-Theme-Music-3.6.9.zip
 
 ## Bundled helper hashes
 
