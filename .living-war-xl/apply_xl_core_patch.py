@@ -182,12 +182,17 @@ for rel, old, new, label in [
 # variables are ints and coordinate components are 0..255, so cast explicitly.
 p = root / "redalert/vortex.cpp"
 s = p.read_text(encoding="utf-8")
-old = "for (int y = MAX(0, yc - 1); y < yc + 4; y++) {\n        for (int x = MAX(0, xc - 1); x < xc + 4; x++) {"
-new = "for (int y = MAX(0, (int)yc - 1); y < yc + 4; y++) {\n        for (int x = MAX(0, (int)xc - 1); x < xc + 4; x++) {"
-if new not in s:
-    if old not in s:
-        raise SystemExit("Could not patch Chronal Vortex MAX type ambiguity")
-    s = s.replace(old, new, 1)
+changed = False
+for old_expr, new_expr in [
+    ("MAX(0, yc - 1)", "MAX(0, (int)yc - 1)"),
+    ("MAX(0, xc - 1)", "MAX(0, (int)xc - 1)"),
+]:
+    if new_expr not in s:
+        if old_expr not in s:
+            raise SystemExit("Could not patch Chronal Vortex MAX type ambiguity: " + old_expr)
+        s = s.replace(old_expr, new_expr, 1)
+        changed = True
+if changed:
     p.write_text(s, encoding="utf-8")
     print("patched: Chronal Vortex coordinate MAX casts")
 
