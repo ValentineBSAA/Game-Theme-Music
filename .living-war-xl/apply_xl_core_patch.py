@@ -160,6 +160,37 @@ patch_once(
     "LIVING_WAR_XL compile definition",
 )
 
+
+# Several footprint/refresh lists are deliberately arrays of signed 16-bit
+# relative offsets. They were typed as CELL pointers only because vanilla CELL
+# was also a short. Keep the offsets short when XL CELL becomes 32-bit.
+for rel, old, new, label in [
+    ("redalert/building.cpp", "    CELL const* offset;\n", "    short const* offset;\n", "building occupy offset pointer"),
+    ("redalert/building.cpp", "    CELL const* ptr;\n    CELL origin = Coord_Cell(Coord);", "    short const* ptr;\n    CELL origin = Coord_Cell(Coord);", "building exit offset pointer"),
+    ("redalert/display.cpp", "    CELL const* ptr;\n    CellClass* cellptr;", "    short const* ptr;\n    CellClass* cellptr;", "display refresh offset pointer"),
+]:
+    p = root / rel
+    s = p.read_text(encoding="utf-8")
+    if new not in s:
+        if old not in s:
+            raise SystemExit(f"Could not patch {label} in {rel}")
+        s = s.replace(old, new, 1)
+        p.write_text(s, encoding="utf-8")
+        print("patched:", label)
+
+# MAX(0, CELL-long-expression) becomes type-ambiguous under MSVC. The loop
+# variables are ints and coordinate components are 0..255, so cast explicitly.
+p = root / "redalert/vortex.cpp"
+s = p.read_text(encoding="utf-8")
+old = "for (int y = MAX(0, yc - 1); y < yc + 4; y++) {\n        for (int x = MAX(0, xc - 1); x < xc + 4; x++) {"
+new = "for (int y = MAX(0, (int)yc - 1); y < yc + 4; y++) {\n        for (int x = MAX(0, (int)xc - 1); x < xc + 4; x++) {"
+if new not in s:
+    if old not in s:
+        raise SystemExit("Could not patch Chronal Vortex MAX type ambiguity")
+    s = s.replace(old, new, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: Chronal Vortex coordinate MAX casts")
+
 print("\nLiving War XL Core patch applied.")
 print("Internal map: 256x256; intended playable test rectangle: 1,1,254,254.")
 print("Remastered fixed client map ABI remains 128x128 for the first hardware test.")
