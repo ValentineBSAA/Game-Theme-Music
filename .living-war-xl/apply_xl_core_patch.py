@@ -39,12 +39,12 @@ patch_once(
 # preprocessor conditionals and comments that are brittle to regex matching.
 p = root / "redalert/defines.h"
 s = p.read_text(encoding="utf-8")
-xl_cell_marker = "#ifdef LIVING_WAR_XL\ntypedef signed int CELL;"
+xl_cell_marker = "#ifdef LIVING_WAR_XL\ntypedef signed long CELL;"
 if xl_cell_marker not in s:
     cell_start = s.index("typedef signed short CELL;")
     cell_end = s.index("typedef int WAYPOINT;", cell_start)
     cell_replacement = """#ifdef LIVING_WAR_XL
-typedef signed int CELL;
+typedef signed long CELL;
 typedef union
 {
     CELL Cell;
