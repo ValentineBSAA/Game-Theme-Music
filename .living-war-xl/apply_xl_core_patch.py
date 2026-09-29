@@ -35,10 +35,15 @@ patch_once(
     re.S,
 )
 
-patch_once(
-    "redalert/defines.h",
-    r"typedef\s+signed\s+short\s+CELL;\s*typedef\s+union\s*\{.*?\}\s*CELL_COMPOSITE;\s*(?=typedef\s+int\s+WAYPOINT;)",
-    """#ifdef LIVING_WAR_XL
+# CELL needs a direct splice because the upstream block contains nested
+# preprocessor conditionals and comments that are brittle to regex matching.
+p = root / "redalert/defines.h"
+s = p.read_text(encoding="utf-8")
+xl_cell_marker = "#ifdef LIVING_WAR_XL\ntypedef signed int CELL;"
+if xl_cell_marker not in s:
+    cell_start = s.index("typedef signed short CELL;")
+    cell_end = s.index("typedef int WAYPOINT;", cell_start)
+    cell_replacement = """#ifdef LIVING_WAR_XL
 typedef signed int CELL;
 typedef union
 {
@@ -64,6 +69,10 @@ typedef union
     struct
     {
 #ifdef __BIG_ENDIAN__
+        /*
+        ** Unused upper bits will cause problems on a big-endian machine unless they
+        ** are deliberately accounted for.
+        */
         unsigned short sluff : 2;
         unsigned short Y : 7;
         unsigned short X : 7;
@@ -73,10 +82,14 @@ typedef union
 #endif
     } Sub;
 } CELL_COMPOSITE;
-#endif""",
-    "32-bit CELL with 8-bit X/Y",
-    re.S,
-)
+#endif
+
+"""
+    s = s[:cell_start] + cell_replacement + s[cell_end:]
+    p.write_text(s, encoding="utf-8")
+    print("patched: 32-bit CELL with 8-bit X/Y")
+else:
+    print("already patched: 32-bit CELL with 8-bit X/Y")
 
 patch_once(
     "redalert/externs.h",
