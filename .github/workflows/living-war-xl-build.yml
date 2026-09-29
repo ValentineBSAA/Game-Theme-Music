@@ -1,0 +1,89 @@
+name: Living War XL Core Build
+
+on:
+  push:
+    branches:
+      - living-war-xl-build
+
+jobs:
+  build-xl-core:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    steps:
+      - name: Checkout temporary build branch
+        uses: actions/checkout@v4
+
+      - name: Checkout Vanilla Conquer
+        uses: actions/checkout@v4
+        with:
+          repository: TheAssemblyArmada/Vanilla-Conquer
+          ref: vanilla
+          path: Vanilla-Conquer
+          fetch-depth: 0
+          submodules: true
+
+      - name: Enable x86 MSVC
+        uses: ilammy/msvc-dev-cmd@v1.13.0
+        with:
+          arch: x86
+
+      - name: Record upstream revision
+        shell: pwsh
+        run: |
+          $sha = git -C Vanilla-Conquer rev-parse HEAD
+          "UPSTREAM_SHA=$sha" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          Write-Host "Vanilla-Conquer $sha"
+
+      - name: Apply Living War XL engine patch
+        shell: pwsh
+        run: |
+          python .living-war-xl/apply_xl_core_patch.py Vanilla-Conquer
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Select-String -Path Vanilla-Conquer/redalert/defines.h -Pattern "MAP_CELL_W 256","typedef signed int CELL"
+          Select-String -Path Vanilla-Conquer/redalert/dllinterface.cpp -Pattern "_map_width_shift_bits = 8"
+          Select-String -Path Vanilla-Conquer/redalert/CMakeLists.txt -Pattern "LIVING_WAR_XL"
+
+      - name: Configure 32-bit Remastered Red Alert DLL
+        shell: pwsh
+        env:
+          VC_CXX_FLAGS: "/Zc:strictStrings;-wd4244;-wd4018;-wd4291;-wd4101;-wd4267;-wd4200"
+        run: |
+          cmake -S Vanilla-Conquer -B build-xl -G "Visual Studio 17 2022" -A Win32 -DBUILD_REMASTERRA=ON -DBUILD_REMASTERTD=OFF -DBUILD_VANILLARA=OFF -DBUILD_VANILLATD=OFF -DBUILD_TESTS=OFF -DBUILD_TOOLS=OFF -DNETWORKING=OFF
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Compile RedAlert.dll
+        shell: pwsh
+        env:
+          VC_CXX_FLAGS: "/Zc:strictStrings;-wd4244;-wd4018;-wd4291;-wd4101;-wd4267;-wd4200"
+        run: |
+          cmake --build build-xl --config RelWithDebInfo --target RedAlert -- /m
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Locate and validate DLL
+        shell: pwsh
+        run: |
+          $dll = Get-ChildItem build-xl -Recurse -Filter RedAlert.dll | Sort-Object Length -Descending | Select-Object -First 1
+          if (-not $dll) { throw "RedAlert.dll was not produced" }
+          if ($dll.Length -lt 250000) { throw "RedAlert.dll is suspiciously small: $($dll.Length)" }
+          "XL_DLL=$($dll.FullName)" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+          Write-Host "DLL: $($dll.FullName) ($($dll.Length) bytes)"
+
+      - name: Build Smart Deploy support ZIP
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force artifact | Out-Null
+          python .living-war-xl/package_xl_core.py "$env:XL_DLL" "$env:UPSTREAM_SHA" "artifact/CNC-Living-War-XL-Core-v0.1.0-HARDWARE-UNVERIFIED.zip"
+          Copy-Item "$env:XL_DLL" "artifact/RedAlert-XL-v0.1.0.dll"
+          $pdb = Get-ChildItem build-xl -Recurse -Filter RedAlert.pdb | Sort-Object Length -Descending | Select-Object -First 1
+          if ($pdb) { Copy-Item $pdb.FullName "artifact/RedAlert-XL-v0.1.0.pdb" }
+          Copy-Item ".living-war-xl/apply_xl_core_patch.py" "artifact/apply_xl_core_patch.py"
+          Get-FileHash "artifact/CNC-Living-War-XL-Core-v0.1.0-HARDWARE-UNVERIFIED.zip" -Algorithm SHA256 | Format-List | Out-File "artifact/SHA256.txt"
+          Get-FileHash "artifact/RedAlert-XL-v0.1.0.dll" -Algorithm SHA256 | Format-List | Out-File -Append "artifact/SHA256.txt"
+
+      - name: Upload XL Core
+        uses: actions/upload-artifact@v4
+        with:
+          name: living-war-xl-core-0.1.0
+          path: artifact
+          if-no-files-found: error
+          retention-days: 7
