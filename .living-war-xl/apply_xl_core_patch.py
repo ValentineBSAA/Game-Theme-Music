@@ -37,7 +37,7 @@ patch_once(
 
 patch_once(
     "redalert/defines.h",
-    r"typedef\s+signed\s+short\s+CELL;\s*typedef\s+union\s*\{\s*CELL\s+Cell;\s*struct\s*\{\s*#ifdef\s+__BIG_ENDIAN__\s*unsigned\s+short\s+sluff\s*:\s*2;\s*unsigned\s+short\s+Y\s*:\s*7;\s*unsigned\s+short\s+X\s*:\s*7;\s*#else\s*unsigned\s+short\s+X\s*:\s*7;\s*unsigned\s+short\s+Y\s*:\s*7;\s*#endif\s*\}\s+Sub;\s*\}\s+CELL_COMPOSITE;",
+    r"typedef\s+signed\s+short\s+CELL;\s*typedef\s+union\s*\{.*?\}\s*CELL_COMPOSITE;\s*(?=typedef\s+int\s+WAYPOINT;)",
     """#ifdef LIVING_WAR_XL
 typedef signed int CELL;
 typedef union
