@@ -26,14 +26,14 @@ ccmod = {
     "author": "CNC Living War / Vanilla Conquer",
     "load_order": 5,
     "version_high": 0,
-    "version_low": 4,
+    "version_low": 5,
     "game_type": "RA"
 }
 (stage / "Living_War_XL_Core" / "ccmod.json").write_text(json.dumps(ccmod, indent=2) + "\n", encoding="utf-8")
 
 marker = {
     "component_id": "living-war-xl-core",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "hardware_verified": False,
     "target_internal_map": "256x256",
     "target_playable_map": "254x254",
@@ -47,11 +47,11 @@ marker = {
     "frontend_payload_shell": "vanilla-safe MapPack/OverlayPack/TERRAIN",
     "xl_payload_sections": ["LivingWarXLMapPack", "LivingWarXLOverlayPack", "LivingWarXLTerrain"],
     "runtime_bootstrap": "center local player + reveal sight radius + runtime dimension message",
-    "xl_visibility_fix": "remove legacy 0xC000 In_View rejection under LIVING_WAR_XL"
+    "xl_visibility_fix": "remove legacy 0xC000 In_View rejection under LIVING_WAR_XL",\n    "xl_building_placement_fix": "all client placement/proximity cell encoders use 8-bit map stride"
 }
 (stage / "Living_War_XL_Core" / "living-war-xl-core.json").write_text(json.dumps(marker, indent=2) + "\n", encoding="utf-8")
 
-source_notice = f"""Living War XL Core 0.4.0 experimental build
+source_notice = f"""Living War XL Core 0.5.0 experimental build
 
 Base source:
 https://github.com/TheAssemblyArmada/Vanilla-Conquer
@@ -66,7 +66,7 @@ Target:
 - 256x256 internal map grid
 - ~254x254 playable map rectangle
 - single-human skirmish + AI first
-- complete vanilla-safe menu shell with XL dimensions and payload activated inside the DLL\n- XL-safe view test for valid 256-grid cells\n- runtime start reveal/camera bootstrap and dimension proof message\n- fixed Remastered 128x128 client map ABI compatibility window
+- complete vanilla-safe menu shell with XL dimensions and payload activated inside the DLL\n- XL-safe view test for valid 256-grid cells\n- runtime start reveal/camera bootstrap and dimension proof message\n- confirmed building placement uses the same 256-wide stride as placement preview/proximity\n- fixed Remastered 128x128 client map ABI compatibility window
 """
 (stage / "XL_CORE_SOURCE_NOTICE.txt").write_text(source_notice, encoding="utf-8")
 
@@ -76,7 +76,7 @@ manifest = {
     "package_type": "support_component",
     "component_id": "living-war-xl-core",
     "title": "Living War XL Core",
-    "version": "0.4.0",
+    "version": "0.5.0",
     "channel": "dev",
     "support_role": "Required engine core for Living War XL maps.",
     "notes": "XL Core 0.4 keeps the frontend shell vanilla-safe, fixes the 14-bit visibility guard for 256-grid cells, preserves the real runtime world extents, recenters/reveals the local start, and reports the live XL dimensions after launch.",
