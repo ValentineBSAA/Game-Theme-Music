@@ -142,6 +142,27 @@ else:
     print("already patched: all client placement width-shift sites")
 
 
+
+# Forward-declare the client offset translator before earlier object/sidebar
+# export functions use it. The definition itself is placed beside the placement
+# stride constants later in dllinterface.cpp.
+p = root / "redalert/dllinterface.cpp"
+s = p.read_text(encoding="utf-8")
+prototype = """#ifdef LIVING_WAR_XL
+static short LivingWarXL_Client_Cell_Offset(short internal_offset);
+#endif
+
+"""
+if "LivingWarXL_Client_Cell_Offset(short internal_offset);" not in s:
+    include_anchor = '#include "function.h"'
+    if include_anchor not in s:
+        raise SystemExit("Could not find dllinterface include anchor for XL client offset prototype.")
+    s = s.replace(include_anchor, include_anchor + "\n\n" + prototype, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: client offset translator forward declaration")
+else:
+    print("already patched: client offset translator forward declaration")
+
 # Remastered's UI ABI still interprets building footprint offsets as if rows are
 # 128 cells wide. Internally XL building footprints are compiled against
 # MAP_CELL_W=256. Translate only the client-facing offsets back to the legacy
