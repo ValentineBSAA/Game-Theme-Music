@@ -41,7 +41,9 @@ marker = {
     "upstream_branch": "vanilla",
     "upstream_commit": upstream_sha,
     "test_scope": "single-human skirmish + AI",
-    "client_map_abi": "128x128 compatibility window",\n    "frontend_bootstrap": "126x126 menu-safe map metadata",\n    "xl_map_contract": "[LivingWarXL] + [LivingWarXLWaypoints]"
+    "client_map_abi": "128x128 compatibility window",
+    "frontend_bootstrap": "126x126 menu-safe map metadata",
+    "xl_map_contract": "[LivingWarXL] + [LivingWarXLWaypoints]"
 }
 (stage / "Living_War_XL_Core" / "living-war-xl-core.json").write_text(json.dumps(marker, indent=2) + "\n", encoding="utf-8")
 
