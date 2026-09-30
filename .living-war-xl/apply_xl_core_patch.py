@@ -196,7 +196,7 @@ p = root / "redalert/display.cpp"
 s = p.read_text(encoding="utf-8")
 xl_waypoint_marker = 'static char const* const XLWAYPOINTS = "LivingWarXLWaypoints";'
 if xl_waypoint_marker not in s:
-    marker_text = "**\\tSet the starting position (do this after Init(), which clears the cells'"
+    marker_text = "Set the starting position (do this after Init(), which clears the cells'"
     marker_pos = s.find(marker_text)
     if marker_pos < 0:
         raise SystemExit("Could not find DisplayClass::Read_INI starting-position block.")
