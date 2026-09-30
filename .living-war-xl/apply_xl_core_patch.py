@@ -153,8 +153,6 @@ if marker not in s:
     p.write_text(s, encoding="utf-8")
     print("patched: static-map advertised ABI dimensions")
 
-patch_once(
-
 # Remastered's front-end validates custom maps before it starts the game DLL.
 # XL maps therefore advertise a normal 126x126 [Map] rectangle to the menu and
 # carry their real dimensions in [LivingWarXL]. Once the custom instance starts,
@@ -228,6 +226,7 @@ else:
     print("already patched: XL waypoint bridge")
 
 
+patch_once(
     "redalert/CMakeLists.txt",
     r"target_compile_definitions\(RedAlert\s+PUBLIC\s+\$<\$<CONFIG:Debug>:_DEBUG>\s+\$\{REMASTER_DEFS\}\)",
     "target_compile_definitions(RedAlert PUBLIC $<$<CONFIG:Debug>:_DEBUG> ${REMASTER_DEFS} LIVING_WAR_XL)",
