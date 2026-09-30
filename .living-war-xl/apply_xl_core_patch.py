@@ -154,6 +154,80 @@ if marker not in s:
     print("patched: static-map advertised ABI dimensions")
 
 patch_once(
+
+# Remastered's front-end validates custom maps before it starts the game DLL.
+# XL maps therefore advertise a normal 126x126 [Map] rectangle to the menu and
+# carry their real dimensions in [LivingWarXL]. Once the custom instance starts,
+# the XL DLL swaps in the real rectangle before the map is initialized.
+p = root / "redalert/display.cpp"
+s = p.read_text(encoding="utf-8")
+xl_dim_marker = 'static char const* const XLNAME = "LivingWarXL";'
+if xl_dim_marker not in s:
+    anchor = '    int h = ini.Get_Int(name, "Height", MAP_CELL_H - 2);'
+    if anchor not in s:
+        raise SystemExit("Could not find DisplayClass::Read_INI map dimension block.")
+    replacement = anchor + """
+
+#ifdef LIVING_WAR_XL
+    // Living War XL frontend-safe dual-dimension map bridge.
+    // The Remastered menu sees the normal [Map] rectangle. The simulation DLL
+    // consumes the XL rectangle only after the custom instance has started.
+    static char const* const XLNAME = "LivingWarXL";
+    if (ini.Get_Bool(XLNAME, "Enabled", false)) {
+        x = ini.Get_Int(XLNAME, "X", x);
+        y = ini.Get_Int(XLNAME, "Y", y);
+        w = ini.Get_Int(XLNAME, "Width", w);
+        h = ini.Get_Int(XLNAME, "Height", h);
+
+        x = Bound(x, 0, MAP_CELL_W - 1);
+        y = Bound(y, 0, MAP_CELL_H - 1);
+        w = Bound(w, 1, MAP_CELL_W - x);
+        h = Bound(h, 1, MAP_CELL_H - y);
+    }
+#endif"""
+    s = s.replace(anchor, replacement, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: frontend-safe dual-dimension map bridge")
+else:
+    print("already patched: frontend-safe dual-dimension map bridge")
+
+# The menu-facing [Waypoints] list also remains in the legacy 128x128 address
+# range. XL simulation waypoints live in [LivingWarXLWaypoints] and are swapped
+# in by the DLL after map allocation is based on the real XL dimensions.
+p = root / "redalert/display.cpp"
+s = p.read_text(encoding="utf-8")
+xl_waypoint_marker = 'static char const* const XLWAYPOINTS = "LivingWarXLWaypoints";'
+if xl_waypoint_marker not in s:
+    marker_text = "**\\tSet the starting position (do this after Init(), which clears the cells'"
+    marker_pos = s.find(marker_text)
+    if marker_pos < 0:
+        raise SystemExit("Could not find DisplayClass::Read_INI starting-position block.")
+    comment_start = s.rfind("    /*", 0, marker_pos)
+    if comment_start < 0:
+        raise SystemExit("Could not find waypoint insertion point.")
+    waypoint_override = """#ifdef LIVING_WAR_XL
+    if (ini.Get_Bool("LivingWarXL", "Enabled", false)) {
+        static char const* const XLWAYPOINTS = "LivingWarXLWaypoints";
+        for (int i = 0; i < WAYPT_COUNT; i++) {
+            char xlbuf[20];
+            sprintf(xlbuf, "%d", i);
+            int xl_waypoint = ini.Get_Int(XLWAYPOINTS, xlbuf, -1);
+            if (xl_waypoint != -1) {
+                Scen.Waypoint[i] = (CELL)xl_waypoint;
+                (*this)[Scen.Waypoint[i]].IsWaypoint = 1;
+            }
+        }
+    }
+#endif
+
+"""
+    s = s[:comment_start] + waypoint_override + s[comment_start:]
+    p.write_text(s, encoding="utf-8")
+    print("patched: XL waypoint bridge")
+else:
+    print("already patched: XL waypoint bridge")
+
+
     "redalert/CMakeLists.txt",
     r"target_compile_definitions\(RedAlert\s+PUBLIC\s+\$<\$<CONFIG:Debug>:_DEBUG>\s+\$\{REMASTER_DEFS\}\)",
     "target_compile_definitions(RedAlert PUBLIC $<$<CONFIG:Debug>:_DEBUG> ${REMASTER_DEFS} LIVING_WAR_XL)",
@@ -198,4 +272,4 @@ if changed:
 
 print("\nLiving War XL Core patch applied.")
 print("Internal map: 256x256; intended playable test rectangle: 1,1,254,254.")
-print("Remastered fixed client map ABI remains 128x128 for the first hardware test.")
+print("Remastered menu bootstrap stays 126x126; XL simulation dimensions come from [LivingWarXL].")
