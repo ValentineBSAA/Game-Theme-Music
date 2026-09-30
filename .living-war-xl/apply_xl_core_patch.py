@@ -226,6 +226,38 @@ else:
     print("already patched: XL waypoint bridge")
 
 
+
+# Vanilla DisplayClass::In_View rejects any cell with bits 14/15 set because
+# 128x128 cells fit in 14 bits. On a 256x256 CELL layout those bits are valid Y
+# coordinate bits, so the old test can turn large parts of the XL world into a
+# permanent invisible void.
+p = root / "redalert/display.cpp"
+s = p.read_text(encoding="utf-8")
+xl_view_marker = "XL-safe DisplayClass::In_View cell guard"
+if xl_view_marker not in s:
+    old = """bool DisplayClass::In_View(register CELL cell) const
+{
+    if (cell & 0xC000)
+        return (false);"""
+    new = """bool DisplayClass::In_View(register CELL cell) const
+{
+#ifdef LIVING_WAR_XL
+    // XL-safe DisplayClass::In_View cell guard.
+    // Bits 14/15 are valid Y-coordinate bits on the 8+8 CELL layout.
+    if (cell < 0 || Cell_X(cell) >= MAP_CELL_W || Cell_Y(cell) >= MAP_CELL_H)
+        return (false);
+#else
+    if (cell & 0xC000)
+        return (false);
+#endif"""
+    if old not in s:
+        raise SystemExit("Could not find DisplayClass::In_View legacy 14-bit guard.")
+    s = s.replace(old, new, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: XL-safe DisplayClass::In_View cell guard")
+else:
+    print("already patched: XL-safe DisplayClass::In_View cell guard")
+
 # Full XL payload sections are hidden from the Remastered frontend parser.
 # The menu receives a completely vanilla-safe shell in [MapPack], [OverlayPack]
 # and [TERRAIN]. Once the XL DLL starts the custom instance it reads the real
@@ -310,6 +342,83 @@ else:
 
 
 
+
+# After Start_Scenario creates the multiplayer houses and starting units, force
+# the local XL player context to a real start cell, reveal the first sight
+# radius, center the tactical camera there, and emit a visible runtime proof.
+# This runs inside Calculate_Start_Positions so both Remastered start paths get
+# the same behavior.
+p = root / "redalert/dllinterface.cpp"
+s = p.read_text(encoding="utf-8")
+xl_runtime_marker = "Living War XL runtime visibility bootstrap"
+if xl_runtime_marker not in s:
+    old = """    Map.TacticalCoord = old_tac;
+    ScenarioInit--;
+
+    PlayerPtr = player_ptr;
+}"""
+    new = """    Map.TacticalCoord = old_tac;
+    ScenarioInit--;
+
+    PlayerPtr = player_ptr;
+
+#ifdef LIVING_WAR_XL
+    // Living War XL runtime visibility bootstrap.
+    // The frontend only knows the vanilla-safe shell; once the real scenario
+    // exists we prove and initialize the actual XL simulation here.
+    if (Map.MapCellWidth > MAP_MAX_CELL_WIDTH || Map.MapCellHeight > MAP_MAX_CELL_HEIGHT) {
+        HouseClass* xl_local_player = NULL;
+        if (Session.Players.Count() > 0) {
+            xl_local_player = HouseClass::As_Pointer(Session.Players[0]->Player.ID);
+        }
+
+        if (xl_local_player != NULL) {
+            PlayerPtr = xl_local_player;
+            CurrentLocalPlayerIndex = 0;
+            CurrentObject.Set_Active_Context(PlayerPtr->Class->House);
+            Refresh_Player_Control_Flags();
+
+            CELL xl_start = MultiplayerStartPositions[0];
+            if (!Map.In_Radar(xl_start)) {
+                int wp = PlayerPtr->StartLocationOverride;
+                if (wp < 0 || wp >= WAYPT_COUNT || Scen.Waypoint[wp] == -1) {
+                    wp = 0;
+                }
+                xl_start = Scen.Waypoint[wp];
+                MultiplayerStartPositions[0] = xl_start;
+            }
+
+            if (Map.In_Radar(xl_start)) {
+                Map.Sight_From(xl_start, 10, PlayerPtr, false);
+                COORDINATE xl_pos = Cell_Coord(xl_start);
+                Map.Set_Tactical_Position(xl_pos);
+                Map.Center_Map(xl_pos);
+                Map.Flag_To_Redraw(true);
+
+                char xl_message[192];
+                sprintf(xl_message,
+                        "LIVING WAR XL ACTIVE | runtime %dx%d | grid %dx%d | start %d,%d",
+                        Map.MapCellWidth,
+                        Map.MapCellHeight,
+                        MAP_CELL_W,
+                        MAP_CELL_H,
+                        Cell_X(xl_start),
+                        Cell_Y(xl_start));
+                DLLExportClass::On_Message(PlayerPtr, xl_message, 15.0f, MESSAGE_TYPE_DIRECT, 0x4C57584C);
+            }
+        }
+    }
+#endif
+}"""
+    if old not in s:
+        raise SystemExit("Could not find Calculate_Start_Positions tail.")
+    s = s.replace(old, new, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: Living War XL runtime visibility bootstrap")
+else:
+    print("already patched: Living War XL runtime visibility bootstrap")
+
+
 patch_once(
     "redalert/CMakeLists.txt",
     r"target_compile_definitions\(RedAlert\s+PUBLIC\s+\$<\$<CONFIG:Debug>:_DEBUG>\s+\$\{REMASTER_DEFS\}\)",
@@ -355,4 +464,4 @@ if changed:
 
 print("\nLiving War XL Core patch applied.")
 print("Internal map: 256x256; intended playable test rectangle: 1,1,254,254.")
-print("Remastered menu receives a complete vanilla-safe shell; XL dimensions and payloads are activated only inside the DLL.")
+print("Remastered menu receives a vanilla-safe shell; XL runtime now fixes 256-cell visibility, recenters the local player, reveals the start, and reports the live dimensions.")
