@@ -120,6 +120,27 @@ static const int _map_width_shift_bits = 7;
     "client placement width shift",
 )
 
+
+# Vanilla has two separate client-placement width-shift declarations: one for
+# placement-distance/proximity generation and another inside Place(). Patching
+# only the first makes the client show a green legal placement but translates
+# the confirmed click using a 128-wide cell stride, so the structure is placed
+# at the wrong cell or disappears.
+p = root / "redalert/dllinterface.cpp"
+s = p.read_text(encoding="utf-8")
+remaining = s.count("static const int _map_width_shift_bits = 7;")
+if remaining:
+    replacement = """#ifdef LIVING_WAR_XL
+static const int _map_width_shift_bits = 8;
+#else
+static const int _map_width_shift_bits = 7;
+#endif"""
+    s = s.replace("static const int _map_width_shift_bits = 7;", replacement)
+    p.write_text(s, encoding="utf-8")
+    print("patched: all client placement width-shift sites", remaining)
+else:
+    print("already patched: all client placement width-shift sites")
+
 p = root / "redalert/dllinterface.cpp"
 s = p.read_text(encoding="utf-8")
 needle = """#ifdef LIVING_WAR_XL
