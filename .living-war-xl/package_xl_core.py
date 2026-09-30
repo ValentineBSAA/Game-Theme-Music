@@ -47,7 +47,8 @@ marker = {
     "frontend_payload_shell": "vanilla-safe MapPack/OverlayPack/TERRAIN",
     "xl_payload_sections": ["LivingWarXLMapPack", "LivingWarXLOverlayPack", "LivingWarXLTerrain"],
     "runtime_bootstrap": "center local player + reveal sight radius + runtime dimension message",
-    "xl_visibility_fix": "remove legacy 0xC000 In_View rejection under LIVING_WAR_XL",\n    "xl_building_placement_fix": "all client placement/proximity cell encoders use 8-bit map stride"
+    "xl_visibility_fix": "remove legacy 0xC000 In_View rejection under LIVING_WAR_XL",
+    "xl_building_placement_fix": "all client placement/proximity cell encoders use 8-bit map stride"
 }
 (stage / "Living_War_XL_Core" / "living-war-xl-core.json").write_text(json.dumps(marker, indent=2) + "\n", encoding="utf-8")
 
@@ -79,7 +80,7 @@ manifest = {
     "version": "0.5.0",
     "channel": "dev",
     "support_role": "Required engine core for Living War XL maps.",
-    "notes": "XL Core 0.4 keeps the frontend shell vanilla-safe, fixes the 14-bit visibility guard for 256-grid cells, preserves the real runtime world extents, recenters/reveals the local start, and reports the live XL dimensions after launch.",
+    "notes": "XL Core 0.5 keeps the 0.4 frontend/runtime fixes and repairs confirmed building placement so the green placement preview and the actual structure use the same 256-wide cell stride.",
     "build_status": "HARDWARE-UNVERIFIED",
     "install": [
         {
