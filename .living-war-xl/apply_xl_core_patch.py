@@ -226,6 +226,90 @@ else:
     print("already patched: XL waypoint bridge")
 
 
+# Full XL payload sections are hidden from the Remastered frontend parser.
+# The menu receives a completely vanilla-safe shell in [MapPack], [OverlayPack]
+# and [TERRAIN]. Once the XL DLL starts the custom instance it reads the real
+# 256-grid payload from Living War-only sections instead.
+p = root / "redalert/display.cpp"
+s = p.read_text(encoding="utf-8")
+xl_mappack_marker = 'static char const* const XLMAPPACK = "LivingWarXLMapPack";'
+if xl_mappack_marker not in s:
+    old = '''    static char const* const MAPPACK = "MapPack";
+    len = ini.Get_UUBlock(MAPPACK, _staging_buffer, sizeof(_staging_buffer));
+    BufferStraw bstraw(_staging_buffer, len);
+    Map.Read_Binary(bstraw);'''
+    new = '''    static char const* const MAPPACK = "MapPack";
+#ifdef LIVING_WAR_XL
+    static char const* const XLMAPPACK = "LivingWarXLMapPack";
+    char const* map_pack_name = ini.Get_Bool("LivingWarXL", "Enabled", false) ? XLMAPPACK : MAPPACK;
+#else
+    char const* map_pack_name = MAPPACK;
+#endif
+    len = ini.Get_UUBlock(map_pack_name, _staging_buffer, sizeof(_staging_buffer));
+    BufferStraw bstraw(_staging_buffer, len);
+    Map.Read_Binary(bstraw);'''
+    if old not in s:
+        raise SystemExit("Could not find DisplayClass MapPack read block.")
+    s = s.replace(old, new, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: hidden XL MapPack payload bridge")
+else:
+    print("already patched: hidden XL MapPack payload bridge")
+
+p = root / "redalert/overlay.cpp"
+s = p.read_text(encoding="utf-8")
+xl_overlay_marker = 'static char const* const XLOVERLAYPACK = "LivingWarXLOverlayPack";'
+if xl_overlay_marker not in s:
+    old = '        int len = ini.Get_UUBlock("OverlayPack", _staging_buffer, sizeof(_staging_buffer));'
+    new = '''#ifdef LIVING_WAR_XL
+        static char const* const XLOVERLAYPACK = "LivingWarXLOverlayPack";
+        char const* overlay_pack_name =
+            ini.Get_Bool("LivingWarXL", "Enabled", false) ? XLOVERLAYPACK : "OverlayPack";
+        int len = ini.Get_UUBlock(overlay_pack_name, _staging_buffer, sizeof(_staging_buffer));
+#else
+        int len = ini.Get_UUBlock("OverlayPack", _staging_buffer, sizeof(_staging_buffer));
+#endif'''
+    if old not in s:
+        raise SystemExit("Could not find OverlayPack read block.")
+    s = s.replace(old, new, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: hidden XL OverlayPack payload bridge")
+else:
+    print("already patched: hidden XL OverlayPack payload bridge")
+
+p = root / "redalert/terrain.cpp"
+s = p.read_text(encoding="utf-8")
+xl_terrain_marker = 'static char const* const XLTERRAIN = "LivingWarXLTerrain";'
+if xl_terrain_marker not in s:
+    old = '''    int len = ini.Entry_Count(INI_Name());
+
+    for (int index = 0; index < len; index++) {
+        char const* entry = ini.Get_Entry(INI_Name(), index);
+        TerrainType terrain = ini.Get_TerrainType(INI_Name(), entry, TERRAIN_NONE);
+        CELL cell = atoi(entry);'''
+    new = '''#ifdef LIVING_WAR_XL
+    static char const* const XLTERRAIN = "LivingWarXLTerrain";
+    char const* terrain_ini_name =
+        ini.Get_Bool("LivingWarXL", "Enabled", false) ? XLTERRAIN : INI_Name();
+#else
+    char const* terrain_ini_name = INI_Name();
+#endif
+    int len = ini.Entry_Count(terrain_ini_name);
+
+    for (int index = 0; index < len; index++) {
+        char const* entry = ini.Get_Entry(terrain_ini_name, index);
+        TerrainType terrain = ini.Get_TerrainType(terrain_ini_name, entry, TERRAIN_NONE);
+        CELL cell = atoi(entry);'''
+    if old not in s:
+        raise SystemExit("Could not find TerrainClass Read_INI block.")
+    s = s.replace(old, new, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: hidden XL terrain payload bridge")
+else:
+    print("already patched: hidden XL terrain payload bridge")
+
+
+
 patch_once(
     "redalert/CMakeLists.txt",
     r"target_compile_definitions\(RedAlert\s+PUBLIC\s+\$<\$<CONFIG:Debug>:_DEBUG>\s+\$\{REMASTER_DEFS\}\)",
@@ -271,4 +355,4 @@ if changed:
 
 print("\nLiving War XL Core patch applied.")
 print("Internal map: 256x256; intended playable test rectangle: 1,1,254,254.")
-print("Remastered menu bootstrap stays 126x126; XL simulation dimensions come from [LivingWarXL].")
+print("Remastered menu receives a complete vanilla-safe shell; XL dimensions and payloads are activated only inside the DLL.")
