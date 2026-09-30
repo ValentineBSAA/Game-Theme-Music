@@ -43,7 +43,9 @@ jobs:
           Select-String -Path Vanilla-Conquer/redalert/display.cpp -Pattern "LivingWarXLMapPack","LivingWarXLWaypoints","XL-safe DisplayClass::In_View cell guard"
           Select-String -Path Vanilla-Conquer/redalert/overlay.cpp -Pattern "LivingWarXLOverlayPack"
           Select-String -Path Vanilla-Conquer/redalert/terrain.cpp -Pattern "LivingWarXLTerrain"
-          Select-String -Path Vanilla-Conquer/redalert/dllinterface.cpp -Pattern "_map_width_shift_bits = 8","Living War XL runtime visibility bootstrap"\n          $shift8 = (Select-String -Path Vanilla-Conquer/redalert/dllinterface.cpp -Pattern "static const int _map_width_shift_bits = 8;" -AllMatches).Matches.Count\n          if ($shift8 -lt 2) { throw "Expected both XL placement stride sites to be patched; found $shift8" }
+          Select-String -Path Vanilla-Conquer/redalert/dllinterface.cpp -Pattern "_map_width_shift_bits = 8","Living War XL runtime visibility bootstrap"
+          $shift8 = (Select-String -Path Vanilla-Conquer/redalert/dllinterface.cpp -Pattern "static const int _map_width_shift_bits = 8;" -AllMatches).Matches.Count
+          if ($shift8 -lt 2) { throw "Expected both XL placement stride sites to be patched; found $shift8" }
           Select-String -Path Vanilla-Conquer/redalert/CMakeLists.txt -Pattern "LIVING_WAR_XL"
 
       - name: Configure 32-bit Remastered Red Alert DLL
