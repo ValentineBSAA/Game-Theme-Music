@@ -140,18 +140,11 @@ else:
 
 p = root / "redalert/dllinterface.cpp"
 s = p.read_text(encoding="utf-8")
-marker = """#ifdef LIVING_WAR_XL
-        map_data->OriginalMapCellWidth = min(map_data->OriginalMapCellWidth, MAP_MAX_CELL_WIDTH);
-        map_data->OriginalMapCellHeight = min(map_data->OriginalMapCellHeight, MAP_MAX_CELL_HEIGHT);
-#endif"""
-if marker not in s:
-    anchor = """        map_data->OriginalMapCellWidth = map_cell_width;
-        map_data->OriginalMapCellHeight = map_cell_height;"""
-    if anchor not in s:
-        raise SystemExit("Could not find static-map OriginalMap dimensions.")
-    s = s.replace(anchor, anchor + "\n\n" + marker, 1)
-    p.write_text(s, encoding="utf-8")
-    print("patched: static-map advertised ABI dimensions")
+# Do not clamp OriginalMapCellWidth/Height. Those fields are plain ints and
+# are the only chance the Remastered client has to learn the true XL world
+# extents after launch. The actual exported StaticCells payload remains clamped
+# to the fixed 128x128 ABI window below, so this does not overflow the struct.
+print("preserved: real XL OriginalMap dimensions for runtime scrolling")
 
 # Remastered's front-end validates custom maps before it starts the game DLL.
 # XL maps therefore advertise a normal 126x126 [Map] rectangle to the menu and
