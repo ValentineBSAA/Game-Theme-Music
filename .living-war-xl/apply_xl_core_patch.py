@@ -141,6 +141,81 @@ static const int _map_width_shift_bits = 7;
 else:
     print("already patched: all client placement width-shift sites")
 
+
+# Remastered's UI ABI still interprets building footprint offsets as if rows are
+# 128 cells wide. Internally XL building footprints are compiled against
+# MAP_CELL_W=256. Translate only the client-facing offsets back to the legacy
+# stride so the red/green placement footprint remains a solid connected shape.
+p = root / "redalert/dllinterface.cpp"
+s = p.read_text(encoding="utf-8")
+helper_marker = "LivingWarXL_Client_Cell_Offset"
+if helper_marker not in s:
+    insert_after = """#ifdef LIVING_WAR_XL
+static const int _map_width_shift_bits = 8;
+#else
+static const int _map_width_shift_bits = 7;
+#endif"""
+    helper = insert_after + """
+
+#ifdef LIVING_WAR_XL
+static short LivingWarXL_Client_Cell_Offset(short internal_offset)
+{
+    if (internal_offset == REFRESH_EOL) {
+        return internal_offset;
+    }
+
+    // Footprint offsets can contain a small negative X component. Decode the
+    // nearest 256-wide row first, then re-encode the same X/Y delta at 128.
+    int y = (internal_offset >= 0)
+                ? (internal_offset + (MAP_CELL_W / 2)) / MAP_CELL_W
+                : (internal_offset - (MAP_CELL_W / 2)) / MAP_CELL_W;
+    int x = internal_offset - (y * MAP_CELL_W);
+    return (short)((y * MAP_MAX_CELL_WIDTH) + x);
+}
+#endif"""
+    if insert_after not in s:
+        raise SystemExit("Could not find XL placement shift block for client offset helper.")
+    s = s.replace(insert_after, helper, 1)
+
+    old = """sidebar_entry.PlacementList[sidebar_entry.PlacementListLength] =
+                                                *occupy_list;"""
+    new = """#ifdef LIVING_WAR_XL
+                                            sidebar_entry.PlacementList[sidebar_entry.PlacementListLength] =
+                                                LivingWarXL_Client_Cell_Offset(*occupy_list);
+#else
+                                            sidebar_entry.PlacementList[sidebar_entry.PlacementListLength] =
+                                                *occupy_list;
+#endif"""
+    if old not in s:
+        raise SystemExit("Could not find sidebar placement-list export block.")
+    s = s.replace(old, new)
+
+    old2 = """sidebar_entry.PlacementList[sidebar_entry.PlacementListLength] =
+                                                    *occupy_list;"""
+    new2 = """#ifdef LIVING_WAR_XL
+                                                sidebar_entry.PlacementList[sidebar_entry.PlacementListLength] =
+                                                    LivingWarXL_Client_Cell_Offset(*occupy_list);
+#else
+                                                sidebar_entry.PlacementList[sidebar_entry.PlacementListLength] =
+                                                    *occupy_list;
+#endif"""
+    s = s.replace(old2, new2)
+
+    old3 = """new_object.OccupyList[new_object.OccupyListLength] = *occupy_list;"""
+    new3 = """#ifdef LIVING_WAR_XL
+                    new_object.OccupyList[new_object.OccupyListLength] =
+                        LivingWarXL_Client_Cell_Offset(*occupy_list);
+#else
+                    new_object.OccupyList[new_object.OccupyListLength] = *occupy_list;
+#endif"""
+    if old3 in s:
+        s = s.replace(old3, new3)
+
+    p.write_text(s, encoding="utf-8")
+    print("patched: client-facing XL footprint offsets")
+else:
+    print("already patched: client-facing XL footprint offsets")
+
 p = root / "redalert/dllinterface.cpp"
 s = p.read_text(encoding="utf-8")
 needle = """#ifdef LIVING_WAR_XL
@@ -202,6 +277,31 @@ if xl_dim_marker not in s:
     print("patched: frontend-safe dual-dimension map bridge")
 else:
     print("already patched: frontend-safe dual-dimension map bridge")
+
+
+# Optional XL debug reveal. This is deliberately map-controlled so production
+# maps keep normal shroud while proof/debug maps can expose the whole internal
+# battlefield from frame one.
+p = root / "redalert/display.cpp"
+s = p.read_text(encoding="utf-8")
+debug_marker = "Living War XL debug reveal option"
+if debug_marker not in s:
+    old = """        h = Bound(h, 1, MAP_CELL_H - y);
+    }
+#endif"""
+    new = """        h = Bound(h, 1, MAP_CELL_H - y);
+
+        // Living War XL debug reveal option.
+        Debug_Unshroud = ini.Get_Bool("LivingWarXLDebug", "RevealAll", false);
+    }
+#endif"""
+    if old not in s:
+        raise SystemExit("Could not find XL dimension bridge tail for debug reveal option.")
+    s = s.replace(old, new, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: Living War XL debug reveal option")
+else:
+    print("already patched: Living War XL debug reveal option")
 
 # The menu-facing [Waypoints] list also remains in the legacy 128x128 address
 # range. XL simulation waypoints live in [LivingWarXLWaypoints] and are swapped
@@ -433,6 +533,53 @@ else:
     print("already patched: Living War XL runtime visibility bootstrap")
 
 
+
+p = root / "redalert/dllinterface.cpp"
+s = p.read_text(encoding="utf-8")
+debug_runtime_marker = "XL debug full-map reveal bootstrap"
+if debug_runtime_marker not in s:
+    old = """            if (Map.In_Radar(xl_start)) {
+                Map.Sight_From(xl_start, 10, PlayerPtr, false);"""
+    new = """            if (Map.In_Radar(xl_start)) {
+                // XL debug full-map reveal bootstrap.
+                if (Debug_Unshroud) {
+                    for (int yy = Map.MapCellY; yy < Map.MapCellY + Map.MapCellHeight; ++yy) {
+                        for (int xx = Map.MapCellX; xx < Map.MapCellX + Map.MapCellWidth; ++xx) {
+                            Map.Map_Cell(XY_Cell(xx, yy), PlayerPtr, true, true);
+                        }
+                    }
+                } else {
+                    Map.Sight_From(xl_start, 10, PlayerPtr, false);
+                }"""
+    if old not in s:
+        raise SystemExit("Could not find XL runtime sight bootstrap.")
+    s = s.replace(old, new, 1)
+
+    old2 = """            shroud_entry.IsVisible = cellptr->Is_Visible(PlayerPtr);
+            shroud_entry.IsMapped = cellptr->Is_Mapped(PlayerPtr);
+            shroud_entry.IsJamming = cellptr->Is_Jamming(PlayerPtr);"""
+    new2 = """#ifdef LIVING_WAR_XL
+            if (Debug_Unshroud) {
+                shroud_entry.IsVisible = true;
+                shroud_entry.IsMapped = true;
+                shroud_entry.IsJamming = false;
+            } else
+#endif
+            {
+                shroud_entry.IsVisible = cellptr->Is_Visible(PlayerPtr);
+                shroud_entry.IsMapped = cellptr->Is_Mapped(PlayerPtr);
+                shroud_entry.IsJamming = cellptr->Is_Jamming(PlayerPtr);
+            }"""
+    if old2 not in s:
+        raise SystemExit("Could not find shroud-state export block.")
+    s = s.replace(old2, new2, 1)
+
+    p.write_text(s, encoding="utf-8")
+    print("patched: XL debug full-map reveal bootstrap")
+else:
+    print("already patched: XL debug full-map reveal bootstrap")
+
+
 patch_once(
     "redalert/CMakeLists.txt",
     r"target_compile_definitions\(RedAlert\s+PUBLIC\s+\$<\$<CONFIG:Debug>:_DEBUG>\s+\$\{REMASTER_DEFS\}\)",
@@ -478,4 +625,4 @@ if changed:
 
 print("\nLiving War XL Core patch applied.")
 print("Internal map: 256x256; intended playable test rectangle: 1,1,254,254.")
-print("Remastered menu receives a vanilla-safe shell; XL runtime now fixes 256-cell visibility, recenters the local player, reveals the start, and reports the live dimensions.")
+print("Remastered menu receives a vanilla-safe shell; XL runtime includes client-footprint translation plus optional full-map debug reveal.")
