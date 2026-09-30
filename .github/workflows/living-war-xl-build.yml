@@ -39,7 +39,10 @@ jobs:
         run: |
           python .living-war-xl/apply_xl_core_patch.py Vanilla-Conquer
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          Select-String -Path Vanilla-Conquer/redalert/defines.h -Pattern "MAP_CELL_W 256","typedef signed long CELL"\n          Select-String -Path Vanilla-Conquer/redalert/display.cpp -Pattern "LivingWarXLMapPack","LivingWarXLWaypoints"\n          Select-String -Path Vanilla-Conquer/redalert/overlay.cpp -Pattern "LivingWarXLOverlayPack"\n          Select-String -Path Vanilla-Conquer/redalert/terrain.cpp -Pattern "LivingWarXLTerrain"
+          Select-String -Path Vanilla-Conquer/redalert/defines.h -Pattern "MAP_CELL_W 256","typedef signed long CELL"
+          Select-String -Path Vanilla-Conquer/redalert/display.cpp -Pattern "LivingWarXLMapPack","LivingWarXLWaypoints"
+          Select-String -Path Vanilla-Conquer/redalert/overlay.cpp -Pattern "LivingWarXLOverlayPack"
+          Select-String -Path Vanilla-Conquer/redalert/terrain.cpp -Pattern "LivingWarXLTerrain"
           Select-String -Path Vanilla-Conquer/redalert/dllinterface.cpp -Pattern "_map_width_shift_bits = 8"
           Select-String -Path Vanilla-Conquer/redalert/CMakeLists.txt -Pattern "LIVING_WAR_XL"
 
