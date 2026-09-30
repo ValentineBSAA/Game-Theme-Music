@@ -39,7 +39,7 @@ jobs:
         run: |
           python .living-war-xl/apply_xl_core_patch.py Vanilla-Conquer
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          Select-String -Path Vanilla-Conquer/redalert/defines.h -Pattern "MAP_CELL_W 256","typedef signed long CELL","LivingWarXL"
+          Select-String -Path Vanilla-Conquer/redalert/defines.h -Pattern "MAP_CELL_W 256","typedef signed long CELL"\n          Select-String -Path Vanilla-Conquer/redalert/display.cpp -Pattern "LivingWarXLMapPack","LivingWarXLWaypoints"\n          Select-String -Path Vanilla-Conquer/redalert/overlay.cpp -Pattern "LivingWarXLOverlayPack"\n          Select-String -Path Vanilla-Conquer/redalert/terrain.cpp -Pattern "LivingWarXLTerrain"
           Select-String -Path Vanilla-Conquer/redalert/dllinterface.cpp -Pattern "_map_width_shift_bits = 8"
           Select-String -Path Vanilla-Conquer/redalert/CMakeLists.txt -Pattern "LIVING_WAR_XL"
 
@@ -72,18 +72,18 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force artifact | Out-Null
-          python .living-war-xl/package_xl_core.py "$env:XL_DLL" "$env:UPSTREAM_SHA" "artifact/CNC-Living-War-XL-Core-v0.2.0-HARDWARE-UNVERIFIED.zip"
-          Copy-Item "$env:XL_DLL" "artifact/RedAlert-XL-v0.2.0.dll"
+          python .living-war-xl/package_xl_core.py "$env:XL_DLL" "$env:UPSTREAM_SHA" "artifact/CNC-Living-War-XL-Core-v0.3.0-HARDWARE-UNVERIFIED.zip"
+          Copy-Item "$env:XL_DLL" "artifact/RedAlert-XL-v0.3.0.dll"
           $pdb = Get-ChildItem build-xl -Recurse -Filter RedAlert.pdb | Sort-Object Length -Descending | Select-Object -First 1
-          if ($pdb) { Copy-Item $pdb.FullName "artifact/RedAlert-XL-v0.2.0.pdb" }
+          if ($pdb) { Copy-Item $pdb.FullName "artifact/RedAlert-XL-v0.3.0.pdb" }
           Copy-Item ".living-war-xl/apply_xl_core_patch.py" "artifact/apply_xl_core_patch.py"
-          Get-FileHash "artifact/CNC-Living-War-XL-Core-v0.2.0-HARDWARE-UNVERIFIED.zip" -Algorithm SHA256 | Format-List | Out-File "artifact/SHA256.txt"
-          Get-FileHash "artifact/RedAlert-XL-v0.2.0.dll" -Algorithm SHA256 | Format-List | Out-File -Append "artifact/SHA256.txt"
+          Get-FileHash "artifact/CNC-Living-War-XL-Core-v0.3.0-HARDWARE-UNVERIFIED.zip" -Algorithm SHA256 | Format-List | Out-File "artifact/SHA256.txt"
+          Get-FileHash "artifact/RedAlert-XL-v0.3.0.dll" -Algorithm SHA256 | Format-List | Out-File -Append "artifact/SHA256.txt"
 
       - name: Upload XL Core
         uses: actions/upload-artifact@v4
         with:
-          name: living-war-xl-core-0.2.0
+          name: living-war-xl-core-0.3.0
           path: artifact
           if-no-files-found: error
           retention-days: 7
