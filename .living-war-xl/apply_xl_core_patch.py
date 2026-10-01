@@ -289,6 +289,84 @@ static short LivingWarXL_Client_Cell_Offset(short internal_offset)
     int x = internal_offset - (y * MAP_CELL_W);
     return (short)((y * MAP_MAX_CELL_WIDTH) + x);
 }
+#endif
+
+#ifdef LIVING_WAR_XL
+static bool LivingWarXLClientTerrainSent[MAP_CELL_TOTAL] = {false};
+
+static void LivingWarXL_Reset_Client_Terrain_Stream()
+{
+    memset(LivingWarXLClientTerrainSent, 0, sizeof(LivingWarXLClientTerrainSent));
+}
+
+static void LivingWarXL_Get_Client_Window(int& map_cell_x,
+                                          int& map_cell_y,
+                                          int& map_cell_width,
+                                          int& map_cell_height)
+{
+    const int world_left = max(0, Map.MapCellX - 1);
+    const int world_top = max(0, Map.MapCellY - 1);
+    const int world_right = min(MAP_CELL_W, Map.MapCellX + Map.MapCellWidth + 1);
+    const int world_bottom = min(MAP_CELL_H, Map.MapCellY + Map.MapCellHeight + 1);
+
+    const int client_width = min(MAP_MAX_CELL_WIDTH, world_right - world_left);
+    const int client_height = min(MAP_MAX_CELL_HEIGHT, world_bottom - world_top);
+
+    const int view_width = max(1, Lepton_To_Cell(Map.TacLeptonWidth));
+    const int view_height = max(1, Lepton_To_Cell(Map.TacLeptonHeight));
+    const int camera_x = Coord_XCell(Map.TacticalCoord);
+    const int camera_y = Coord_YCell(Map.TacticalCoord);
+    const int center_x = camera_x + (view_width / 2);
+    const int center_y = camera_y + (view_height / 2);
+
+    const int max_left = max(world_left, world_right - client_width);
+    const int max_top = max(world_top, world_bottom - client_height);
+
+    map_cell_x = Bound(center_x - (client_width / 2), world_left, max_left);
+    map_cell_y = Bound(center_y - (client_height / 2), world_top, max_top);
+    map_cell_width = client_width;
+    map_cell_height = client_height;
+}
+
+static void LivingWarXL_Stream_Static_Window(int map_cell_x,
+                                              int map_cell_y,
+                                              int map_cell_width,
+                                              int map_cell_height)
+{
+    // Keep the callback burst bounded. Newly exposed terrain continues to fill
+    // on subsequent state polls until the current 128x128 client window is sent.
+    int sent_this_call = 0;
+    const int max_per_call = 1024;
+
+    for (int y = 0; y < map_cell_height && sent_this_call < max_per_call; ++y) {
+        for (int x = 0; x < map_cell_width && sent_this_call < max_per_call; ++x) {
+            const int world_x = map_cell_x + x;
+            const int world_y = map_cell_y + y;
+            CELL cell = XY_Cell(world_x, world_y);
+            if (cell < 0 || cell >= MAP_CELL_TOTAL || LivingWarXLClientTerrainSent[cell]) {
+                continue;
+            }
+
+            CellClass* cellptr = &Map[cell];
+            char cell_name[_MAX_PATH];
+            char icon_number[32];
+            cell_name[0] = 0;
+            int icon = 0;
+            void* image_data = 0;
+
+            if (cellptr->Get_Template_Info(cell_name, icon, image_data)) {
+                itoa(icon, icon_number, 10);
+                strncat(cell_name, "_i", 32);
+                strncat(cell_name, icon_number, 32);
+                strncat(cell_name, ".tga", 32);
+                On_Update_Map_Cell(world_x, world_y, cell_name);
+            }
+
+            LivingWarXLClientTerrainSent[cell] = true;
+            ++sent_this_call;
+        }
+    }
+}
 #endif"""
     if insert_after not in s:
         raise SystemExit("Could not find XL placement shift block for client offset helper.")
@@ -351,6 +429,44 @@ if needle not in s:
 else:
     print("already patched: client state ABI clamps")
 
+
+# The Remastered ABI has one genuinely fixed 128x128 static-cell array, but
+# earlier XL builds clamped every per-cell state export to the first 128x128
+# cells. That made far terrain look "unrevealed" and caused client state to
+# vanish at the old boundary. Keep the internal placement-distance map full
+# size, while all client-sized state snapshots follow a 128x128 window centered
+# on the live tactical camera.
+p = root / "redalert/dllinterface.cpp"
+s = p.read_text(encoding="utf-8")
+viewport_marker = "viewport-aware Remastered client state window"
+if viewport_marker not in s:
+    clamp = """#ifdef LIVING_WAR_XL
+    map_cell_width = min(map_cell_width, MAP_MAX_CELL_WIDTH);
+    map_cell_height = min(map_cell_height, MAP_MAX_CELL_HEIGHT);
+#endif"""
+
+    calc_start = s.index("void DLLExportClass::Calculate_Placement_Distances")
+    calc_end = s.index("void Recalculate_Placement_Distances", calc_start)
+    calc_segment = s[calc_start:calc_end]
+    if clamp not in calc_segment:
+        raise SystemExit("Expected XL clamp inside Calculate_Placement_Distances.")
+    calc_segment = calc_segment.replace(clamp, "", 1)
+    s = s[:calc_start] + calc_segment + s[calc_end:]
+
+    window = """#ifdef LIVING_WAR_XL
+    // viewport-aware Remastered client state window
+    LivingWarXL_Get_Client_Window(map_cell_x, map_cell_y, map_cell_width, map_cell_height);
+#endif"""
+    remaining = s.count(clamp)
+    if remaining != 5:
+        raise SystemExit(f"Expected five client state clamps after placement-distance repair; found {remaining}.")
+    s = s.replace(clamp, window)
+
+    p.write_text(s, encoding="utf-8")
+    print("patched: viewport-aware Remastered client state window")
+else:
+    print("already patched: viewport-aware Remastered client state window")
+
 p = root / "redalert/dllinterface.cpp"
 s = p.read_text(encoding="utf-8")
 # Do not clamp OriginalMapCellWidth/Height. Those fields are plain ints and
@@ -395,6 +511,28 @@ if xl_dim_marker not in s:
 else:
     print("already patched: frontend-safe dual-dimension map bridge")
 
+
+
+p = root / "redalert/dllinterface.cpp"
+s = p.read_text(encoding="utf-8")
+stream_marker = "XL streamed static terrain window"
+if stream_marker not in s:
+    fn = s.index("bool DLLExportClass::Get_Dynamic_Map_State")
+    loop = s.index("    int cell_index = 0;", fn)
+    inject = """#ifdef LIVING_WAR_XL
+    // XL streamed static terrain window.
+    // StaticCells[] is fixed at 128x128, so feed newly visited XL cells through
+    // the existing Remastered UPDATE_MAP_CELL callback instead of pretending
+    // the fixed ABI array is 256x256.
+    LivingWarXL_Stream_Static_Window(map_cell_x, map_cell_y, map_cell_width, map_cell_height);
+#endif
+
+"""
+    s = s[:loop] + inject + s[loop:]
+    p.write_text(s, encoding="utf-8")
+    print("patched: XL streamed static terrain window")
+else:
+    print("already patched: XL streamed static terrain window")
 
 # Optional XL debug reveal. This is deliberately map-controlled so production
 # maps keep normal shroud while proof/debug maps can expose the whole internal
@@ -488,6 +626,76 @@ if xl_view_marker not in s:
     print("patched: XL-safe DisplayClass::In_View cell guard")
 else:
     print("already patched: XL-safe DisplayClass::In_View cell guard")
+
+
+p = root / "redalert/dllinterface.cpp"
+s = p.read_text(encoding="utf-8")
+action_marker = "XL fixed ActionWithSelected window"
+if action_marker not in s:
+    old = """        const int left = Map.MapCellX;
+        const int right = Map.MapCellX + Map.MapCellWidth - 1;
+        const int top = Map.MapCellY;
+        const int bottom = Map.MapCellY + Map.MapCellHeight - 1;"""
+    new = """#ifdef LIVING_WAR_XL
+        // XL fixed ActionWithSelected window.
+        // CNCPlayerInfoStruct has a hard 128x128 ActionWithSelected array.
+        // Never write 254x254 entries into that legacy ABI buffer.
+        int left = Map.MapCellX;
+        int top = Map.MapCellY;
+        int action_width = Map.MapCellWidth;
+        int action_height = Map.MapCellHeight;
+        LivingWarXL_Get_Client_Window(left, top, action_width, action_height);
+        const int right = left + action_width - 1;
+        const int bottom = top + action_height - 1;
+#else
+        const int left = Map.MapCellX;
+        const int right = Map.MapCellX + Map.MapCellWidth - 1;
+        const int top = Map.MapCellY;
+        const int bottom = Map.MapCellY + Map.MapCellHeight - 1;
+#endif"""
+    if old not in s:
+        raise SystemExit("Could not find player action-map bounds.")
+    s = s.replace(old, new, 1)
+
+    old2 = """        player_info->ActionWithSelectedCount = Map.MapCellWidth * Map.MapCellHeight;"""
+    new2 = """#ifdef LIVING_WAR_XL
+        player_info->ActionWithSelectedCount = action_width * action_height;
+
+        if (Debug_Unshroud && CurrentObject.Count() > 0) {
+            static int xl_last_reported_zone = -1;
+            CELL selected_cell = Coord_Cell(CurrentObject[0]->Center_Coord());
+            int selected_x = Cell_X(selected_cell);
+            int selected_y = Cell_Y(selected_cell);
+            int zone = (selected_x >= MAP_MAX_CELL_WIDTH ? 1 : 0)
+                       | (selected_y >= MAP_MAX_CELL_HEIGHT ? 2 : 0);
+
+            if (zone != xl_last_reported_zone) {
+                char xl_diag[224];
+                sprintf(xl_diag,
+                        "XL DEBUG | unit %d,%d | camera %d,%d | client window %d,%d %dx%d",
+                        selected_x,
+                        selected_y,
+                        Coord_XCell(Map.TacticalCoord),
+                        Coord_YCell(Map.TacticalCoord),
+                        left,
+                        top,
+                        action_width,
+                        action_height);
+                On_Message(xl_diag, 12.0f, -1);
+                xl_last_reported_zone = zone;
+            }
+        }
+#else
+        player_info->ActionWithSelectedCount = Map.MapCellWidth * Map.MapCellHeight;
+#endif"""
+    if old2 not in s:
+        raise SystemExit("Could not find ActionWithSelectedCount assignment.")
+    s = s.replace(old2, new2, 1)
+
+    p.write_text(s, encoding="utf-8")
+    print("patched: XL fixed ActionWithSelected window + telemetry")
+else:
+    print("already patched: XL fixed ActionWithSelected window")
 
 # Full XL payload sections are hidden from the Remastered frontend parser.
 # The menu receives a completely vanilla-safe shell in [MapPack], [OverlayPack]
@@ -658,6 +866,8 @@ if debug_runtime_marker not in s:
     old = """            if (Map.In_Radar(xl_start)) {
                 Map.Sight_From(xl_start, 10, PlayerPtr, false);"""
     new = """            if (Map.In_Radar(xl_start)) {
+                LivingWarXL_Reset_Client_Terrain_Stream();
+
                 // XL debug full-map reveal bootstrap.
                 if (Debug_Unshroud) {
                     for (int yy = Map.MapCellY; yy < Map.MapCellY + Map.MapCellHeight; ++yy) {
@@ -705,6 +915,35 @@ patch_once(
 )
 
 
+
+p = root / "redalert/display.cpp"
+s = p.read_text(encoding="utf-8")
+camera_marker = "XL Remastered tactical camera tracks the real world coordinate"
+if camera_marker not in s:
+    old = """#ifdef REMASTER_BUILD
+    int xx = 0; // (int)Coord_X(coord) - (int)Cell_To_Lepton(MapCellX);
+    int yy = 0; // (int)Coord_Y(coord) - (int)Cell_To_Lepton(MapCellY);"""
+    new = """#ifdef REMASTER_BUILD
+#ifdef LIVING_WAR_XL
+    // XL Remastered tactical camera tracks the real world coordinate.
+    // Vanilla Remastered pins the DLL-side camera at 0,0 because every stock
+    // map fits inside the legacy client window. XL needs the DLL-side view to
+    // follow the same world region so object pixels and state windows do not
+    // disappear when crossing X/Y 127.
+    int xx = (int)Coord_X(coord) - (int)Cell_To_Lepton(MapCellX);
+    int yy = (int)Coord_Y(coord) - (int)Cell_To_Lepton(MapCellY);
+#else
+    int xx = 0; // (int)Coord_X(coord) - (int)Cell_To_Lepton(MapCellX);
+    int yy = 0; // (int)Coord_Y(coord) - (int)Cell_To_Lepton(MapCellY);
+#endif"""
+    if old not in s:
+        raise SystemExit("Could not find Remastered Set_Tactical_Position pin.")
+    s = s.replace(old, new, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: XL Remastered tactical camera tracking")
+else:
+    print("already patched: XL Remastered tactical camera tracking")
+
 # Several footprint/refresh lists are deliberately arrays of signed 16-bit
 # relative offsets. They were typed as CELL pointers only because vanilla CELL
 # was also a short. Keep the offsets short when XL CELL becomes 32-bit.
@@ -742,4 +981,4 @@ if changed:
 
 print("\nLiving War XL Core patch applied.")
 print("Internal map: 256x256; intended playable test rectangle: 1,1,254,254.")
-print("Remastered menu receives a vanilla-safe shell; XL runtime includes stable placement cursor cleanup, client-footprint translation, and optional full-map debug reveal.")
+print("Remastered menu stays vanilla-safe; XL runtime virtualizes the fixed 128x128 client state window across the real 256x256 simulation, streams far terrain, and reports boundary telemetry.")
