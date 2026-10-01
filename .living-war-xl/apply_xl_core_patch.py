@@ -1305,7 +1305,7 @@ static void LivingWarXL_Log(const char* format, ...)
     src = src.replace(get_state_sig, get_state_new, 1)
 
     # Log unsuccessful state requests without spamming successful polls.
-    gs_start = src.index('extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Game_State')
+    gs_start = src.rindex('extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Game_State')
     gs_end = src.index('extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Game_Request', gs_start)
     gs_seg = src[gs_start:gs_end]
     ret = "    return got_state;\n}"
