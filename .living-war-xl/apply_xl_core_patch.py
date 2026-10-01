@@ -420,6 +420,106 @@ static void LivingWarXL_Stream_Static_Window(int map_cell_x,
 else:
     print("already patched: client-facing XL footprint offsets")
 
+
+# Define the client-state window helpers at a deterministic source location.
+# Earlier builds bundled these definitions with the footprint helper, which
+# could be skipped after the forward declaration was added.
+p = root / "redalert/dllinterface.cpp"
+s = p.read_text(encoding="utf-8")
+client_state_definition_marker = """static void LivingWarXL_Get_Client_Window(int& map_cell_x,
+                                          int& map_cell_y,
+                                          int& map_cell_width,
+                                          int& map_cell_height)
+{"""
+if client_state_definition_marker not in s:
+    anchor = "void DLLExportClass::Calculate_Placement_Distances"
+    if anchor not in s:
+        raise SystemExit("Could not find placement-distance anchor for XL client-state helper definitions.")
+
+    defs = r"""#ifdef LIVING_WAR_XL
+static bool LivingWarXLClientTerrainSent[MAP_CELL_TOTAL] = {false};
+
+static void LivingWarXL_Reset_Client_Terrain_Stream()
+{
+    memset(LivingWarXLClientTerrainSent, 0, sizeof(LivingWarXLClientTerrainSent));
+}
+
+static void LivingWarXL_Get_Client_Window(int& map_cell_x,
+                                          int& map_cell_y,
+                                          int& map_cell_width,
+                                          int& map_cell_height)
+{
+    const int world_left = max(0, Map.MapCellX - 1);
+    const int world_top = max(0, Map.MapCellY - 1);
+    const int world_right = min(MAP_CELL_W, Map.MapCellX + Map.MapCellWidth + 1);
+    const int world_bottom = min(MAP_CELL_H, Map.MapCellY + Map.MapCellHeight + 1);
+
+    const int client_width = min(MAP_MAX_CELL_WIDTH, world_right - world_left);
+    const int client_height = min(MAP_MAX_CELL_HEIGHT, world_bottom - world_top);
+
+    const int view_width = max(1, Lepton_To_Cell(Map.TacLeptonWidth));
+    const int view_height = max(1, Lepton_To_Cell(Map.TacLeptonHeight));
+    const int camera_x = Coord_XCell(Map.TacticalCoord);
+    const int camera_y = Coord_YCell(Map.TacticalCoord);
+    const int center_x = camera_x + (view_width / 2);
+    const int center_y = camera_y + (view_height / 2);
+
+    const int max_left = max(world_left, world_right - client_width);
+    const int max_top = max(world_top, world_bottom - client_height);
+
+    map_cell_x = Bound(center_x - (client_width / 2), world_left, max_left);
+    map_cell_y = Bound(center_y - (client_height / 2), world_top, max_top);
+    map_cell_width = client_width;
+    map_cell_height = client_height;
+}
+
+static void LivingWarXL_Stream_Static_Window(int map_cell_x,
+                                              int map_cell_y,
+                                              int map_cell_width,
+                                              int map_cell_height)
+{
+    int sent_this_call = 0;
+    const int max_per_call = 1024;
+
+    for (int y = 0; y < map_cell_height && sent_this_call < max_per_call; ++y) {
+        for (int x = 0; x < map_cell_width && sent_this_call < max_per_call; ++x) {
+            const int world_x = map_cell_x + x;
+            const int world_y = map_cell_y + y;
+            CELL cell = XY_Cell(world_x, world_y);
+            if (cell < 0 || cell >= MAP_CELL_TOTAL || LivingWarXLClientTerrainSent[cell]) {
+                continue;
+            }
+
+            CellClass* cellptr = &Map[cell];
+            char cell_name[_MAX_PATH];
+            char icon_number[32];
+            cell_name[0] = 0;
+            int icon = 0;
+            void* image_data = 0;
+
+            if (cellptr->Get_Template_Info(cell_name, icon, image_data)) {
+                itoa(icon, icon_number, 10);
+                strncat(cell_name, "_i", 32);
+                strncat(cell_name, icon_number, 32);
+                strncat(cell_name, ".tga", 32);
+                On_Update_Map_Cell(world_x, world_y, cell_name);
+            }
+
+            LivingWarXLClientTerrainSent[cell] = true;
+            ++sent_this_call;
+        }
+    }
+}
+#endif
+
+"""
+    s = s.replace(anchor, defs + anchor, 1)
+    p.write_text(s, encoding="utf-8")
+    print("patched: deterministic XL client-state helper definitions")
+else:
+    print("already patched: deterministic XL client-state helper definitions")
+
+
 p = root / "redalert/dllinterface.cpp"
 s = p.read_text(encoding="utf-8")
 needle = """#ifdef LIVING_WAR_XL
