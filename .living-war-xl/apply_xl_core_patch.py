@@ -163,6 +163,102 @@ if "LivingWarXL_Client_Cell_Offset(short internal_offset);" not in s:
 else:
     print("already patched: client offset translator forward declaration")
 
+
+# The vanilla placement cursor relies on incrementally clearing the previous
+# IsCursorHere cells. On the XL map, camera/input transitions can leave stale
+# cursor flags behind, producing the long red/white "snake" after dragging a
+# building footprint around. Correct the footprint dimensions and scrub stale
+# cursor flags before drawing the new XL placement cursor.
+p = root / "redalert/display.cpp"
+s = p.read_text(encoding="utf-8")
+cursor_scrub_marker = "Living War XL stale placement cursor scrub"
+if cursor_scrub_marker not in s:
+    old = """void DisplayClass::Get_Occupy_Dimensions(int& w, int& h, short const* list) const
+{
+    int min_x = MAP_CELL_W;
+    int max_x = -MAP_CELL_W;
+    int min_y = MAP_CELL_H;
+    int max_y = -MAP_CELL_H;
+    int x, y;
+
+    w = 0;
+    h = 0;
+
+    if (!list) {"""
+    new = """void DisplayClass::Get_Occupy_Dimensions(int& w, int& h, short const* list) const
+{
+    int min_x = MAP_CELL_W;
+    int max_x = -MAP_CELL_W;
+    int min_y = MAP_CELL_H;
+    int max_y = -MAP_CELL_H;
+    int x, y;
+
+    w = 0;
+    h = 0;
+
+#ifdef LIVING_WAR_XL
+    if (list) {
+#else
+    if (!list) {
+#endif"""
+    if old not in s:
+        raise SystemExit("Could not find Get_Occupy_Dimensions list guard.")
+    s = s.replace(old, new, 1)
+
+    old2 = """        h = min(1, max_y - min_y + 1);
+    }
+}"""
+    new2 = """#ifdef LIVING_WAR_XL
+        h = max(1, max_y - min_y + 1);
+#else
+        h = min(1, max_y - min_y + 1);
+#endif
+    }
+}"""
+    if old2 not in s:
+        raise SystemExit("Could not find Get_Occupy_Dimensions height result.")
+    s = s.replace(old2, new2, 1)
+
+    old3 = """        if (pos != ZoneCell && ZoneCell != -1) {
+            Cursor_Mark(ZoneCell + ZoneOffset, false);
+        }
+
+        /*
+        ** Render the cursor (could just be animation).
+        */"""
+    new3 = """        if (pos != ZoneCell && ZoneCell != -1) {
+            Cursor_Mark(ZoneCell + ZoneOffset, false);
+
+#ifdef LIVING_WAR_XL
+            // Living War XL stale placement cursor scrub.
+            // Incremental clear is normally enough, but the Remastered input/
+            // camera bridge can leave old IsCursorHere flags after repeated
+            // placement movement on the expanded grid.
+            for (int yy = MapCellY; yy < MapCellY + MapCellHeight; ++yy) {
+                for (int xx = MapCellX; xx < MapCellX + MapCellWidth; ++xx) {
+                    CELL scrub_cell = XY_Cell(xx, yy);
+                    CellClass* scrub_ptr = &(*this)[scrub_cell];
+                    if (scrub_ptr->IsCursorHere) {
+                        scrub_ptr->IsCursorHere = false;
+                        scrub_ptr->Redraw_Objects();
+                    }
+                }
+            }
+#endif
+        }
+
+        /*
+        ** Render the cursor (could just be animation).
+        */"""
+    if old3 not in s:
+        raise SystemExit("Could not find Set_Cursor_Pos incremental clear block.")
+    s = s.replace(old3, new3, 1)
+
+    p.write_text(s, encoding="utf-8")
+    print("patched: XL cursor dimensions and stale placement scrub")
+else:
+    print("already patched: XL cursor dimensions and stale placement scrub")
+
 # Remastered's UI ABI still interprets building footprint offsets as if rows are
 # 128 cells wide. Internally XL building footprints are compiled against
 # MAP_CELL_W=256. Translate only the client-facing offsets back to the legacy
@@ -646,4 +742,4 @@ if changed:
 
 print("\nLiving War XL Core patch applied.")
 print("Internal map: 256x256; intended playable test rectangle: 1,1,254,254.")
-print("Remastered menu receives a vanilla-safe shell; XL runtime includes client-footprint translation plus optional full-map debug reveal.")
+print("Remastered menu receives a vanilla-safe shell; XL runtime includes stable placement cursor cleanup, client-footprint translation, and optional full-map debug reveal.")
