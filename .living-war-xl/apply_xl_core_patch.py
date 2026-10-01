@@ -1285,7 +1285,7 @@ static void LivingWarXL_Log(const char* format, ...)
         if (xl_state_calls[xl_state_index] == 1U
             || xl_last_state_buffer[xl_state_index] != buffer_size
             || (xl_state_calls[xl_state_index] % 300U) == 0U) {
-            LivingWarXL_Log("STATE req=%d call=%u buffer=%u map=%d,%d %dx%d tac=%d,%d ignore=%d",
+            LivingWarXL_Log("STATE req=%d call=%u buffer=%u map=%d,%d %dx%d tac=%d,%d",
                             xl_state_index,
                             xl_state_calls[xl_state_index],
                             buffer_size,
@@ -1294,8 +1294,7 @@ static void LivingWarXL_Log(const char* format, ...)
                             Map.MapCellWidth,
                             Map.MapCellHeight,
                             Coord_XCell(Map.TacticalCoord),
-                            Coord_YCell(Map.TacticalCoord),
-                            DisplayClass::IgnoreViewConstraints ? 1 : 0);
+                            Coord_YCell(Map.TacticalCoord));
             xl_last_state_buffer[xl_state_index] = buffer_size;
         }
     }
