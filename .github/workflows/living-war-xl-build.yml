@@ -40,10 +40,10 @@ jobs:
           python .living-war-xl/apply_xl_core_patch.py Vanilla-Conquer
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           Select-String -Path Vanilla-Conquer/redalert/defines.h -Pattern "MAP_CELL_W 256","typedef signed long CELL"
-          Select-String -Path Vanilla-Conquer/redalert/display.cpp -Pattern "LivingWarXLMapPack","LivingWarXLWaypoints","XL-safe DisplayClass::In_View cell guard","Living War XL stale placement cursor scrub","XL Remastered tactical camera tracks the real world coordinate"
+          Select-String -Path Vanilla-Conquer/redalert/display.cpp -Pattern "LivingWarXLMapPack","LivingWarXLWaypoints","XL-safe DisplayClass::In_View cell guard","Living War XL stale placement cursor scrub","Living War XL 0.9: preserve Remastered absolute-world pixel semantics"
           Select-String -Path Vanilla-Conquer/redalert/overlay.cpp -Pattern "LivingWarXLOverlayPack"
           Select-String -Path Vanilla-Conquer/redalert/terrain.cpp -Pattern "LivingWarXLTerrain"
-          Select-String -Path Vanilla-Conquer/redalert/dllinterface.cpp -Pattern "_map_width_shift_bits = 8","Living War XL runtime visibility bootstrap","LivingWarXL_Client_Cell_Offset","XL debug full-map reveal bootstrap","LivingWarXL_Get_Client_Window","XL fixed ActionWithSelected window","XL streamed static terrain window"
+          Select-String -Path Vanilla-Conquer/redalert/dllinterface.cpp -Pattern "_map_width_shift_bits = 8","Living War XL runtime visibility bootstrap","LivingWarXL_Client_Cell_Offset","XL debug full-map reveal bootstrap","XL 0.9 absolute-world layer export","LivingWarXL-debug.log","LivingWarXL_Stream_Static_Window(0, 0, MAP_CELL_W, MAP_CELL_H)"
           $shift8 = (Select-String -Path Vanilla-Conquer/redalert/dllinterface.cpp -Pattern "static const int _map_width_shift_bits = 8;" -AllMatches).Matches.Count
           if ($shift8 -lt 2) { throw "Expected both XL placement stride sites to be patched; found $shift8" }
           Select-String -Path Vanilla-Conquer/redalert/CMakeLists.txt -Pattern "LIVING_WAR_XL"
@@ -77,18 +77,18 @@ jobs:
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force artifact | Out-Null
-          python .living-war-xl/package_xl_core.py "$env:XL_DLL" "$env:UPSTREAM_SHA" "artifact/CNC-Living-War-XL-Core-v0.8.0-HARDWARE-UNVERIFIED.zip"
-          Copy-Item "$env:XL_DLL" "artifact/RedAlert-XL-v0.8.0.dll"
+          python .living-war-xl/package_xl_core.py "$env:XL_DLL" "$env:UPSTREAM_SHA" "artifact/CNC-Living-War-XL-Core-v0.9.0-HARDWARE-UNVERIFIED.zip"
+          Copy-Item "$env:XL_DLL" "artifact/RedAlert-XL-v0.9.0.dll"
           $pdb = Get-ChildItem build-xl -Recurse -Filter RedAlert.pdb | Sort-Object Length -Descending | Select-Object -First 1
-          if ($pdb) { Copy-Item $pdb.FullName "artifact/RedAlert-XL-v0.8.0.pdb" }
+          if ($pdb) { Copy-Item $pdb.FullName "artifact/RedAlert-XL-v0.9.0.pdb" }
           Copy-Item ".living-war-xl/apply_xl_core_patch.py" "artifact/apply_xl_core_patch.py"
-          Get-FileHash "artifact/CNC-Living-War-XL-Core-v0.8.0-HARDWARE-UNVERIFIED.zip" -Algorithm SHA256 | Format-List | Out-File "artifact/SHA256.txt"
-          Get-FileHash "artifact/RedAlert-XL-v0.8.0.dll" -Algorithm SHA256 | Format-List | Out-File -Append "artifact/SHA256.txt"
+          Get-FileHash "artifact/CNC-Living-War-XL-Core-v0.9.0-HARDWARE-UNVERIFIED.zip" -Algorithm SHA256 | Format-List | Out-File "artifact/SHA256.txt"
+          Get-FileHash "artifact/RedAlert-XL-v0.9.0.dll" -Algorithm SHA256 | Format-List | Out-File -Append "artifact/SHA256.txt"
 
       - name: Upload XL Core
         uses: actions/upload-artifact@v4
         with:
-          name: living-war-xl-core-0.8.0
+          name: living-war-xl-core-0.9.0
           path: artifact
           if-no-files-found: error
           retention-days: 7
