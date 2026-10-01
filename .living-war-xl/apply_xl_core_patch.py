@@ -1079,6 +1079,288 @@ if changed:
     p.write_text(s, encoding="utf-8")
     print("patched: Chronal Vortex coordinate MAX casts")
 
+
+# XL Core 0.9 renderer-ABI probe and absolute-world bridge.
+#
+# Hardware testing of 0.8 showed that the 256x256 simulation is alive, but the
+# Remastered/GlyphX presentation side still behaves like a 128x128 client:
+# static ground tiles arrive only partially and objects can disappear near the
+# old boundary. The Remastered DLL interface itself confirms why: StaticCells
+# and ActionWithSelected are hard 128x128 arrays. The other state calls are
+# variable-sized, and Remastered input coordinates are already world-space
+# pixels. Therefore do NOT move the DLL-side tactical camera as 0.8 did.
+#
+# This pass restores vanilla Remastered absolute-world pixel semantics, forces
+# layer export to ignore the internal view clip, streams the entire 256x256
+# static terrain through UPDATE_MAP_CELL callbacks over successive state polls,
+# and writes a compact protocol log so the next hardware run tells us exactly
+# what buffer sizes/state requests the closed client is making.
+p = root / "redalert/display.cpp"
+src = p.read_text(encoding="utf-8")
+camera_patched = """#ifdef REMASTER_BUILD
+#ifdef LIVING_WAR_XL
+    // XL Remastered tactical camera tracks the real world coordinate.
+    // Vanilla Remastered pins the DLL-side camera at 0,0 because every stock
+    // map fits inside the legacy client window. XL needs the DLL-side view to
+    // follow the same world region so object pixels and state windows do not
+    // disappear when crossing X/Y 127.
+    int xx = (int)Coord_X(coord) - (int)Cell_To_Lepton(MapCellX);
+    int yy = (int)Coord_Y(coord) - (int)Cell_To_Lepton(MapCellY);
+#else
+    int xx = 0; // (int)Coord_X(coord) - (int)Cell_To_Lepton(MapCellX);
+    int yy = 0; // (int)Coord_Y(coord) - (int)Cell_To_Lepton(MapCellY);
+#endif"""
+camera_stock = """#ifdef REMASTER_BUILD
+    // Living War XL 0.9: preserve Remastered absolute-world pixel semantics.
+    // The closed GlyphX client already supplies world-space coordinates.
+    int xx = 0; // (int)Coord_X(coord) - (int)Cell_To_Lepton(MapCellX);
+    int yy = 0; // (int)Coord_Y(coord) - (int)Cell_To_Lepton(MapCellY);"""
+if camera_patched in src:
+    src = src.replace(camera_patched, camera_stock, 1)
+elif "Living War XL 0.9: preserve Remastered absolute-world pixel semantics." not in src:
+    raise SystemExit("Could not restore Remastered absolute-world camera semantics.")
+p.write_text(src, encoding="utf-8")
+print("patched: XL 0.9 absolute-world Remastered camera semantics")
+
+p = root / "redalert/dllinterface.cpp"
+src = p.read_text(encoding="utf-8")
+
+# The 0.8 sliding window had no way to communicate its changing origin through
+# shroud/occupier/placement state structures. Restore the fixed first-128 ABI
+# clamp for those state snapshots. Keep Calculate_Placement_Distances full-size.
+window = """#ifdef LIVING_WAR_XL
+    // viewport-aware Remastered client state window
+    LivingWarXL_Get_Client_Window(map_cell_x, map_cell_y, map_cell_width, map_cell_height);
+#endif"""
+clamp = """#ifdef LIVING_WAR_XL
+    // XL 0.9: fixed legacy client ABI payload. Far-world presentation is
+    // supplied through absolute object pixels and UPDATE_MAP_CELL streaming.
+    map_cell_width = min(map_cell_width, MAP_MAX_CELL_WIDTH);
+    map_cell_height = min(map_cell_height, MAP_MAX_CELL_HEIGHT);
+#endif"""
+window_count = src.count(window)
+if window_count:
+    src = src.replace(window, clamp)
+    print("patched: restored fixed client state clamp in", window_count, "state paths")
+elif "XL 0.9: fixed legacy client ABI payload." not in src:
+    raise SystemExit("Could not find 0.8 viewport state windows.")
+
+# Stream the whole internal map, not only the current legacy-sized window.
+old_stream_call = "LivingWarXL_Stream_Static_Window(map_cell_x, map_cell_y, map_cell_width, map_cell_height);"
+new_stream_call = "LivingWarXL_Stream_Static_Window(0, 0, MAP_CELL_W, MAP_CELL_H);"
+if old_stream_call in src:
+    src = src.replace(old_stream_call, new_stream_call, 1)
+elif new_stream_call not in src:
+    raise SystemExit("Could not find XL static terrain stream call.")
+
+# Track streamed terrain progress.
+if "LivingWarXLClientTerrainSentCount" not in src:
+    src = src.replace(
+        "static bool LivingWarXLClientTerrainSent[MAP_CELL_TOTAL] = {false};",
+        """static bool LivingWarXLClientTerrainSent[MAP_CELL_TOTAL] = {false};
+static int LivingWarXLClientTerrainSentCount = 0;""",
+        1)
+    src = src.replace(
+        "memset(LivingWarXLClientTerrainSent, 0, sizeof(LivingWarXLClientTerrainSent));",
+        """memset(LivingWarXLClientTerrainSent, 0, sizeof(LivingWarXLClientTerrainSent));
+    LivingWarXLClientTerrainSentCount = 0;""",
+        1)
+    src = src.replace(
+        """            LivingWarXLClientTerrainSent[cell] = true;
+            ++sent_this_call;""",
+        """            LivingWarXLClientTerrainSent[cell] = true;
+            ++LivingWarXLClientTerrainSentCount;
+            ++sent_this_call;
+
+            if ((LivingWarXLClientTerrainSentCount % 8192) == 0) {
+                char xl_stream_msg[128];
+                sprintf(xl_stream_msg,
+                        "XL DEBUG | terrain stream %d/%d",
+                        LivingWarXLClientTerrainSentCount,
+                        MAP_CELL_TOTAL);
+                On_Message(xl_stream_msg, 6.0f, -1);
+            }""",
+        1)
+
+# Export every active layer object using absolute world pixels. The Remastered
+# client does its own camera transform, so clipping these in the DLL is wrong.
+layer_sig = """bool DLLExportClass::Get_Layer_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size)
+{
+    player_id;"""
+layer_new = """bool DLLExportClass::Get_Layer_State(uint64 player_id, unsigned char* buffer_in, unsigned int buffer_size)
+{
+    player_id;
+
+#ifdef LIVING_WAR_XL
+    // XL 0.9 absolute-world layer export.
+    DLLExportClass::Adjust_Internal_View(true);
+#endif"""
+if layer_sig in src:
+    src = src.replace(layer_sig, layer_new, 1)
+elif "XL 0.9 absolute-world layer export." not in src:
+    raise SystemExit("Could not find Get_Layer_State prologue.")
+
+# Always allow far-world Remastered input conversion. With the DLL tactical
+# origin pinned at 0, Pixel_To_Coord converts the client's world pixel directly
+# into the 256-grid simulation coordinate.
+input_sig = """    if (!DLLExportClass::Set_Player_Context(player_id)) {
+        return;
+    }
+
+    switch (input_event) {"""
+input_new = """    if (!DLLExportClass::Set_Player_Context(player_id)) {
+        return;
+    }
+
+#ifdef LIVING_WAR_XL
+    DLLExportClass::Adjust_Internal_View(true);
+#endif
+
+    switch (input_event) {"""
+# Limit this replacement to CNC_Handle_Input by locating its function first.
+input_fn = src.index('extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Input')
+input_switch = src.index(input_sig, input_fn)
+src = src[:input_switch] + src[input_switch:].replace(input_sig, input_new, 1)
+
+p.write_text(src, encoding="utf-8")
+print("patched: XL 0.9 absolute object/input bridge and whole-map terrain stream")
+
+# Add compact file logging for the closed Remastered/GlyphX client protocol.
+p = root / "redalert/dllinterface.cpp"
+src = p.read_text(encoding="utf-8")
+if "LivingWarXL-debug.log" not in src:
+    if "#include <chrono>" not in src:
+        raise SystemExit("Could not find include anchor for XL protocol logger.")
+    src = src.replace(
+        "#include <chrono>",
+        """#include <chrono>
+#include <stdio.h>
+#include <stdarg.h>""",
+        1)
+
+    macro_anchor = "#define KILL_PLAYER_ON_DISCONNECT 1"
+    logger = r'''
+#ifdef LIVING_WAR_XL
+static void LivingWarXL_Log(const char* format, ...)
+{
+    static FILE* xl_log = NULL;
+    if (xl_log == NULL) {
+        xl_log = fopen("LivingWarXL-debug.log", "a");
+        if (xl_log == NULL) {
+            return;
+        }
+        fprintf(xl_log, "\n=== Living War XL Core 0.9 renderer ABI probe ===\n");
+    }
+
+    va_list args;
+    va_start(args, format);
+    vfprintf(xl_log, format, args);
+    va_end(args);
+    fprintf(xl_log, "\n");
+    fflush(xl_log);
+}
+#endif
+'''
+    if macro_anchor not in src:
+        raise SystemExit("Could not find macro anchor for XL logger.")
+    src = src.replace(macro_anchor, macro_anchor + logger, 1)
+
+    # Record state request buffer sizes. This is the critical information for
+    # deciding whether variable-length shroud/occupier/dynamic states can safely
+    # be enlarged or whether a true client-side hook is required.
+    get_state_sig = """extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Game_State(GameStateRequestEnum state_type,
+                                                                 uint64 player_id,
+                                                                 unsigned char* buffer_in,
+                                                                 unsigned int buffer_size)
+{
+    bool got_state = false;"""
+    get_state_new = get_state_sig + r'''
+
+#ifdef LIVING_WAR_XL
+    static unsigned int xl_state_calls[16] = {0U};
+    static unsigned int xl_last_state_buffer[16] = {0U};
+    int xl_state_index = (int)state_type;
+    if (xl_state_index >= 0 && xl_state_index < 16) {
+        ++xl_state_calls[xl_state_index];
+        if (xl_state_calls[xl_state_index] == 1U
+            || xl_last_state_buffer[xl_state_index] != buffer_size
+            || (xl_state_calls[xl_state_index] % 300U) == 0U) {
+            LivingWarXL_Log("STATE req=%d call=%u buffer=%u map=%d,%d %dx%d tac=%d,%d ignore=%d",
+                            xl_state_index,
+                            xl_state_calls[xl_state_index],
+                            buffer_size,
+                            Map.MapCellX,
+                            Map.MapCellY,
+                            Map.MapCellWidth,
+                            Map.MapCellHeight,
+                            Coord_XCell(Map.TacticalCoord),
+                            Coord_YCell(Map.TacticalCoord),
+                            DisplayClass::IgnoreViewConstraints ? 1 : 0);
+            xl_last_state_buffer[xl_state_index] = buffer_size;
+        }
+    }
+#endif'''
+    if get_state_sig not in src:
+        raise SystemExit("Could not find CNC_Get_Game_State prologue for logger.")
+    src = src.replace(get_state_sig, get_state_new, 1)
+
+    # Log unsuccessful state requests without spamming successful polls.
+    gs_start = src.index('extern "C" __declspec(dllexport) bool __cdecl CNC_Get_Game_State')
+    gs_end = src.index('/**************************************************************************************************', gs_start + 200)
+    gs_seg = src[gs_start:gs_end]
+    ret = "    return got_state;\n}"
+    ret_new = r'''#ifdef LIVING_WAR_XL
+    if (!got_state) {
+        LivingWarXL_Log("STATE FAIL req=%d buffer=%u map=%d,%d %dx%d",
+                        (int)state_type,
+                        buffer_size,
+                        Map.MapCellX,
+                        Map.MapCellY,
+                        Map.MapCellWidth,
+                        Map.MapCellHeight);
+    }
+#endif
+    return got_state;
+}'''
+    if ret not in gs_seg:
+        raise SystemExit("Could not find CNC_Get_Game_State return for logger.")
+    gs_seg = gs_seg.replace(ret, ret_new, 1)
+    src = src[:gs_start] + gs_seg + src[gs_end:]
+
+    # Log client input whenever it crosses one of the old 128 boundaries.
+    input_fn = src.index('extern "C" __declspec(dllexport) void __cdecl CNC_Handle_Input')
+    switch_pos = src.index("    switch (input_event) {", input_fn)
+    input_probe = r'''#ifdef LIVING_WAR_XL
+    if (x1 >= 0 && y1 >= 0) {
+        COORDINATE xl_input_coord = Map.Pixel_To_Coord(x1, y1);
+        if (xl_input_coord) {
+            CELL xl_input_cell = Coord_Cell(xl_input_coord);
+            int xl_input_zone = (Cell_X(xl_input_cell) >= MAP_MAX_CELL_WIDTH ? 1 : 0)
+                              | (Cell_Y(xl_input_cell) >= MAP_MAX_CELL_HEIGHT ? 2 : 0);
+            static int xl_last_input_zone = -1;
+            if (xl_input_zone != xl_last_input_zone) {
+                LivingWarXL_Log("INPUT event=%d pixel=%d,%d cell=%d,%d zone=%d",
+                                (int)input_event,
+                                x1,
+                                y1,
+                                Cell_X(xl_input_cell),
+                                Cell_Y(xl_input_cell),
+                                xl_input_zone);
+                xl_last_input_zone = xl_input_zone;
+            }
+        }
+    }
+#endif
+
+'''
+    src = src[:switch_pos] + input_probe + src[switch_pos:]
+
+    p.write_text(src, encoding="utf-8")
+    print("patched: XL 0.9 renderer ABI protocol log")
+else:
+    print("already patched: XL 0.9 renderer ABI protocol log")
+
+
 print("\nLiving War XL Core patch applied.")
 print("Internal map: 256x256; intended playable test rectangle: 1,1,254,254.")
-print("Remastered menu stays vanilla-safe; XL runtime virtualizes the fixed 128x128 client state window across the real 256x256 simulation, streams far terrain, and reports boundary telemetry.")
+print("Remastered menu stays vanilla-safe; XL 0.9 restores absolute-world client semantics, streams the full static map, and records the closed-client ABI in LivingWarXL-debug.log.")
