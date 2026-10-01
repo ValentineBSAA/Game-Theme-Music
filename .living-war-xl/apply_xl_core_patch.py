@@ -150,18 +150,27 @@ p = root / "redalert/dllinterface.cpp"
 s = p.read_text(encoding="utf-8")
 prototype = """#ifdef LIVING_WAR_XL
 static short LivingWarXL_Client_Cell_Offset(short internal_offset);
+static void LivingWarXL_Reset_Client_Terrain_Stream();
+static void LivingWarXL_Get_Client_Window(int& map_cell_x,
+                                          int& map_cell_y,
+                                          int& map_cell_width,
+                                          int& map_cell_height);
+static void LivingWarXL_Stream_Static_Window(int map_cell_x,
+                                              int map_cell_y,
+                                              int map_cell_width,
+                                              int map_cell_height);
 #endif
 
 """
-if "LivingWarXL_Client_Cell_Offset(short internal_offset);" not in s:
+if "LivingWarXL_Get_Client_Window(int& map_cell_x" not in s:
     include_anchor = '#include "function.h"'
     if include_anchor not in s:
         raise SystemExit("Could not find dllinterface include anchor for XL client offset prototype.")
     s = s.replace(include_anchor, include_anchor + "\n\n" + prototype, 1)
     p.write_text(s, encoding="utf-8")
-    print("patched: client offset translator forward declaration")
+    print("patched: XL client-state helper forward declarations")
 else:
-    print("already patched: client offset translator forward declaration")
+    print("already patched: XL client-state helper forward declarations")
 
 
 # The vanilla placement cursor relies on incrementally clearing the previous
@@ -265,7 +274,7 @@ else:
 # stride so the red/green placement footprint remains a solid connected shape.
 p = root / "redalert/dllinterface.cpp"
 s = p.read_text(encoding="utf-8")
-helper_marker = "LivingWarXL_Client_Cell_Offset"
+helper_marker = "static bool LivingWarXLClientTerrainSent[MAP_CELL_TOTAL]"
 if helper_marker not in s:
     insert_after = """#ifdef LIVING_WAR_XL
 static const int _map_width_shift_bits = 8;
@@ -681,7 +690,7 @@ if action_marker not in s:
                         top,
                         action_width,
                         action_height);
-                On_Message(xl_diag, 12.0f, -1);
+                DLLExportClass::On_Message(PlayerPtr, xl_diag, 12.0f, MESSAGE_TYPE_DIRECT, -1);
                 xl_last_reported_zone = zone;
             }
         }
