@@ -109,37 +109,28 @@ patch_once(
     "1 MiB staging definition",
 )
 
-patch_once(
-    "redalert/dllinterface.cpp",
-    r"static\s+const\s+int\s+_map_width_shift_bits\s*=\s*7\s*;",
-    """#ifdef LIVING_WAR_XL
-static const int _map_width_shift_bits = 8;
-#else
-static const int _map_width_shift_bits = 7;
-#endif""",
-    "client placement width shift",
-)
-
-
 # Vanilla has two separate client-placement width-shift declarations: one for
-# placement-distance/proximity generation and another inside Place(). Patching
-# only the first makes the client show a green legal placement but translates
-# the confirmed click using a 128-wide cell stride, so the structure is placed
-# at the wrong cell or disappears.
+# placement-distance/proximity generation and another inside Place(). Patch both
+# cleanly in one pass. Do not patch the first and then search again, because the
+# fallback '= 7' line inside the first #else would be mistaken for a third
+# vanilla declaration and nest the XL helper definitions inside a dead branch.
 p = root / "redalert/dllinterface.cpp"
 s = p.read_text(encoding="utf-8")
-remaining = s.count("static const int _map_width_shift_bits = 7;")
-if remaining:
-    replacement = """#ifdef LIVING_WAR_XL
+width_shift_needle = "static const int _map_width_shift_bits = 7;"
+width_shift_replacement = """#ifdef LIVING_WAR_XL
 static const int _map_width_shift_bits = 8;
 #else
 static const int _map_width_shift_bits = 7;
 #endif"""
-    s = s.replace("static const int _map_width_shift_bits = 7;", replacement)
+width_shift_count = s.count(width_shift_needle)
+if width_shift_count:
+    if width_shift_count != 2:
+        raise SystemExit(f"Expected exactly two vanilla placement width-shift sites; found {width_shift_count}.")
+    s = s.replace(width_shift_needle, width_shift_replacement)
     p.write_text(s, encoding="utf-8")
-    print("patched: all client placement width-shift sites", remaining)
+    print("patched: both client placement width-shift sites")
 else:
-    print("already patched: all client placement width-shift sites")
+    print("already patched: both client placement width-shift sites")
 
 
 
