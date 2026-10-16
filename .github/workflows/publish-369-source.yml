@@ -1,0 +1,97 @@
+# One-time, reproducible import of the code shipped in the verified 3.6.9 release ZIP.
+# Only explicitly listed text/source and assets are copied; the runtime binaries,
+# vendored Python libraries, and historical README are intentionally left in the release.
+name: Publish GTM 3.6.9 source snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-369-source.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@v4
+
+      - name: Fetch, verify and extract release code
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --retry-delay 2 \
+            --connect-timeout 20 --max-time 300 \
+            "https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V3.6.9/Game-Theme-Music-3.6.9.zip" \
+            --output /tmp/Game-Theme-Music-3.6.9.zip
+
+          echo "84364fe71ef5a65b9fae513ba0e8449cf670017f9d51b2da2807df9186d6a1df  /tmp/Game-Theme-Music-3.6.9.zip" | sha256sum --check
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import zipfile
+
+          archive = Path("/tmp/Game-Theme-Music-3.6.9.zip")
+          prefix = "Game-Theme-Music/"
+          # Copy the actual shipped backend and built frontend, plus accompanying
+          # artwork, release history and notices. Do not execute archive contents.
+          code_files = [
+              "main.py",
+              "dist/index.js",
+              "CHANGELOG.md",
+              "GAME_THEME_MUSIC_UPDATE_LEDGER.md",
+          ]
+          asset_files = [
+              "assets/ambient-music-art.webp",
+              "assets/ambient-music-hero.webp",
+              "assets/game-theme-music-banner.webp",
+              "assets/game-theme-music-icon.webp",
+              "assets/store-music-art.webp",
+              "assets/store-music-hero.webp",
+          ]
+          notice_files = [
+              "third_party/ThemeDeck-BSD-3-Clause.txt",
+              "third_party/mutagen-GPL-2.0-or-later.txt",
+              "third_party/quickjs-LICENSE",
+              "third_party/yt-dlp-LICENSE",
+          ]
+          files = code_files + asset_files + notice_files
+          digests = {
+              "main.py": "826f1bb54a4b26868f1c6ceba5721629eab2bde322d99c45fd949d3a62b27a86",
+              "dist/index.js": "f3fcb26f1c1b68f7d3a5f69dd03bf41b4f1e2ab7126db8ee8c57b4e85fecffbf",
+          }
+          with zipfile.ZipFile(archive) as z:
+              for name in files:
+                  original = prefix + name
+                  data = z.read(original)
+                  if name in digests:
+                      digest = hashlib.sha256(data).hexdigest()
+                      if digest != digests[name]:
+                          raise RuntimeError(f"Checksum mismatch: {name}")
+                  dest = Path(name)
+                  dest.parent.mkdir(parents=True, exist_ok=True)
+                  dest.write_bytes(data)
+                  print(f"Extracted {name}: {len(data)} bytes")
+          print("Source snapshot extracted without modifying the release.")
+          PY
+
+      - name: Validate and publish only extracted snapshot files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m py_compile main.py
+          node --check dist/index.js
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- main.py dist/index.js CHANGELOG.md GAME_THEME_MUSIC_UPDATE_LEDGER.md assets/ third_party/
+          if git diff --cached --quiet; then
+            echo "Snapshot already matches the published release."
+          else
+            git commit -m "source: publish verified GTM 3.6.9 backend and compiled frontend"
+            git push origin HEAD:main
+          fi
