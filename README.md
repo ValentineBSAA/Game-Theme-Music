@@ -20,6 +20,10 @@
 
 Game Theme Music is currently distributed as a manual Decky Loader plugin while wider community testing continues.
 
+## Browse the source
+
+The 3.6.9 release's **editable Python backend** and **compiled JavaScript frontend** are being published as a version-matched snapshot in this repository, alongside artwork and license information. See [Source code and limitations](SOURCE.md) for what is included, how to verify it, and why the original React/TypeScript source is not currently available from the supplied release ZIP.
+
 ## Install
 
 1. Open **Decky Loader** on your Steam Deck.
