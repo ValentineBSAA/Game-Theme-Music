@@ -1,6 +1,8 @@
 # Third-party notices
 
-Game Theme Music 3.6.9 bundles or uses third-party software. The short labels below are summaries only; the applicable upstream license terms remain authoritative.
+**Applies to Game Theme Music 3.7.0 and its 3.6.9 distribution baseline.** Version 3.7.0 retains the third-party runtime components from the checksum-verified 3.6.9 package without upgrading those third-party binaries. The version labels and SHA-256 values below identify the original bundled components. The 3.7.0 release manifest records the new GTM package hash.
+
+Game Theme Music bundles or uses third-party software. The short labels below are summaries only; the applicable upstream license terms remain authoritative.
 
 ## yt-dlp
 
