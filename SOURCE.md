@@ -16,6 +16,18 @@ The original React/TypeScript/TSX components, source maps and complete frontend 
 
 The release workflow starts with the verified 3.6.9 ZIP, verifies its SHA-256, applies the strict 3.7.0 HUD change set, then verifies the resulting backend and compiled frontend against the developer-tested version hashes before packaging. The archive's own final SHA-256 is documented in the release manifest.
 
+## Maintainer notes: recovering the original frontend source safely
+
+The absence of the original React/TypeScript project is a **maintenance limitation**, not an invitation to replace the verified 3.7.0 bundle with guessed or unrelated code.
+
+1. Look for the original `src/`, frontend build scripts, dependency lockfile and source maps from the **same GTM lineage**. Verify the version and provenance before claiming they are original.
+2. Work in a **separate branch**. Keep the original compiled 3.7.0 frontend and Python backend as a known-good hardware baseline.
+3. Compare behavior, assets, exported interfaces, controller navigation, Steam surface detection, ResonaDeck focus and versioned release hashes. A plausible source tree is **not** equivalent to a reproducible build.
+4. Only describe the frontend as reproducible when a clean build can be demonstrated and its functional output compared against the shipped runtime. Any newly reconstructed source should be labeled accurately.
+5. Test on physical Steam Deck hardware before replacing a stable public bundle; maintain rollback access to released 3.6.9 and 3.7.0 ZIPs.
+
+The documentation improvements in this repository **do not change** the 3.7.0 release asset, runtime JavaScript/Python, audio behavior, or its verified SHA-256. See [Getting started](docs/GETTING_STARTED.md) and [Hardware validation](docs/VALIDATION_3.7.0.md).
+
 ## Previous version archival integrity
 - [3.6.9 release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.6.9)
 - Original 3.6.9 ZIP SHA-256: `84364fe71ef5a65b9fae513ba0e8449cf670017f9d51b2da2807df9186d6a1df`
