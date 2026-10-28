@@ -1,3 +1,19 @@
+## 3.7.0 (2026-10-28) | User-configurable mini player HUD
+
+- New **Show mini player HUD** setting in Interface & Feedback, ON by default for existing users.
+- OFF hides the SAO-style Now Playing HUD and prevents future game, Ambient, Store, track-change and error ribbons without interrupting music.
+- Turning OFF dismisses visible HUD content, clears delayed popups/Quick Access queues and prevents old diagnostics from resurfacing later.
+- Setting persists through restart; turning ON again restores future HUD events.
+- Independent of theme notifications, visualizer, mini-player position and music playback.
+- Hardware-tested by the developer on Catherine Classic, NFS MW2005, both Steam Stores and Home Ambient music. OFF persisted through full Deck restart and ON restored the HUD.
+- Thanks to **Dollet** for the Discord report that inspired this feature.
+- Preserves the playback and ResonaDeck audio-focus behavior from 3.6.9.
+
+## 3.6.9 | ResonaDeck audio-focus interoperability
+
+- Adds a cooperative audio-focus listener to pause GTM when ResonaDeck takes audio focus and safely resume when focus is released.
+- Preserves the 3.6.8 gameplay, Store, Ambient, library and artwork baseline.
+
 ## 3.6.8
 
 - **Local Import artwork no longer uses the backend Import cache.** The manager directly tries Steam library portrait artwork first, then the same proven remote candidates used by the working Games/Find surfaces.
