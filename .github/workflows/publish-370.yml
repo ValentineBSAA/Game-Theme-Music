@@ -1,0 +1,108 @@
+# Release GTM 3.7.0 from the verified 3.6.9 distribution, without
+# attempting to rebuild unavailable original TypeScript source.
+name: Publish GTM 3.7.0 stable
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-370.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gtm-publish-370
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout versioned documentation and patch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download and verify official 3.6.9 baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --retry-delay 3 --connect-timeout 20 --max-time 300 \
+            "https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V3.6.9/Game-Theme-Music-3.6.9.zip" \
+            --output /tmp/Game-Theme-Music-3.6.9.zip
+          echo "84364fe71ef5a65b9fae513ba0e8449cf670017f9d51b2da2807df9186d6a1df  /tmp/Game-Theme-Music-3.6.9.zip" | sha256sum --check
+
+      - name: Reconstruct and validate hardware-tested 3.7.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/build-370.py \
+            --baseline /tmp/Game-Theme-Music-3.6.9.zip \
+            --output /tmp/Game-Theme-Music-3.7.0.zip \
+            --src-out /tmp/GTM-370-code
+          node --check /tmp/GTM-370-code/dist/index.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import ast, hashlib, json, zipfile
+          root=Path('/tmp/GTM-370-code')
+          ast.parse((root/'main.py').read_text())
+          archive=Path('/tmp/Game-Theme-Music-3.7.0.zip')
+          with zipfile.ZipFile(archive) as z:
+              assert z.testzip() is None
+              prefix='Game-Theme-Music/'
+              assert json.loads(z.read(prefix+'package.json'))['version']=='3.7.0'
+              assert 'miniPlayerEnabled' in z.read(prefix+'dist/index.js').decode()
+              assert z.read(prefix+'main.py')==(root/'main.py').read_bytes()
+              assert z.read(prefix+'dist/index.js')==(root/'dist/index.js').read_bytes()
+          print('Installer sanity: PASS')
+          PY
+
+      - name: Update versioned source snapshot and release checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp /tmp/GTM-370-code/main.py main.py
+          cp /tmp/GTM-370-code/dist/index.js dist/index.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          archive=Path('/tmp/Game-Theme-Music-3.7.0.zip')
+          digest=hashlib.sha256(archive.read_bytes()).hexdigest()
+          p=Path('docs/RELEASE_MANIFEST_3.7.0.md')
+          old='**ZIP SHA-256:** Added by the GitHub release publishing workflow after the final ZIP is built.'
+          new=f'**ZIP SHA-256:** `{digest}`\n\n**ZIP size:** {archive.stat().st_size:,} bytes.'
+          s=p.read_text()
+          if old not in s and new not in s:
+              raise RuntimeError('Unexpected 3.7.0 manifest content')
+          if old in s:p.write_text(s.replace(old,new))
+          print('Final package digest:', digest)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- main.py dist/index.js docs/RELEASE_MANIFEST_3.7.0.md
+          if ! git diff --cached --quiet; then
+            git commit -m "release: publish exact GTM 3.7.0 backend and compiled frontend"
+            git push origin HEAD:main
+          fi
+
+      - name: Publish verified stable GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git fetch origin --tags
+          if ! git rev-parse -q --verify refs/tags/V3.7.0 >/dev/null; then
+            git tag V3.7.0 HEAD
+            git push origin V3.7.0
+          fi
+          if gh release view V3.7.0 >/dev/null 2>&1; then
+            gh release upload V3.7.0 /tmp/Game-Theme-Music-3.7.0.zip --clobber
+          else
+            gh release create V3.7.0 /tmp/Game-Theme-Music-3.7.0.zip \
+              --verify-tag --title "Game Theme Music 3.7.0 | Optional Mini Player HUD" \
+              --notes-file docs/RELEASE_NOTES_3.7.0.md --latest
+          fi
+          echo "Release URL: https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0"
