@@ -8,8 +8,8 @@
       "audio",
       "music"
     ],
-    "description": "Controller-first Steam Deck soundtrack manager with per-game, Ambient, and Store playlists.",
+    "description": "Game Theme Music 3.7.0 adds Show mini player HUD (on/off, restart-persistent) without muting game, Store or Ambient music. Steam Deck hardware-tested.",
     "image": "https://raw.githubusercontent.com/ValentineBSAA/Game-Theme-Music/main/assets/game-theme-music-glyph.webp"
   },
-  "description": "Game Theme Music 3.6.9 is a controller-first soundtrack manager for Steam Deck Gaming Mode with per-game playlists, Ambient and Steam Store music, local-first playback, artwork, imports, and cooperative ResonaDeck audio focus."
+  "description": "Game Theme Music 3.7.0: Steam Deck soundtrack manager with optional persistent Show mini player HUD switch. Music continues when the HUD is hidden; includes Steam/non-Steam games, Ambient, Store and ResonaDeck audio focus."
 }
