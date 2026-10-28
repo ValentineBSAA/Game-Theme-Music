@@ -2,6 +2,10 @@
   <img src="assets/game-theme-music-glyph.webp" width="140" alt="Game Theme Music icon">
 </p>
 
+<p align="center">
+  <img src="assets/game-theme-music-banner.webp" width="680" alt="Game Theme Music branding banner, not a gameplay screenshot">
+</p>
+
 <h1 align="center">Game Theme Music</h1>
 
 <p align="center">
@@ -18,21 +22,22 @@
 
 [View release notes](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0) · [Report a problem](https://github.com/ValentineBSAA/Game-Theme-Music/issues)
 
-Game Theme Music is currently distributed as a manual Decky Loader plugin while wider community testing continues.
+Game Theme Music is currently distributed as a **manual Decky Loader plugin** while wider community testing continues.
+
+**New to GTM?** Start with the [step-by-step Steam Deck guide](docs/GETTING_STARTED.md). **Already running 3.6.9?** The same guide covers upgrading without manually deleting your settings or music library. [See the previous 3.6.9 release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.6.9).
 
 ## Browse the source
 
 The 3.7.0 release's **editable [Python backend](main.py)** and **[compiled JavaScript frontend](dist/index.js)** are now browsable here, alongside artwork and license information. See [Source code and limitations](SOURCE.md) for checksum verification and the important distinction between the compiled frontend and the unavailable original React/TypeScript source.
 
-## Install
+## Quick installation
 
-1. Open **Decky Loader** on your Steam Deck.
-2. Enable the Developer/manual plugin installation option in Decky settings.
-3. Download **Game-Theme-Music-3.7.0.zip** from the link above.
-4. Install the ZIP through Decky’s manual plugin installer.
-5. Reload Decky if prompted.
+1. On your Steam Deck, download **Game-Theme-Music-3.7.0.zip** from the [official 3.7.0 release Assets](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0). **Do not select GitHub's generic “Source code” ZIP.**
+2. Open **Decky Loader** settings and enable its Developer/manual installation option if your Decky version requires it. Wording and location may vary by Decky version.
+3. Use Decky’s manual plugin installer with the GTM release ZIP, follow the on-screen prompts, and reload Decky if asked.
+4. Open GTM from the Decky Quick Access menu.
 
-That is the whole install. You do not need to clone this repository or build anything yourself.
+**No cloning, compiling or manual copying into Steam folders is needed.** Do not delete your existing GTM data to upgrade. For step-by-step setup, feature orientation, and troubleshooting, read [Getting started](docs/GETTING_STARTED.md).
 
 ## What Game Theme Music does
 
@@ -46,6 +51,19 @@ That is the whole install. You do not need to clone this repository or build any
 - Work with Steam Deck Gaming Mode instead of feeling like a desktop settings app.
 
 Game Theme Music supports up to **15 tracks per game**.
+
+### Where to start
+
+| Your goal | Find it in GTM |
+| --- | --- |
+| Give Catherine Classic or another game a soundtrack | **Games** and the per-game Soundtrack Manager |
+| Add music to a non-Steam shortcut | **Games** (Steam and non-Steam are supported) |
+| Hear music on the Home screen | **Ambient** |
+| Hear music while browsing Steam Store | **Store** |
+| Add music you already own | **Local Import / Import** |
+| Search or sample tracks before assigning them | **Find Music** |
+
+[Detailed first-run walkthrough](docs/GETTING_STARTED.md) · [Testing and bug-report checklist](TESTING.md)
 
 ## What's new in 3.7.0: optional mini-player HUD
 
@@ -80,9 +98,15 @@ The new 3.7.0 HUD control has been tested on a real Steam Deck with Steam/non-St
 
 If something breaks, use the **Report a problem** link above. The issue form will ask for the useful details.
 
-## Screenshots
+## A look at GTM's artwork
 
-Real Steam Deck screenshots can be added here later. The download and project are already usable without them.
+These are **actual bundled GTM artwork assets**, **not screenshots of the live plugin interface**:
+
+| GTM branding | Ambient artwork | Store artwork |
+| :---: | :---: | :---: |
+| ![Game Theme Music branding](assets/game-theme-music-icon.webp) | ![GTM Ambient artwork](assets/ambient-music-art.webp) | ![GTM Store artwork](assets/store-music-art.webp) |
+
+A genuine 3.7.0 Steam Deck interface gallery is not yet published. See [Screenshot gallery status and capture guide](docs/SCREENSHOTS.md) for the exact views needed: Quick Access, Soundtrack Manager, Steam and non-Steam games, Ambient/Store, and the new HUD switch. We will not represent mockups or unrelated artwork as hardware captures.
 
 ## Download safety
 
