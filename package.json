@@ -1,7 +1,7 @@
 {
   "name": "sdh-gamethememusic",
-  "version": "3.6.9",
-  "description": "Controller-first soundtrack manager for Steam Deck Gaming Mode.",
+  "version": "3.7.0",
+  "description": "Controller-first Steam Deck soundtrack manager with an optional global mini player HUD, game/Store/Ambient playlists, and ResonaDeck audio focus.",
   "type": "module",
   "scripts": {
     "build": "rollup -c",
