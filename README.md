@@ -61,7 +61,7 @@ The feature was **hardware-tested on Steam Deck** with Catherine Classic, NFS Mo
 
 ## Previous release: 3.6.9 ResonaDeck audio focus
 
-This release keeps the existing 3.6.8 playback, artwork, Store, Ambient, and library behavior and adds cooperative **ResonaDeck audio focus**.
+Version 3.6.9 kept the existing 3.6.8 playback, artwork, Store, Ambient, and library behavior and added cooperative **ResonaDeck audio focus**.
 
 When ResonaDeck takes audio focus, GTM can pause its current soundtrack. When focus is released, GTM resumes only when the same soundtrack is still the valid paused owner.
 
@@ -88,7 +88,7 @@ Real Steam Deck screenshots can be added here later. The download and project ar
 
 Use the release files from this repository rather than similarly named mirrors.
 
-**3.7.0 ZIP SHA-256:** See [the versioned release manifest](docs/RELEASE_MANIFEST_3.7.0.md) once the release asset is published. The previous 3.6.9 ZIP SHA-256 was `84364fe71ef5a65b9fae513ba0e8449cf670017f9d51b2da2807df9186d6a1df`.
+**3.7.0 ZIP SHA-256:** `78d8b305634ff4b188dfb4ab596b327ec717533dbe84bb9ce19338c5eb53cd15`. See [the versioned release manifest](docs/RELEASE_MANIFEST_3.7.0.md) for complete integrity details. The previous 3.6.9 ZIP SHA-256 was `84364fe71ef5a65b9fae513ba0e8449cf670017f9d51b2da2807df9186d6a1df`.
 
 <details>
 <summary><strong>Decky Plugin Explorer</strong></summary>
