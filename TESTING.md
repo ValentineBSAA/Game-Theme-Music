@@ -2,6 +2,18 @@
 
 Game Theme Music needs testing on Steam Deck configurations other than the developer’s own hardware.
 
+## 3.7.0 Mini Player HUD acceptance checks
+
+- Set **Settings → Interface & Feedback → Show mini player HUD** OFF; music must continue with no HUD on Steam and non-Steam game pages.
+- Check native Steam Store, Decky Plugin Store and Home Ambient playback with the HUD hidden.
+- Restart the Steam Deck; the OFF preference should persist.
+- Switch HUD ON; the next actual playback event should show the mini player again.
+- Check that theme notifications and the HUD visualizer have independent settings.
+- Try disabling while a ribbon is already visible and while Quick Access is open. There should be no delayed reappearance.
+- Confirm ResonaDeck audio-focus behavior still works.
+
+These checks extend the developer's initial successful physical Steam Deck tests. Report OS/Decky version and reproduction details when possible.
+
 ## High-value checks
 
 1. Install / reload / uninstall.
