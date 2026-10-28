@@ -1,4 +1,4 @@
-"""Game Theme Music 3.6.9 backend.
+"""Game Theme Music 3.7.0 backend.
 
 Cached audio is streamed over a tokenized loopback server. Provider, storage,
 update, health, and diagnostic operations are exposed as Decky RPC methods.
@@ -37,7 +37,7 @@ from settings import SettingsManager  # type: ignore
 logging.basicConfig(level=logging.INFO)
 logger = getattr(decky, "logger", logging.getLogger(__name__))
 
-PLUGIN_VERSION = getattr(decky, "DECKY_PLUGIN_VERSION", "3.6.9")
+PLUGIN_VERSION = getattr(decky, "DECKY_PLUGIN_VERSION", "3.7.0")
 INDEX_VERSION = 1
 DEFAULT_STORAGE_LIMIT_MB = 2048
 MAX_AUDIO_BYTES = 2 * 1024**3
