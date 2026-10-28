@@ -1,3 +1,21 @@
+# Game Theme Music: Development and Update Ledger
+
+> **Current release: 3.7.0 stable (October 28, 2026).** [Download](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0) · [3.7.0 release notes](docs/RELEASE_NOTES_3.7.0.md) · [Hardware validation](docs/VALIDATION_3.7.0.md) · [Getting started](docs/GETTING_STARTED.md)
+>
+> **How to read this file:** The top entries record recent work. Below, many notes are preserved *as written at the time*, including early release labels, future milestones and known failures. Those historical sections are **not statements of the current version**, nor commitments to ship a planned feature by the version number in an old heading. For current behavior, use the linked release, README and testing records.
+>
+> **Protected working systems:** the 3.0.7 live CSS theme/controller baseline, game/Store/Ambient playback ownership, persistent audio continuity, 3.6.9 ResonaDeck audio focus and the 3.7.0 user-configurable HUD. Documentation updates should not alter these verified runtime systems.
+
+## Current 3.7.0 status
+
+GTM 3.7.0 introduced **Settings → Interface & Feedback → Show mini player HUD**, ON by default. Turning it OFF hides the Now Playing presentation without muting game, Store or Ambient music; the setting survives a full Deck reboot and can be enabled again. **Dollet** reported the missing option via Discord. The developer physically tested the new behavior on Catherine Classic, NFS Most Wanted (2005), Steam Store, Decky Plugin Store and Home Ambient music.
+
+**Still useful to test:** quick OFF during an existing ribbon, queued Quick Access transitions, ResonaDeck audio-focus interoperability under this exact build, and independent SteamOS/Decky/CSS Loader combinations. See [the precise 3.7.0 validation record](docs/VALIDATION_3.7.0.md); do not upgrade untested scenarios to PASS without hardware evidence.
+
+## Historical development notes (preserved)
+
+The dated and versioned entries below are retained for engineering context. Any "current release" or "planned" language inside a historical snapshot describes **the time it was written**, not the current stable release.
+
 ### 3.7.0 — Optional Mini Player HUD (October 28, 2026)
 
 Community report from **Dollet** in Discord identified missing HUD visibility control as a usability issue.
@@ -78,9 +96,9 @@ Hardware gates:
 - Import art should remain readable for troublesome games like 112 Operator without looking like a tiny strip in empty space.
 - Store continuity and three-per-row Find Music must remain intact.
 
-# Game Theme Music Update Ledger
+## Original ledger introduction (historical)
 
-This file is the living project ledger for Game Theme Music. Keep it in every future release and update it before handing the project to a new chat.
+This is the original development ledger preserved for future maintenance. Read the current status at the top of this file before treating any historical snapshot as today's release.
 
 ## Locked foundation
 
@@ -96,7 +114,9 @@ Do not casually rewrite these systems:
 
 The project can extend these systems, but future releases must not reintroduce the old cyan/navy fallback, blank startup UI, shoulder-navigation regressions, or duplicate D-pad handling.
 
-## Current release
+## Archived release snapshot: 3.6.2 (not current)
+
+> This block was written during the 3.6.2 development cycle. It is preserved as a snapshot, not the present release status.
 
 ### 3.6.2 — Unified Store Session + Artwork Polish
 
@@ -417,9 +437,15 @@ Use ThemeDeck as the benchmark for the narrow assignment experience: fast previe
 
 Use DeckTune as inspiration for whole-soundtrack discovery, ordered album imports, and soundtrack verification. GTM should eventually be able to discover an official soundtrack or playlist and offer the user the full ordered album, selected tracks, or a suggested subset.
 
-## Next milestones
+## Historical ideas and milestone proposals (archived)
 
-### 3.4.10 / hardware polish
+> The headings below are retained from older planning discussions. **Do not interpret their version numbers as upcoming release promises.** Some functionality has since shipped; other ideas remain uncommitted possibilities. The latest stable release is **3.7.0**.
+>
+> **Presentation status as of 3.7.0:** the mini-player already exists, with an ON/OFF visibility switch added in 3.7.0. The old "optional Now Playing mini HUD" entry below is therefore historical, not an outstanding new feature. A proposed compact/full mode has **not** been announced as a shipped feature.
+>
+> For future features, review implementation, hardware evidence and user demand before assigning a milestone.
+
+### 3.4.10 / hardware polish (historical proposal)
 
 Only after 3.4.9 Steam Deck testing:
 
