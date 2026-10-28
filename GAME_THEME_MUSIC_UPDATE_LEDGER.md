@@ -1,3 +1,12 @@
+### 3.7.0 — Optional Mini Player HUD (October 28, 2026)
+
+Community report from **Dollet** in Discord identified missing HUD visibility control as a usability issue.
+- Add Show mini player HUD in Interface & Feedback; ON by default to preserve the existing 3.6.9 experience.
+- OFF suppresses UI only, not the actual audio engine, playlists, navigation, ResonaDeck focus or Ambient/Store music.
+- Cancel queued Quick Access, delayed and diagnostic popups after switching OFF; startup respects saved OFF choice.
+- Physical Deck tests PASS: Catherine Classic, NFS Most Wanted 2005, native Steam Store, Decky Plugin Store, Ambient on Home, full reboot persistence, and ON reactivation.
+- Remaining optional follow-ups: test rapid OFF during visible ribbon and immediately around QAM transitions; other Deck/SteamOS configurations.
+
 ### 3.6.8 — Stable Store Ribbon + Direct Import Artwork
 
 3.6.8 changes:
