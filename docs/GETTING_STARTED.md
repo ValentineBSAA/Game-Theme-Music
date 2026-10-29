@@ -5,6 +5,10 @@
 
 Game Theme Music (GTM) gives Steam and non-Steam game entries their own soundtracks. You can also use separate music for **Ambient/Home** and **Steam Store** browsing. GTM runs as a Decky Loader plugin in Steam Deck Gaming Mode.
 
+## Current SteamOS status
+
+Valve released **SteamOS 3.9.5 Stable** on October 23, 2026. GTM 3.7.0 has not yet been documented as tested on that exact version. Check the [SteamOS compatibility tracker](STEAMOS_COMPATIBILITY.md) and [open issue #1](https://github.com/ValentineBSAA/Game-Theme-Music/issues/1) before interpreting a SteamOS update as GTM-certified. SteamOS, Steam Client, Decky Loader and GTM have independent versions.
+
 ## Before you install
 
 - You need a Steam Deck with **Decky Loader** installed and working.
