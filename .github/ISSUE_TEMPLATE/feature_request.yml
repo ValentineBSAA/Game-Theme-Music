@@ -1,0 +1,60 @@
+name: "💡 Feature request"
+description: "Suggest an improvement to Game Theme Music and help shape its future."
+title: "[Feature] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Thanks for sharing an idea with GTM! 🎵
+        Tell us what you would like to do and why it would improve your Steam Deck experience.
+
+        We consider community ideas alongside feasibility, performance, compatibility and development priorities. Some ideas make their way into GTM; others may stay on the wishlist or help inspire a different solution. **Votes and requests are not a confirmed roadmap.**
+
+        Before posting, please [browse existing requests](https://github.com/ValentineBSAA/Game-Theme-Music/issues). You can support a similar request with a 👍 reaction instead of opening a duplicate. See the [community guide](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/COMMUNITY_FEATURES.md).
+  - type: dropdown
+    id: area
+    attributes:
+      label: "Which part of GTM would this improve?"
+      options:
+        - "Visualizers and animations"
+        - "Interface and customization"
+        - "Game soundtrack playback"
+        - "Ambient / Home music"
+        - "Steam Store / Decky Store music"
+        - "Soundtrack Manager and controller navigation"
+        - "Music discovery, imports and library"
+        - "Performance and compatibility"
+        - "Something else"
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: "What would you like to see?"
+      description: "Explain the requested feature in your own words."
+      placeholder: "I'd love a way to..."
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: "How would this improve your experience?"
+      description: "Describe a real use case or the problem this would solve."
+      placeholder: "When I'm using GTM on my Steam Deck..."
+    validations:
+      required: true
+  - type: textarea
+    id: experience
+    attributes:
+      label: "What would an ideal result look or feel like?"
+      description: "Optional behavior, controller flow, visuals, or examples."
+      placeholder: "For example, selecting this setting would..."
+    validations:
+      required: false
+  - type: textarea
+    id: extra
+    attributes:
+      label: "Anything else to share?"
+      description: "Optional screenshots or mockups. Remove private information before uploading."
+    validations:
+      required: false
