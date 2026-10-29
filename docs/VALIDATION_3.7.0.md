@@ -3,6 +3,7 @@
 **Date:** October 28, 2026  
 **Scope:** Optional global Mini Player HUD setting, not a playback-engine rewrite.  
 **Hardware:** Developer's Steam Deck (other models/configurations not verified).
+**SteamOS identification:** The original 3.7.0 hardware-test report did **not** record the device's exact SteamOS version/channel or Decky Loader version. Thus the passes below are valid *device observations* but **are not proof of GTM 3.7.0 on SteamOS 3.9.5 Stable**. See [live compatibility tracker](STEAMOS_COMPATIBILITY.md) and [issue #1](https://github.com/ValentineBSAA/Game-Theme-Music/issues/1).
 
 ## Confirmed on physical Steam Deck
 - **PASS:** Settings → Interface & Feedback → Show mini player HUD → OFF hides Now Playing.
