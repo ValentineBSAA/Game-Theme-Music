@@ -72,6 +72,12 @@ The [3.6.9 audio-focus bridge](RESONADECK_AUDIO_FOCUS_3.6.9.md) helps GTM cooper
 
 **Something broke after upgrading?** Identify whether it also happens on the existing 3.6.9 release, then file a detailed [GitHub issue](https://github.com/ValentineBSAA/Game-Theme-Music/issues). Please don't erase your existing local music files to troubleshoot.
 
+## Share an idea or vote on what's next
+
+Have an idea for GTM? Use the [guided feature request form](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=feature_request.yml), support an existing request with a 👍 reaction, or join [our first community priorities vote](https://github.com/ValentineBSAA/Game-Theme-Music/issues/3). The [community guide](COMMUNITY_FEATURES.md) explains how suggestions are reviewed and how ideas may progress.
+
+Community feedback helps us prioritize, but requests and poll results aren't release commitments. We assess usefulness, performance, compatibility and development effort before deciding what to build.
+
 ## More information
 
 - [Full feature summary and latest download](../README.md)
