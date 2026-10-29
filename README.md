@@ -24,6 +24,13 @@
 
 Game Theme Music is currently distributed as a **manual Decky Loader plugin** while wider community testing continues.
 
+### SteamOS compatibility status (checked October 29, 2026)
+
+**Valve's latest stable SteamOS: 3.9.5 (released October 23, 2026). GTM 3.7.0 on SteamOS 3.9.5: ⏳ hardware verification pending.** GTM 3.7.0 was tested successfully on the developer's Steam Deck, but the exact SteamOS version was not recorded with those tests. Please don't interpret that as a version-specific 3.9.5 certification.
+
+[Live SteamOS compatibility matrix and test checklist](docs/STEAMOS_COMPATIBILITY.md) · [Open compatibility tracker #1](https://github.com/ValentineBSAA/Game-Theme-Music/issues/1) · [Valve's official SteamOS 3.9 announcement](https://steamcommunity.com/games/1675200/announcements/detail/694275728822244964)
+
+
 **New to GTM?** Start with the [step-by-step Steam Deck guide](docs/GETTING_STARTED.md). **Already running 3.6.9?** The same guide covers upgrading without manually deleting your settings or music library. [See the previous 3.6.9 release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.6.9).
 
 ## Browse the source
