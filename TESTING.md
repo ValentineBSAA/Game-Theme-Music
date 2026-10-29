@@ -2,6 +2,13 @@
 
 Game Theme Music needs testing on Steam Deck configurations other than the developer’s own hardware.
 
+## SteamOS version tracking
+
+The latest Valve stable release as of October 29, 2026 is **SteamOS 3.9.5**, released October 23. **GTM 3.7.0 is pending version-specific verification on 3.9.5**, although its mini-player feature has passed other physical Deck tests (OS version not recorded). See the [SteamOS compatibility matrix](docs/STEAMOS_COMPATIBILITY.md) and [tracking issue #1](https://github.com/ValentineBSAA/Game-Theme-Music/issues/1).
+
+When confirming compatibility, **always** record SteamOS version + channel, Steam Client build/channel, Decky Loader version, GTM version, OLED/LCD model and the exact passed/failed tests. Do not treat the newest official SteamOS version as hardware-verified until that evidence exists.
+
+
 ## 3.7.0 Mini Player HUD acceptance checks
 
 - Set **Settings → Interface & Feedback → Show mini player HUD** OFF; music must continue with no HUD on Steam and non-Steam game pages.
