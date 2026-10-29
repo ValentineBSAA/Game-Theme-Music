@@ -22,6 +22,8 @@
 
 [View release notes](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0) · [Report a problem](https://github.com/ValentineBSAA/Game-Theme-Music/issues)
 
+**🎵 Help shape GTM:** [Suggest a feature](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=feature_request.yml) · [Vote on community priorities](https://github.com/ValentineBSAA/Game-Theme-Music/issues/3) · [Explore the community ideas hub](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2)
+
 Game Theme Music is currently distributed as a **manual Decky Loader plugin** while wider community testing continues.
 
 ### SteamOS compatibility status (checked October 29, 2026)
@@ -45,6 +47,19 @@ The 3.7.0 release's **editable [Python backend](main.py)** and **[compiled JavaS
 4. Open GTM from the Decky Quick Access menu.
 
 **No cloning, compiling or manual copying into Steam folders is needed.** Do not delete your existing GTM data to upgrade. For step-by-step setup, feature orientation, and troubleshooting, read [Getting started](docs/GETTING_STARTED.md).
+
+## 💡 Community ideas & feature voting
+
+Have an idea for making GTM more useful, more beautiful, or more fun on Steam Deck? **Your feedback is welcome!** Our community area helps people share requests, support ideas they care about, and influence what we explore next.
+
+- **[Suggest a feature](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=feature_request.yml)** with the guided request form.
+- **[Support an existing idea](https://github.com/ValentineBSAA/Game-Theme-Music/issues)** by giving its issue a 👍 reaction and adding helpful context.
+- **[Vote in the first community poll](https://github.com/ValentineBSAA/Game-Theme-Music/issues/3)** using 👍 on the comment for your favorite direction.
+- **[Visit the community ideas hub](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2)** or read the [community voting and request guide](docs/COMMUNITY_FEATURES.md).
+
+**How ideas become features:** Suggestions are reviewed for value, feasibility, performance, compatibility and development priorities. Some may inspire upcoming releases; others may remain on the wishlist. Community interest matters, but a request or vote does not confirm a feature or release date. The maintainer decides which changes move forward.
+
+**Reporting a bug?** Use the [bug report form](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) instead so we can investigate it.
 
 ## What Game Theme Music does
 
