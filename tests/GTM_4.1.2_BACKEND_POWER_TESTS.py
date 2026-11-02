@@ -3,7 +3,7 @@ import ast
 import asyncio
 from pathlib import Path
 
-source = (Path(__file__).parent / 'main.py').read_text()
+source = (Path(__file__).parent.parent / 'main.py').read_text()
 root = ast.parse(source)
 plugin = next(n for n in root.body if isinstance(n, ast.ClassDef) and n.name == 'Plugin')
 methods = [n for n in plugin.body if isinstance(n, (ast.FunctionDef,ast.AsyncFunctionDef)) and n.name in {'_read_power_sleep_offset','get_power_state'}]
