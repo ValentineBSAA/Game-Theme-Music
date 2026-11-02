@@ -1,4 +1,4 @@
-"""Game Theme Music 3.7.0 backend.
+"""Game Theme Music 4.0.4 Public Beta candidate backend.
 
 Cached audio is streamed over a tokenized loopback server. Provider, storage,
 update, health, and diagnostic operations are exposed as Decky RPC methods.
@@ -37,7 +37,7 @@ from settings import SettingsManager  # type: ignore
 logging.basicConfig(level=logging.INFO)
 logger = getattr(decky, "logger", logging.getLogger(__name__))
 
-PLUGIN_VERSION = getattr(decky, "DECKY_PLUGIN_VERSION", "3.7.0")
+PLUGIN_VERSION = getattr(decky, "DECKY_PLUGIN_VERSION", "4.0.4")
 INDEX_VERSION = 1
 DEFAULT_STORAGE_LIMIT_MB = 2048
 MAX_AUDIO_BYTES = 2 * 1024**3
@@ -465,6 +465,135 @@ class Plugin:
             return cls._sanitize_text(value)
         return value
 
+    # 4.0.4: safe declarative packs. ZIPs are read, NEVER extracted or executed.
+    # Built-ins ship with the plugin; imported packs persist across upgrades in
+    # DECKY_PLUGIN_RUNTIME_DIR/visualizer-packs, not the plugin install folder.
+    VISUAL_EFFECTS = frozenset({
+        "crt_pulse", "liquid_chrome", "disc_prism", "beat_pinball",
+        "seismic_mountains", "mechanical_iris", "sakura_tempest",
+        "supernova_bloom", "neon_pong", "tidal_bloom",
+    })
+    VISUAL_CATEGORIES = frozenset({"retro", "rhythm", "signature", "anime"})
+    VISUAL_PACK_ID = re.compile(r"^[a-z][a-z0-9_]{2,62}$")
+
+    def _validate_visualizer_pack(self, payload: Any) -> dict[str, Any]:
+        if not isinstance(payload, dict) or payload.get("format") != 1:
+            raise ValueError("Expected Visual Worlds pack format 1")
+        pack_id = payload.get("pack_id")
+        if not isinstance(pack_id, str) or not self.VISUAL_PACK_ID.fullmatch(pack_id):
+            raise ValueError("Invalid pack ID")
+        def label(value: Any, name: str, limit: int = 90) -> str:
+            if not isinstance(value, str) or not 1 <= len(value.strip()) <= limit:
+                raise ValueError(f"Invalid {name}")
+            return value.strip()
+        name = label(payload.get("name"), "pack name")
+        author = label(payload.get("author", "Community"), "author")
+        version = label(payload.get("version", "1.0.0"), "version", 24)
+        raw = payload.get("scenes")
+        if not isinstance(raw, list) or not 1 <= len(raw) <= 32:
+            raise ValueError("Pack must contain 1–32 scenes")
+        scenes = []
+        ids = set()
+        for scene in raw:
+            if not isinstance(scene, dict):
+                raise ValueError("Invalid scene")
+            scene_id = scene.get("id")
+            if not isinstance(scene_id, str) or not self.VISUAL_PACK_ID.fullmatch(scene_id) or not scene_id.startswith("world_"):
+                raise ValueError("Scene IDs must start with world_ and contain safe characters")
+            if scene_id in ids:
+                raise ValueError("Duplicate scene ID")
+            ids.add(scene_id)
+            title = label(scene.get("title"), "scene title", 65)
+            category = scene.get("category")
+            if category not in self.VISUAL_CATEGORIES:
+                raise ValueError("Invalid visualizer category")
+            layers = scene.get("layers")
+            if not isinstance(layers, list) or not 1 <= len(layers) <= 3:
+                raise ValueError("Scenes must have 1–3 effect layers")
+            safe_layers = []
+            for layer in layers:
+                if not isinstance(layer, dict) or layer.get("effect") not in self.VISUAL_EFFECTS:
+                    raise ValueError("Unknown effect; custom scripts are not supported")
+                safe = {"effect": layer["effect"]}
+                for field, lower, upper, default in (
+                    ("scale", .3, 2., 1.), ("speed", .25, 2., 1.),
+                    ("density", .3, 1.5, 1.), ("intensity", .2, 1.5, 1.),
+                    ("hueShift", -1., 1., 0.),
+                ):
+                    value = layer.get(field, default)
+                    if type(value) not in (int, float) or not lower <= float(value) <= upper:
+                        raise ValueError(f"Invalid {field} parameter")
+                    safe[field] = float(value)
+                safe_layers.append(safe)
+            scenes.append({"id": scene_id, "title": title, "category": category, "layers": safe_layers})
+        return {"format": 1, "pack_id": pack_id, "name": name, "author": author,
+                "version": version, "scenes": scenes}
+
+    def _visualizer_pack_path(self) -> Path:
+        return Path(decky.DECKY_PLUGIN_RUNTIME_DIR) / "visualizer-packs"
+
+    async def list_visualizer_packs(self):
+        packs = []
+        failures = []
+        builtin = Path(decky.DECKY_PLUGIN_DIR) / "visualizer-packs" / "volume1" / "manifest.json"
+        custom = self._visualizer_pack_path()
+        for path in [builtin, *sorted(custom.glob("*.json"))]:
+            try:
+                if path.stat().st_size > 128 * 1024:
+                    raise ValueError("Manifest exceeds 128KB")
+                with path.open("r", encoding="utf-8") as handle:
+                    candidate = self._validate_visualizer_pack(json.load(handle))
+                if any(p["pack_id"] == candidate["pack_id"] for p in packs):
+                    raise ValueError("Duplicate pack ID")
+                packs.append(candidate)
+            except Exception as error:
+                failures.append(f"{path.name}: {error}")
+        return {"ok": True, "packs": packs, "errors": failures}
+
+    async def install_visualizer_pack(self, source_path: str):
+        try:
+            source = Path(source_path).expanduser().resolve(strict=True)
+            if not source.is_file() or source.suffix.lower() != ".zip" or source.stat().st_size > 1024 * 1024:
+                raise ValueError("Choose a Visual Worlds ZIP smaller than 1 MB")
+            with zipfile.ZipFile(source, "r") as archive:
+                if len(archive.infolist()) > 8:
+                    raise ValueError("This pack contains too many ZIP entries")
+                names = [info for info in archive.infolist() if not info.is_dir()]
+                if len(names) != 1 or names[0].filename != "manifest.json":
+                    raise ValueError("ZIP must contain only a root manifest.json; no executable files")
+                info = names[0]
+                if info.file_size > 128 * 1024 or info.compress_size > 128 * 1024:
+                    raise ValueError("Pack manifest is too large")
+                content = archive.read(info).decode("utf-8")
+            pack = self._validate_visualizer_pack(json.loads(content))
+            if pack["pack_id"] == "gtm_visual_worlds_vol1":
+                raise ValueError("Built-in Volume 1 cannot be overwritten")
+            dest = self._visualizer_pack_path()
+            dest.mkdir(parents=True, exist_ok=True)
+            installed = list(dest.glob("*.json"))
+            if len(installed) >= 48 and not (dest / (pack["pack_id"] + ".json")).exists():
+                raise ValueError("Maximum of 48 imported packs reached")
+            name = pack["pack_id"] + ".json"
+            target = dest / name
+            temp = dest / (name + ".part")
+            with temp.open("w", encoding="utf-8") as handle:
+                json.dump(pack, handle, ensure_ascii=False, separators=(",", ":"))
+            temp.replace(target)
+            return {"ok": True, "name": pack["name"], "pack_id": pack["pack_id"],
+                    "scene_count": len(pack["scenes"])}
+        except Exception as error:
+            logger.warning("Rejected visualizer pack: %s", error)
+            return {"ok": False, "error": str(error)}
+
+    async def uninstall_visualizer_pack(self, pack_id: str):
+        if not isinstance(pack_id, str) or not self.VISUAL_PACK_ID.fullmatch(pack_id) or pack_id == "gtm_visual_worlds_vol1":
+            return {"ok": False, "error": "Invalid or protected pack ID"}
+        target = self._visualizer_pack_path() / (pack_id + ".json")
+        if not target.exists():
+            return {"ok": False, "error": "Imported pack not found"}
+        target.unlink()
+        return {"ok": True}
+
     async def set_setting(self, key, value):
         self.settings.setSetting(key, value)
 
@@ -473,6 +602,124 @@ class Plugin:
 
     async def get_user_home(self):
         return getattr(decky, "DECKY_USER_HOME", "/home/deck")
+
+    async def capture_visualizer_diagnostics(self, frontend_diagnostics: dict | None = None):
+        """Write a privacy-filtered JSON report to the Deck user's Desktop/GTM.
+
+        Read-only operation: no audio transport, settings, or music files change.
+        The browser never supplies the destination path or filename.
+        """
+        if not isinstance(frontend_diagnostics, dict):
+            frontend_diagnostics = {}
+        # Explicitly allow only diagnostic fields, never songs, URLs, tokens,
+        # user files, settings, or a caller-supplied output path.
+        allowed = (
+            'schemaVersion', 'frontendVersion', 'capturedAt', 'diagnostics',
+            'captureError', 'recentEvents', 'support', 'audioElement',
+            'cors', 'playback', 'telemetry', 'streamTracks',
+            'ambientTransition',
+        )
+        # Nested allowlists prevent a future UI change from accidentally
+        # putting titles, song IDs or URLs into a diagnostic report.
+        nested = {
+            'diagnostics': ('version', 'state', 'activeTrack', 'tracks',
+                'streamGeneration', 'contextState', 'attempts',
+                'lastGoodAgeMs', 'lastPacketAgeMs', 'songGeneration',
+                'playbackState', 'captureTrackState', 'activeTrackMuted',
+                'currentStreamHasTrack', 'audioContextRunning', 'captureError'),
+            'captureError': ('stage', 'name', 'message'),
+            'support': ('htmlAudioCaptureStream', 'htmlAudioMozCaptureStream',
+                'audioContextAvailable', 'mediaStreamTrackSourceAvailable',
+                'mediaStreamSourceAvailable'),
+            'audioElement': ('exists', 'readyState', 'networkState', 'paused',
+                'ended', 'muted', 'currentTimeSeconds', 'durationSeconds',
+                'sourcePresent', 'sourceMatchesCurrent'),
+            'cors': ('sourceClass', 'expectedMode', 'actualMode',
+                'capturePermittedBySourcePolicy', 'localAudioEndpoint'),
+            'playback': ('state', 'generation'),
+            'telemetry': ('subscribers', 'sessionExists', 'captureMonitorExists',
+                'sessionLastSampleAgeMs', 'contextState'),
+            'recentEvents': ('at', 'key', 'state', 'songGeneration',
+                'tracks', 'contextState', 'playbackState'),
+            'streamTracks': ('readyState', 'muted', 'enabled', 'selectedForAnalysis'),
+        }
+        def fields(value: Any, keys: tuple[str, ...]) -> dict:
+            if not isinstance(value, dict):
+                return {}
+            return {k: value[k] for k in keys if k in value}
+        filtered = {}
+        for k in allowed:
+            if k not in frontend_diagnostics:
+                continue
+            value = frontend_diagnostics[k]
+            if k == 'ambientTransition':
+                timing_keys=('reason','status','sourceClass','warmed','resolveMs',
+                    'loadMs','playingMs','totalMs','startedAt')
+                if isinstance(value,dict):
+                    recent=value.get('recent',[])
+                    filtered[k]={
+                        'active':fields(value.get('active'),timing_keys),
+                        'recent':[fields(x,timing_keys) for x in recent[-12:]] if isinstance(recent,list) else [],
+                    }
+            elif k in ('recentEvents', 'streamTracks'):
+                limit = 32 if k == 'recentEvents' else 8
+                filtered[k] = [fields(item, nested[k]) for item in value[-limit:]] if isinstance(value, list) else []
+            elif k in nested:
+                filtered[k] = fields(value, nested[k])
+            else:
+                filtered[k] = value
+        # Strip complete URLs and local absolute file paths from any error
+        # message (including browser exceptions), not only query parameters.
+        def scrub(value: Any, depth: int = 0) -> Any:
+            if depth > 7:
+                return '[depth limit]'
+            if isinstance(value, dict):
+                return {str(k)[:75]: scrub(v, depth + 1) for k, v in list(value.items())[:65]
+                        if not SENSITIVE_KEY.search(str(k))}
+            if isinstance(value, list):
+                return [scrub(v, depth + 1) for v in value[:48]]
+            if isinstance(value, str):
+                v = re.sub(r'(?:https?://|blob:|file://)\S+', '[URL]', value)
+                v = re.sub(r'/(?:home|run|tmp|var|mnt)/[^\s,;"\']+', '[local-path]', v)
+                return v[:400]
+            if value is None or isinstance(value, (bool, int)):
+                return value
+            if isinstance(value, float):
+                return value if __import__('math').isfinite(value) else None
+            return '[unsupported value]'
+        payload = scrub(filtered)
+        report = {
+            'reportType': 'GTM_VISUALIZER_AUDIO_DIAGNOSTIC',
+            'reportVersion': 1,
+            'pluginVersion': PLUGIN_VERSION,
+            'savedAtUtc': _now_iso(),
+            'privacy': 'No songs, media URLs, passwords, audio samples, or tokens',
+            'frontend': payload,
+        }
+        text = json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False)
+        if len(text.encode('utf-8')) > 64000:
+            return {'saved': False, 'error': 'Diagnostic report exceeds 64 KiB limit'}
+        home = Path(getattr(decky, 'DECKY_USER_HOME', '/home/deck')).expanduser()
+        directory = home / 'Desktop' / 'GTM'
+        filename = 'GTM-visualizer-diagnostic-' + datetime.datetime.now(
+            datetime.timezone.utc).strftime('%Y%m%d-%H%M%S-%f') + '.json'
+        output = directory / filename
+        desktop_existed = (home / 'Desktop').exists()
+        try:
+            await asyncio.to_thread(_safe_json_write, str(output), report)
+            # Decky may run as root. Use the actual owner of the Deck home,
+            # and only change the parent Desktop ownership when we created it.
+            if os.geteuid() == 0:
+                owner = home.stat()
+                targets = [directory, output]
+                if not desktop_existed:
+                    targets.insert(0, home / 'Desktop')
+                for path in targets:
+                    os.chown(path, owner.st_uid, owner.st_gid)
+            return {'saved': True, 'filename': filename, 'path': str(output)}
+        except Exception as error:
+            message = type(error).__name__ + ': ' + str(error)
+            return {'saved': False, 'error': self._sanitize_text(message)[:240]}
 
     async def list_steam_shortcuts(self):
         """Resolve non-Steam shortcut IDs to their real Steam display names."""

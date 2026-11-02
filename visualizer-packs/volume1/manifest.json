@@ -1,0 +1,160 @@
+{
+  "format": 1,
+  "pack_id": "gtm_visual_worlds_vol1",
+  "name": "GTM Visual Worlds • Volume 1",
+  "author": "Valentine • GTM",
+  "version": "1.2.0",
+  "description": "RC3: stabilized physics Pong, reactive pinball target cycles, wide neon event horizon and reliable imported scene activation.",
+  "scenes": [
+    {
+      "id": "world_crt_pulse",
+      "title": "CRT Pulse Field",
+      "category": "retro",
+      "layers": [
+        {
+          "effect": "crt_pulse",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ]
+    },
+    {
+      "id": "world_liquid_chrome",
+      "title": "Liquid Chrome",
+      "category": "retro",
+      "layers": [
+        {
+          "effect": "liquid_chrome",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ]
+    },
+    {
+      "id": "world_disc_prism",
+      "title": "Disc Prism XL",
+      "category": "retro",
+      "layers": [
+        {
+          "effect": "disc_prism",
+          "scale": 1.25,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ]
+    },
+    {
+      "id": "world_beat_pinball",
+      "title": "Beat Pinball",
+      "category": "rhythm",
+      "layers": [
+        {
+          "effect": "beat_pinball",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ]
+    },
+    {
+      "id": "world_neon_pong",
+      "title": "Neon Pong",
+      "category": "rhythm",
+      "layers": [
+        {
+          "effect": "neon_pong",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ]
+    },
+    {
+      "id": "world_seismic_mountains",
+      "title": "Seismic Mountains",
+      "category": "rhythm",
+      "layers": [
+        {
+          "effect": "seismic_mountains",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ]
+    },
+    {
+      "id": "world_mechanical_iris",
+      "title": "Mechanical Iris Array",
+      "category": "signature",
+      "layers": [
+        {
+          "effect": "mechanical_iris",
+          "scale": 1.1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ]
+    },
+    {
+      "id": "world_supernova_bloom",
+      "title": "Chromatic Event Horizon",
+      "category": "signature",
+      "layers": [
+        {
+          "effect": "supernova_bloom",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ]
+    },
+    {
+      "id": "world_sakura_tempest",
+      "title": "Sakura Tempest",
+      "category": "anime",
+      "layers": [
+        {
+          "effect": "sakura_tempest",
+          "scale": 1,
+          "speed": 0.92,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ]
+    },
+    {
+      "id": "world_tidal_bloom",
+      "title": "Tidal Bloom",
+      "category": "anime",
+      "layers": [
+        {
+          "effect": "tidal_bloom",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ]
+    }
+  ]
+}
