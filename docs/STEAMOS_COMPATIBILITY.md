@@ -1,10 +1,12 @@
-# GTM / SteamOS version-specific compatibility
+# GTM / SteamOS compatibility notes
 
-- **[4.0.4 Public Beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4):** physical Steam Deck tester confirmed core RC4 behavior, but exact SteamOS and Decky versions were not logged. **Version-specific verification remains pending.**
-- **[3.7.0 Previous Stable](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0):** October 28 Steam Deck tests passed HUD behavior. Exact SteamOS version was not logged.
+**4.1.2 (creator-tested beta candidate):** on an actual Steam Deck, Ambient started correctly after the configured wake delay and also after a full restart. The new visualizer frame pacing was reported smooth in use. The creator also confirmed GTM + ResonaDeck integration during the development cycle.
 
-**Historical note:** the previous October 29, 2026 check recorded SteamOS Stable 3.9.5 from October 23. Do not present this past snapshot as a live claim about today's latest SteamOS.
+The test record does **not** include precise SteamOS/Decky build IDs, measured per-scene FPS statistics or certified coverage of every CSS theme. Offline tests cover GTM's 60/90 Hz frame pacing logic, but that is not a promise of constant hardware FPS.
 
-To verify any SteamOS release, record **OLED/LCD, channel, OS version, Steam Client version, Decky Loader version, CSS Loader theme and GTM version**. Check game/Store/Ambient playback, *unified* Store session, unlimited playlists, crossfade, visualizers, Shuffle All, pack import/removal, controller navigation, mini-player HUD and ResonaDeck focus. Use PASS/FAIL/NOT TESTED. Full Plex-driven visualization is a future ResonaDeck feature.
+**[4.0.4 published beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4):** 22 scenes, custom packs, crossfade, large playlists, shuffle and gameplay/Store/Ambient improvements had earlier physical Deck acceptance.
+**[3.7.0 previous stable](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0):** optional mini-player HUD verified in October 2026.
 
-[Compatibility tracker #1](https://github.com/ValentineBSAA/Game-Theme-Music/issues/1) · [GTM 4.0.4 testing](../TESTING.md) · [Valve Steam Deck announcements](https://steamcommunity.com/app/1675200/announcements/)
+For a bug report, record the Steam Deck model, SteamOS release/channel, Decky version, selected scene, CSS Loader/theme, GTM version, ResonaDeck version and exact action sequence. **GTM 4.1.2** verified Ambient restart behavior; **ResonaDeck 1.4.1** separately verified Plex resume after sleep/wake, **not** autoplay after reboot.
+
+[Beta test results](../TESTING.md) · [Compatibility issue](https://github.com/ValentineBSAA/Game-Theme-Music/issues/1)
