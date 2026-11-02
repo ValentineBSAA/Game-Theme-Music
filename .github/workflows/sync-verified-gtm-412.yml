@@ -1,0 +1,55 @@
+name: Sync verified GTM 4.1.2 beta runtime
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-verified-gtm-412.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  synchronize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Recover exact tested runtime from published GitHub beta ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --output "$RUNNER_TEMP/GTM.zip" 'https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.1.2/Game-Theme-Music-4.1.2.zip'
+          echo '4582cbae401e0cc54293ab605c5152f4434e2eafc938a928f66eea125a19f01d  '"$RUNNER_TEMP/GTM.zip" | sha256sum -c -
+          export ARCHIVE="$RUNNER_TEMP/GTM.zip"
+          python3 - <<'PY'
+          import os, zipfile, pathlib
+          with zipfile.ZipFile(os.environ["ARCHIVE"]) as z:
+              for path in ("main.py", "package.json", "plugin.json", "dist/index.js", "visualizer-packs/volume1/manifest.json"):
+                  target = pathlib.Path(path)
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  target.write_bytes(z.read("Game-Theme-Music/" + path))
+              for entry in z.namelist():
+                  basename = entry.split("/")[-1]
+                  if basename.startswith("GTM_4.1.2_") and basename.endswith((".cjs",".py")):
+                      target=pathlib.Path("tests")/basename
+                      target.parent.mkdir(exist_ok=True)
+                      target.write_bytes(z.read(entry))
+          PY
+          node --check dist/index.js
+          python3 -m py_compile main.py
+          python3 - <<'PY'
+          import json
+          for p in ('package.json','plugin.json'):
+              assert json.load(open(p))['version'] == '4.1.2'
+          print('Verified GTM 4.1.2 runtime metadata.')
+          PY
+      - name: Commit only recovered sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add main.py package.json plugin.json dist/index.js visualizer-packs/volume1/manifest.json tests
+          if git diff --cached --quiet; then echo 'Source already up to date'; exit 0; fi
+          git commit -m "source: sync verified GTM 4.1.2 beta runtime and tests"
+          git push
