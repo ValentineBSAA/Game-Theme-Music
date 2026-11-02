@@ -1,6 +1,6 @@
 # Game Theme Music 4.1.2 | Beta release notes
 
-**Status:** [Published 4.1.2 beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2), physically verified on a Steam Deck. The previous beta is [4.0.4](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4), with 3.7.0 available as the previous stable release.
+**Status:** [Published 4.1.2 beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2), physically verified on a Steam Deck. The earlier 4.0.4 beta is documented in repository history; 3.7.0 is the previous published stable release.
 
 ## Highlights since 4.0.4
 
