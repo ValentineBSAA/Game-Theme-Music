@@ -1,6 +1,6 @@
 # Source integrity • Game Theme Music 4.1.2
 
-**Published beta:** [4.1.2](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2). **Previous beta:** [4.0.4](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4). **Previous stable:** [3.7.0](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0).
+**Published beta:** [4.1.2](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2). **Historical beta:** [4.0.4 release notes](docs/RELEASE_NOTES_4.0.4.md) (the former GitHub release page is no longer available). **Previous stable:** [3.7.0](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0).
 
 The GitHub main-branch runtime snapshot for 4.1.2 was copied from the **exact ZIP accepted during development**, with each file checked against its original Git blob SHA. Important files: [compiled frontend](dist/index.js), [Python backend](main.py), [Decky manifest](plugin.json), [package manifest](package.json) and [4.1.2 tests](tests/).
 
