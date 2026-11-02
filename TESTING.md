@@ -1,5 +1,15 @@
 # GTM 4.0.4 Public Beta testing
 
+## 4.1.2 beta candidate: latest validation
+
+- **Physical Steam Deck accepted:** delayed Ambient playback after sleep/wake and full restart; improved visualizer smoothness, ResonaDeck cooperation, and explicit visualizer OFF/ON.
+- **Automated regressions:** GTM 4.1.2 power-controller/suspend tests, audio-focus ownership, visualizer frame pacing, crossfade, playlist and pack tests were passed during packaging. The separate regression files are in the maintained developer handoff and prepared installation ZIP; **the GitHub test tree is not yet an exact 4.1.2 mirror**.
+- **Archive validation:** `python3 tests/verify-beta-4.1.2.py Game-Theme-Music-4.1.2.zip` (download the named beta asset after the maintainer uploads it). See [validation](docs/VALIDATION_4.1.2.md) and [checksum](docs/RELEASE_MANIFEST_4.1.2.md).
+- **Do not overclaim:** ResonaDeck Plex's automatic resume after full reboot was not tested; only GTM Ambient's reboot delay was hardware-confirmed. No universal FPS benchmarks recorded.
+
+The historical 4.0.4 test matrix follows.
+
+
 [Current beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4) · [Previous stable](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0)
 
 **Reported physical Steam Deck successes:** 8-second crossfade, Ambient playlists above 20 songs, pack import/removal, Pong stabilization, Sakura Tempest, Tidal Bloom, Disc Prism, Mechanical Iris, custom pack manager, Shuffle All and Pinball refinements. SteamOS/Decky exact versions and full hardware frame-rate measurements were not recorded.
