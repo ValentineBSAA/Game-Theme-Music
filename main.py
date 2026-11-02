@@ -18,6 +18,7 @@ import platform
 import re
 import secrets
 import shutil
+import sys
 import ssl
 import time
 import urllib.parse
@@ -37,7 +38,7 @@ from settings import SettingsManager  # type: ignore
 logging.basicConfig(level=logging.INFO)
 logger = getattr(decky, "logger", logging.getLogger(__name__))
 
-PLUGIN_VERSION = getattr(decky, "DECKY_PLUGIN_VERSION", "4.0.4")
+PLUGIN_VERSION = getattr(decky, "DECKY_PLUGIN_VERSION", "4.1.2")
 INDEX_VERSION = 1
 DEFAULT_STORAGE_LIMIT_MB = 2048
 MAX_AUDIO_BYTES = 2 * 1024**3
@@ -312,6 +313,23 @@ class Plugin:
         # Keep it bounded; spawning yt-dlp for every result at once would waste
         # CPU/network on the Deck.
         self._preview_warm_tasks: set[asyncio.Task[Any]] = set()
+        self._power_monitor_task: asyncio.Task[None] | None = None
+        self._power_monitor_proc: asyncio.subprocess.Process | None = None
+        self._power_seq = 0
+        self._power_sleeping = False
+        self._power_monitoring = False
+        # CLOCK_BOOTTIME advances through suspend; MONOTONIC does not.
+        # A >2s change lets us detect a missed wake signal without requiring
+        # D-Bus, system file patches, rootfs writes, or an extra dependency.
+        self._power_sleep_offset = self._read_power_sleep_offset()
+        self._power_last_wake_time = 0.0
+
+    @staticmethod
+    def _read_power_sleep_offset():
+        try:
+            return time.clock_gettime(time.CLOCK_BOOTTIME) - time.monotonic()
+        except (AttributeError, OSError, ValueError):
+            return None
 
     @property
     def index_path(self) -> str:
@@ -385,8 +403,102 @@ class Plugin:
         self._startup_maintenance_task = asyncio.create_task(
             self._run_startup_maintenance()
         )
+        # Independent SteamOS suspend signal; never blocks plugin startup.
+        if sys.platform.startswith("linux"):
+            self._power_monitor_task = asyncio.create_task(self._monitor_power_events())
+
+    async def get_power_state(self):
+        """Read-only SteamOS sleep generation for a frontend missing an event."""
+        offset = self._read_power_sleep_offset()
+        if offset is not None:
+            previous = self._power_sleep_offset
+            self._power_sleep_offset = offset
+            # Linux MONOTONIC stops on suspend whereas BOOTTIME advances.
+            # The difference is stable during normal CPU stalls and UI reloads.
+            if previous is not None and offset - previous > 2.0:
+                self._power_sleeping = False
+                # If logind already observed wake, no second event is needed.
+                if time.monotonic() - self._power_last_wake_time > 2:
+                    self._power_seq += 1
+                    try:
+                        await decky.emit('gtm_power_v412', {
+                            'seq': self._power_seq, 'sleeping': False,
+                            'monitoring': self._power_monitoring
+                        })
+                    except Exception:
+                        pass
+                self._power_last_wake_time = time.monotonic()
+        return {"seq": self._power_seq, "sleeping": self._power_sleeping,
+                "monitoring": self._power_monitoring}
+
+    async def _monitor_power_events(self):
+        """Observe logind via dbus-monitor (no new pip/system dependencies).
+
+        Degrades cleanly if dbus-monitor is absent or access is denied. The
+        frontend also registers Steam callbacks and timer-gap protection.
+        """
+        binary = shutil.which("dbus-monitor")
+        if not binary:
+            logger.warning("GTM power monitor unavailable: dbus-monitor not installed")
+            return
+        while True:
+            proc = None
+            try:
+                proc = await asyncio.create_subprocess_exec(
+                    binary, "--system",
+                    "type='signal',interface='org.freedesktop.login1.Manager',member='PrepareForSleep'",
+                    stdout=asyncio.subprocess.PIPE,
+                    stderr=asyncio.subprocess.DEVNULL,
+                )
+                self._power_monitor_proc = proc
+                self._power_monitoring = True
+                awaiting_boolean = False
+                while True:
+                    line = await proc.stdout.readline()
+                    if not line:
+                        break
+                    value = line.decode('utf-8', 'replace').strip()
+                    if value.startswith('signal '):
+                        awaiting_boolean = ('member=PrepareForSleep' in value)
+                        continue
+                    if awaiting_boolean and value.startswith('boolean '):
+                        awaiting_boolean = False
+                        sleep = value.split()[-1] == 'true'
+                        self._power_sleeping = sleep
+                        self._power_seq += 1
+                        if not sleep:
+                            self._power_last_wake_time = time.monotonic()
+                        try:
+                            await decky.emit('gtm_power_v412', {
+                                'seq': self._power_seq, 'sleeping': sleep,
+                                'monitoring': True
+                            })
+                        except Exception as event_error:
+                            # Frontend may be frozen during wake. Keep reading
+                            # the D-Bus stream and let its polling RPC recover.
+                            logger.debug('GTM power frontend event deferred: %s', event_error)
+            except asyncio.CancelledError:
+                raise
+            except Exception as error:
+                logger.warning('GTM logind power monitor retry: %s', error)
+            finally:
+                self._power_monitoring = False
+                self._power_monitor_proc = None
+                if proc and proc.returncode is None:
+                    try:
+                        proc.terminate()
+                        await asyncio.wait_for(proc.wait(), timeout=2)
+                    except Exception:
+                        try: proc.kill()
+                        except Exception: pass
+            await asyncio.sleep(5)
 
     async def _unload(self):
+        if self._power_monitor_task:
+            self._power_monitor_task.cancel()
+            try: await self._power_monitor_task
+            except asyncio.CancelledError: pass
+            self._power_monitor_task = None
         await self.cancel_search()
         for task in (
             self._startup_maintenance_task,
@@ -617,7 +729,7 @@ class Plugin:
             'schemaVersion', 'frontendVersion', 'capturedAt', 'diagnostics',
             'captureError', 'recentEvents', 'support', 'audioElement',
             'cors', 'playback', 'telemetry', 'streamTracks',
-            'ambientTransition',
+            'ambientTransition', 'visualizerPerformance',
         )
         # Nested allowlists prevent a future UI change from accidentally
         # putting titles, song IDs or URLs into a diagnostic report.
@@ -637,6 +749,9 @@ class Plugin:
             'cors': ('sourceClass', 'expectedMode', 'actualMode',
                 'capturePermittedBySourcePolicy', 'localAudioEndpoint'),
             'playback': ('state', 'generation'),
+            'visualizerPerformance': ('mode','estimatedDrawFps','measuredRefreshHz',
+                'frameBudgetMs','qualityScale','averageRenderCostMs','performanceTier',
+                'sceneFading','recent'),
             'telemetry': ('subscribers', 'sessionExists', 'captureMonitorExists',
                 'sessionLastSampleAgeMs', 'contextState'),
             'recentEvents': ('at', 'key', 'state', 'songGeneration',

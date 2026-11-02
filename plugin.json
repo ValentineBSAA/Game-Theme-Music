@@ -5,13 +5,11 @@
   "api_version": 1,
   "publish": {
     "tags": [
-      "audio",
-      "music",
-      "visualizers"
+      "audio"
     ],
-    "description": "GTM 4.0.4 Public Beta: 22 music-reactive visualizers, optional crossfade, unlimited playlists, scene shuffle and custom packs.",
-    "image": "https://raw.githubusercontent.com/ValentineBSAA/Game-Theme-Music/main/assets/game-theme-music-glyph.webp"
+    "description": "Game Theme Music 4.1.2: Ambient Sleep Mode, configurable delayed wake/restart, smooth reactive visualizers and ResonaDeck audio focus.",
+    "image": "https://raw.githubusercontent.com/MegalonVII/SDH-GameThemeMusic/main/assets/publish_image.png"
   },
-  "description": "GTM 4.0.4 Public Beta: Visual Worlds, crossfade, unlimited soundtracks and safe custom visualizer packs.",
-  "version": "4.0.4"
+  "description": "Game Theme Music 4.1.2: Ambient Sleep Mode, configurable delayed wake/restart, smooth reactive visualizers and ResonaDeck audio focus.",
+  "version": "4.1.2"
 }

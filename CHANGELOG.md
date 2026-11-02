@@ -3,7 +3,7 @@
 - Added Ambient Sleep Mode reliability controls, including a configurable wake/restart delay and gentle fade-in. Maintainer physically verified GTM Ambient behavior after both sleep/wake and a full Steam Deck restart.
 - Completed ResonaDeck audio-ownership bridge with immediate visualizer-disable handling, improved scene continuity, smoother frame pacing and adaptive quality.
 - Preserved the 22 built-in visualizers, custom packs, eight-second crossfade, unlimited playlists, shuffle and unified Store Music.
-- Beta release documentation, checksum manifest and offline verifier added. **The 4.1.2 code snapshot still needs syncing**; current repository runtime remains 4.0.4. Beta ZIP/release publication belongs to the maintainer.
+- Beta release documentation, checksum manifest and offline verifier added. The 4.1.2 compiled runtime and backend are synchronized to the tested ZIP. Beta ZIP/release publication belongs to the maintainer.
 - [Notes](docs/RELEASE_NOTES_4.1.2.md) · [Validation](docs/VALIDATION_4.1.2.md) · [ZIP checksum](docs/RELEASE_MANIFEST_4.1.2.md).
 
 ## [4.0.4] 2026-11-01 • Visual Worlds Overhaul (Public Beta)

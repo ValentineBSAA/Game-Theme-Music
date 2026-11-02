@@ -1,31 +1,33 @@
-# GTM 4.0.4 Public Beta testing
+# Game Theme Music 4.1.2 • Testing
 
-## 4.1.2 beta candidate: latest validation
+## Verified on physical Steam Deck
+- **PASS:** Ambient does not immediately blast after sleep/wake; delayed recovery works.
+- **PASS:** Ambient comes back correctly after a full Deck restart, subject to the configured delay.
+- **PASS, subjective:** the updated footer visualizer pacing appeared smooth during actual play.
+- **Previously confirmed:** ResonaDeck and GTM cooperate on visualizer/audio focus; both plugins were working on Deck as of the final testing session.
 
-- **Physical Steam Deck accepted:** delayed Ambient playback after sleep/wake and full restart; improved visualizer smoothness, ResonaDeck cooperation, and explicit visualizer OFF/ON.
-- **Automated regressions:** GTM 4.1.2 power-controller/suspend tests, audio-focus ownership, visualizer frame pacing, crossfade, playlist and pack tests were passed during packaging. The separate regression files are in the maintained developer handoff and prepared installation ZIP; **the GitHub test tree is not yet an exact 4.1.2 mirror**.
-- **Archive validation:** `python3 tests/verify-beta-4.1.2.py Game-Theme-Music-4.1.2.zip` (download the named beta asset after the maintainer uploads it). See [validation](docs/VALIDATION_4.1.2.md) and [checksum](docs/RELEASE_MANIFEST_4.1.2.md).
-- **Do not overclaim:** ResonaDeck Plex's automatic resume after full reboot was not tested; only GTM Ambient's reboot delay was hardware-confirmed. No universal FPS benchmarks recorded.
+This is a **maintainer-reported hardware acceptance**, not independent laboratory measurement. Exact SteamOS/Decky build numbers, logged frame times and calibrated audio delay measurements were not recorded. Do not describe a 60 or 90 FPS target as a guaranteed measured FPS result.
 
-The historical 4.0.4 test matrix follows.
+## Offline checks run against the 4.1.2 package
 
+- **PASS:** JS syntax, Python syntax and plugin ZIP CRC/version consistency.
+- **PASS:** all **nine** version-matched scripts linked below, re-run against the final compiled frontend/backend.
+- Sleep/wake paths: suspend and wake sequencing, missed visibility events, Linux BOOTTIME fallback, startup delay, late audio events, cleanup and Plex audio-focus priority.
+- Playback regressions: prebuffered eight-second crossfade, long playlists, audio handoffs, stale request blocking.
+- Visualizer regressions: scene shuffle, live Plex focus, no-flash transitions, refresh-rate governor and audio-envelope interpolation.
 
-[Current beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4) · [Previous stable](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0)
+Run in the repository root:
 
-**Reported physical Steam Deck successes:** 8-second crossfade, Ambient playlists above 20 songs, pack import/removal, Pong stabilization, Sakura Tempest, Tidal Bloom, Disc Prism, Mechanical Iris, custom pack manager, Shuffle All and Pinball refinements. SteamOS/Decky exact versions and full hardware frame-rate measurements were not recorded.
+```bash
+node --check dist/index.js
+python3 -m py_compile main.py
+for t in tests/*-412.cjs tests/GTM_4.1.2_*.cjs; do node "$t"; done
+python3 tests/GTM_4.1.2_BACKEND_POWER_TESTS.py
+```
 
-## Regression checklist
-1. Record Steam Deck OLED/LCD, SteamOS release/channel, Steam Client version, Decky Loader, GTM, CSS Loader theme and related plugins.
-2. Upgrade in place, verify existing song downloads and playlists persist.
-3. Test native Steam, non-Steam game, Ambient, and both Store surfaces. Stores now **share** their Store Music session.
-4. Add 20+ Ambient songs and reload; check no truncation.
-5. Let several songs crossfade, toggle crossfade OFF/ON, try Next/Previous, sleep/resume and ResonaDeck audio-focus transitions.
-6. Test all four visualizer categories, color palettes, CSS footer blending, controller selection, and actual performance.
-7. Turn on Shuffle All and verify changes only at song transitions; turn off and verify manual scene persists.
-8. Install two custom packs, check category integration, confirm removal dialog and correct pack removal.
-9. Check mini-player HUD toggle and unrelated music playback unaffected.
-10. Do **not** claim ResonaDeck-to-GTM Plex visualization is verified until ResonaDeck receives and tests its corresponding update.
+Older tests in `tests/` may intentionally pin older version numbers; the **-412** copies are the regression targets for 4.1.2.
 
-Report: **SteamOS/Decky version, GTM version, playlist owner, selected scene, imported packs, shuffle/crossfade status, steps, expected/observed behavior, sanitized logs.** Never post tokens or credentials.
+## Important boundaries
+ResonaDeck has its own [Plex sleep/wake setting](https://github.com/ValentineBSAA/ResonaDeck). **GTM 4.1.2 restart playback was verified; ResonaDeck automatic playback on a full restart was not.** No claim of verified hardware performance for every scene, imported pack or SteamOS release.
 
-[Bug form](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) · [SteamOS matrix](docs/STEAMOS_COMPATIBILITY.md)
+[Release notes](docs/RELEASE_NOTES_4.1.2.md) · [Integrity](docs/RELEASE_MANIFEST_4.1.2.md)

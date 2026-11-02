@@ -1,7 +1,7 @@
 {
   "name": "sdh-gamethememusic",
-  "version": "4.0.4",
-  "description": "GTM 4.0.4 Public Beta: Visual Worlds, crossfade, 22 music-reactive visualizers, unlimited playlists and add-on packs.",
+  "version": "4.1.2",
+  "description": "Game Theme Music 4.1.2: delayed Ambient wake/restart, Sleep Mode controls, smooth ResonaDeck visualizers and protected audio focus.",
   "type": "module",
   "scripts": {
     "build": "rollup -c",
@@ -14,19 +14,17 @@
   },
   "keywords": [
     "decky",
-    "steam-deck",
-    "music",
-    "soundtrack",
     "plugin",
-    "visualizer",
-    "crossfade"
+    "plugin-template",
+    "steam-deck",
+    "deck"
   ],
   "author": "Valentine",
   "license": "GPL-3.0-only",
   "bugs": {
     "url": "https://github.com/ValentineBSAA/Game-Theme-Music/issues"
   },
-  "homepage": "https://github.com/ValentineBSAA/Game-Theme-Music#readme",
+  "homepage": "https://github.com/ValentineBSAA/Game-Theme-Music",
   "devDependencies": {
     "@decky/rollup": "^1.0.2",
     "@decky/ui": "^4.11.6",
