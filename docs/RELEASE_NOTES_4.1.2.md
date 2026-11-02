@@ -4,7 +4,7 @@
 
 ## Highlights since 4.0.4
 
-- **ResonaDeck integration:** GTM can display music-reactive Home footer visualizers from ResonaDeck's opt-in Plex audio telemetry. GTM yields audio focus to ResonaDeck; an explicit visualizer OFF command clears the external session promptly while music keeps playing. ResonaDeck 1.4.1 is the paired beta candidate.
+- **ResonaDeck integration:** GTM can display music-reactive Home footer visualizers from ResonaDeck's opt-in Plex audio telemetry. GTM yields audio focus to ResonaDeck; an explicit visualizer OFF command clears the external session promptly while music keeps playing. [ResonaDeck 1.4.1](https://github.com/ValentineBSAA/ResonaDeck/releases/tag/1.4.1) is the separately published, compatible beta.
 - **Smoother, more reliable visuals:** improved transition continuity and no-flash protection, frame pacing aligned with 60/90 Hz display refresh where possible, adaptive render quality for heavier scenes, smoothing between audio telemetry samples, and performance data in Capture JSON. Actual FPS depends on visualizer complexity and device load.
 - **Ambient Sleep Mode:** Ambient page contains a delayed-start toggle and adjustable wake/restart delay (5–60 seconds, default 12 seconds). Ambient pauses for sleep, waits after wake or initialization, and resumes with a gentle fade while respecting ResonaDeck audio ownership.
 - **More robust suspend detection:** SteamOS backend sleep/wake event monitoring, suspend-aware clock fallback, frontend guards against resumed audio events, and recovery when browser visibility events are missed.
