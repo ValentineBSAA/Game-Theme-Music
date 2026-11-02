@@ -1,7 +1,7 @@
 {
   "name": "sdh-gamethememusic",
-  "version": "3.7.0",
-  "description": "Controller-first Steam Deck soundtrack manager with an optional global mini player HUD, game/Store/Ambient playlists, and ResonaDeck audio focus.",
+  "version": "4.0.4",
+  "description": "GTM 4.0.4 Public Beta: Visual Worlds, crossfade, 22 music-reactive visualizers, unlimited playlists and add-on packs.",
   "type": "module",
   "scripts": {
     "build": "rollup -c",
@@ -17,7 +17,9 @@
     "steam-deck",
     "music",
     "soundtrack",
-    "plugin"
+    "plugin",
+    "visualizer",
+    "crossfade"
   ],
   "author": "Valentine",
   "license": "GPL-3.0-only",

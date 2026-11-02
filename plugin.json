@@ -6,10 +6,12 @@
   "publish": {
     "tags": [
       "audio",
-      "music"
+      "music",
+      "visualizers"
     ],
-    "description": "Game Theme Music 3.7.0 adds Show mini player HUD (on/off, restart-persistent) without muting game, Store or Ambient music. Steam Deck hardware-tested.",
+    "description": "GTM 4.0.4 Public Beta: 22 music-reactive visualizers, optional crossfade, unlimited playlists, scene shuffle and custom packs.",
     "image": "https://raw.githubusercontent.com/ValentineBSAA/Game-Theme-Music/main/assets/game-theme-music-glyph.webp"
   },
-  "description": "Game Theme Music 3.7.0: Steam Deck soundtrack manager with optional persistent Show mini player HUD switch. Music continues when the HUD is hidden; includes Steam/non-Steam games, Ambient, Store and ResonaDeck audio focus."
+  "description": "GTM 4.0.4 Public Beta: Visual Worlds, crossfade, unlimited soundtracks and safe custom visualizer packs.",
+  "version": "4.0.4"
 }

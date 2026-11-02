@@ -1,174 +1,59 @@
-<p align="center">
-  <img src="assets/game-theme-music-glyph.webp" width="140" alt="Game Theme Music icon">
-</p>
+<p align="center"><img src="assets/game-theme-music-glyph.webp" width="130" alt="GTM logo"></p>
+<p align="center"><img src="assets/game-theme-music-banner.webp" width="680" alt="GTM banner artwork"></p>
 
-<p align="center">
-  <img src="assets/game-theme-music-banner.webp" width="680" alt="Game Theme Music branding banner, not a gameplay screenshot">
-</p>
+# 🎵 Game Theme Music
+## 🌈 Visual Worlds Overhaul | Public Beta 4.0.4
 
-<h1 align="center">Game Theme Music</h1>
+A music and soundtrack companion for **Steam Deck Gaming Mode**: per-game soundtracks, Ambient Home music, unified Store Music, and colorful music-reactive footer visualizers.
 
-<p align="center">
-  Give Steam and non-Steam games their own soundtrack on Steam Deck.
-</p>
+**[⬇ Download GTM 4.0.4 Public Beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.0.4/Game-Theme-Music-4.0.4-PUBLIC-BETA-RC4-PACK-SHUFFLE-PINBALL.zip)** · **[Release notes](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4)** · **[Download screenshots](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.0.4/GTM.Visualizers.Screenshots.zip)**
 
-<p align="center">
-  <strong>Latest stable release: 3.7.0</strong>
-</p>
+> **Release channels:** **4.0.4 is a prerelease/public beta**. [3.7.0 remains the previous stable version](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0). Install the *named release asset ZIP*, **not** GitHub's automatically generated Source code ZIP.
 
-## Download
+### What's new in 4.0.4
+- 🎶 **Prebuffered 8-second automatic crossfade**, optional On/Off, improved cached playback and safer track handoffs.
+- 🌈 **22 built-in music-reactive visualizers** spanning four categories, with smoother animation and a flexible Canvas 2D Home-footer renderer.
+- 🎨 **Music Reactive • Dynamic Spectrum** by default on new installs, preserving existing custom palette settings. Adjustable brightness, bass impact, footer blending and height.
+- 🔀 **Shuffle All Visualizers**, optionally switching to a different scene as songs change, including imported visualizers.
+- 📦 **Visualizer Pack Manager** with validated ZIP imports, custom pack browsing, category integration, scene previews and safe removal confirmation.
+- 🎼 **No more 15-track limit** for Ambient, Store, game soundtracks and compatible imports.
+- 🛍️ **Unified Store music** for native Steam Store + Decky Plugin Store, independent of Ambient and per-game soundtracks.
+- 🎮 Preserved mini-player HUD toggle, Steam Deck controls and cooperative ResonaDeck audio focus.
+- 🔗 **Passive ResonaDeck visualization interface for a future update**; Plex music will not drive GTM visualizers until ResonaDeck is updated separately.
 
-**[Download Game Theme Music 3.7.0](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V3.7.0/Game-Theme-Music-3.7.0.zip)**
+### Four Visual Worlds collections
+**Retro Ambient • 2000s (10):** Ambient Light, Alchemy Rings, Silk Ribbons, Plasma Bloom, Neon Oscilloscope, Starlight Nucleus, Retro Kaleidoscope, CRT Pulse Field, Liquid Chrome, Disc Prism XL.
 
-[View release notes](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0) · [Report a problem](https://github.com/ValentineBSAA/Game-Theme-Music/issues)
+**Classic Rhythm (5):** Classic Spectrum, Prism Skyline, Beat Pinball, Neon Pong, Seismic Mountains.
 
-**🎵 Help shape GTM:** [Suggest a feature](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=feature_request.yml) · [Vote on community priorities](https://github.com/ValentineBSAA/Game-Theme-Music/issues/3) · [Explore the community ideas hub](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2)
+**GTM Signature (5):** Pulse Engine, Arc Reactor, Resonance Crown, Mechanical Iris Array, Chromatic Event Horizon.
 
-Game Theme Music is currently distributed as a **manual Decky Loader plugin** while wider community testing continues.
+**Anime Worlds (2):** Sakura Tempest, Tidal Bloom.
 
-### SteamOS compatibility status (checked October 29, 2026)
+**22 built-in scenes**. Imported packs can add more. The rejected experimental Sword Duel, Spirit Blade and Prism Forge were intentionally removed.
 
-**Valve's latest stable SteamOS: 3.9.5 (released October 23, 2026). GTM 3.7.0 on SteamOS 3.9.5: ⏳ hardware verification pending.** GTM 3.7.0 was tested successfully on the developer's Steam Deck, but the exact SteamOS version was not recorded with those tests. Please don't interpret that as a version-specific 3.9.5 certification.
+### 📸 Real Steam Deck screenshot showcase
 
-[Live SteamOS compatibility matrix and test checklist](docs/STEAMOS_COMPATIBILITY.md) · [Open compatibility tracker #1](https://github.com/ValentineBSAA/Game-Theme-Music/issues/1) · [Valve's official SteamOS 3.9 announcement](https://steamcommunity.com/games/1675200/announcements/detail/694275728822244964)
+These show real GTM footer animations captured during development. **Some captures have earlier preview/version labels**, so they are visual examples and not final 4.0.4 settings UI documentation.
 
-
-**New to GTM?** Start with the [step-by-step Steam Deck guide](docs/GETTING_STARTED.md). **Already running 3.6.9?** The same guide covers upgrading without manually deleting your settings or music library. [See the previous 3.6.9 release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.6.9).
-
-## Browse the source
-
-The 3.7.0 release's **editable [Python backend](main.py)** and **[compiled JavaScript frontend](dist/index.js)** are now browsable here, alongside artwork and license information. See [Source code and limitations](SOURCE.md) for checksum verification and the important distinction between the compiled frontend and the unavailable original React/TypeScript source.
-
-## Quick installation
-
-1. On your Steam Deck, download **Game-Theme-Music-3.7.0.zip** from the [official 3.7.0 release Assets](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0). **Do not select GitHub's generic “Source code” ZIP.**
-2. Open **Decky Loader** settings and enable its Developer/manual installation option if your Decky version requires it. Wording and location may vary by Decky version.
-3. Use Decky’s manual plugin installer with the GTM release ZIP, follow the on-screen prompts, and reload Decky if asked.
-4. Open GTM from the Decky Quick Access menu.
-
-**No cloning, compiling or manual copying into Steam folders is needed.** Do not delete your existing GTM data to upgrade. For step-by-step setup, feature orientation, and troubleshooting, read [Getting started](docs/GETTING_STARTED.md).
-
-## 💡 Community ideas & feature voting
-
-Have an idea for making GTM more useful, more beautiful, or more fun on Steam Deck? **Your feedback is welcome!** Our community area helps people share requests, support ideas they care about, and influence what we explore next.
-
-- **[Suggest a feature](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=feature_request.yml)** with the guided request form.
-- **[Support an existing idea](https://github.com/ValentineBSAA/Game-Theme-Music/issues)** by giving its issue a 👍 reaction and adding helpful context.
-- **[Vote in the first community poll](https://github.com/ValentineBSAA/Game-Theme-Music/issues/3)** using 👍 on the comment for your favorite direction.
-- **[Visit the community ideas hub](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2)** or read the [community voting and request guide](docs/COMMUNITY_FEATURES.md).
-
-**How ideas become features:** Suggestions are reviewed for value, feasibility, performance, compatibility and development priorities. Some may inspire upcoming releases; others may remain on the wishlist. Community interest matters, but a request or vote does not confirm a feature or release date. The maintainer decides which changes move forward.
-
-**Reporting a bug?** Use the [bug report form](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) instead so we can investigate it.
-
-## What Game Theme Music does
-
-- Give individual Steam and non-Steam games their own music playlists.
-- Add separate **Ambient** and **Steam Store** music.
-- Import music you already own.
-- Find and preview music from supported sources.
-- Shuffle, repeat, change tracks, adjust volume, fades, and timing.
-- Keep artwork available locally for a cleaner offline experience.
-- Manage everything from a full-screen, controller-first **Soundtrack Manager**.
-- Work with Steam Deck Gaming Mode instead of feeling like a desktop settings app.
-
-Game Theme Music supports up to **15 tracks per game**.
-
-### Where to start
-
-| Your goal | Find it in GTM |
-| --- | --- |
-| Give Catherine Classic or another game a soundtrack | **Games** and the per-game Soundtrack Manager |
-| Add music to a non-Steam shortcut | **Games** (Steam and non-Steam are supported) |
-| Hear music on the Home screen | **Ambient** |
-| Hear music while browsing Steam Store | **Store** |
-| Add music you already own | **Local Import / Import** |
-| Search or sample tracks before assigning them | **Find Music** |
-
-[Detailed first-run walkthrough](docs/GETTING_STARTED.md) · [Testing and bug-report checklist](TESTING.md)
-
-## What's new in 3.7.0: optional mini-player HUD
-
-**Settings → Interface & Feedback → Show mini player HUD** (ON by default).
-
-Turn the switch OFF to hide the SAO-style Now Playing overlay while game, Store and Ambient music continues playing normally. The setting survives a full Steam Deck restart. Turn it back ON to restore future Now Playing popups.
-
-The feature was **hardware-tested on Steam Deck** with Catherine Classic, NFS Most Wanted 2005, native Steam Store, Decky Plugin Store and Ambient Home music. The OFF setting persisted through a reboot and re-enabling restored the HUD.
-
-**Thanks to Dollet** for bringing the missing on/off option to our attention through Discord.
-
-[Full 3.7.0 release notes](docs/RELEASE_NOTES_3.7.0.md) · [Steam Deck validation](docs/VALIDATION_3.7.0.md) · [Release checksum manifest](docs/RELEASE_MANIFEST_3.7.0.md)
-
-## Previous release: 3.6.9 ResonaDeck audio focus
-
-Version 3.6.9 kept the existing 3.6.8 playback, artwork, Store, Ambient, and library behavior and added cooperative **ResonaDeck audio focus**.
-
-When ResonaDeck takes audio focus, GTM can pause its current soundtrack. When focus is released, GTM resumes only when the same soundtrack is still the valid paused owner.
-
-The new 3.7.0 HUD control has been tested on a real Steam Deck with Steam/non-Steam games, both Stores, Ambient Home music, a full restart, and re-enabling. More independent hardware testing remains welcome.
-
-### Especially useful tests
-
-- Steam and non-Steam games
-- Steam Store playback
-- Ambient playback
-- artwork and notifications
-- controller navigation
-- local imports
-- coexistence with ThemeDeck or other audio plugins
-- ResonaDeck audio-focus pause/resume
-
-If something breaks, use the **Report a problem** link above. The issue form will ask for the useful details.
-
-## A look at GTM's artwork
-
-These are **actual bundled GTM artwork assets**, **not screenshots of the live plugin interface**:
-
-| GTM branding | Ambient artwork | Store artwork |
+| Colorful ribbon effect | Reactive color scene | Spectrum visualizer |
 | :---: | :---: | :---: |
-| ![Game Theme Music branding](assets/game-theme-music-icon.webp) | ![GTM Ambient artwork](assets/ambient-music-art.webp) | ![GTM Store artwork](assets/store-music-art.webp) |
+| ![GTM footer ribbons](docs/screenshots/visual-worlds/IMG_9285.JPG) | ![GTM glowing footer](docs/screenshots/visual-worlds/IMG_9279.JPG) | ![GTM reactive spectrum](docs/screenshots/visual-worlds/IMG_9281.JPG) |
 
-A genuine 3.7.0 Steam Deck interface gallery is not yet published. See [Screenshot gallery status and capture guide](docs/SCREENSHOTS.md) for the exact views needed: Quick Access, Soundtrack Manager, Steam and non-Steam games, Ambient/Store, and the new HUD switch. We will not represent mockups or unrelated artwork as hardware captures.
+[View the complete 11-screenshot gallery](docs/SCREENSHOTS.md) · [Download original ZIP](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.0.4/GTM.Visualizers.Screenshots.zip)
 
-## Download safety
+### Installation / custom packs
 
-Use the release files from this repository rather than similarly named mirrors.
+Install `Game-Theme-Music-4.0.4-PUBLIC-BETA-RC4-PACK-SHUFFLE-PINBALL.zip` using Decky Loader's manual/developer plugin installation. Keep existing playlist and settings data.
 
-**3.7.0 ZIP SHA-256:** `78d8b305634ff4b188dfb4ab596b327ec717533dbe84bb9ce19338c5eb53cd15`. See [the versioned release manifest](docs/RELEASE_MANIFEST_3.7.0.md) for complete integrity details. The previous 3.6.9 ZIP SHA-256 was `84364fe71ef5a65b9fae513ba0e8449cf670017f9d51b2da2807df9186d6a1df`.
+Visualizer Packs → Import ZIP → Refresh. Imported scenes appear both in their parent visualizer category and in scrollable **Custom Packs**. To uninstall: **Manage custom packs → Choose pack → Review removal → Confirm**.
 
-<details>
-<summary><strong>Decky Plugin Explorer</strong></summary>
+[Getting started](docs/GETTING_STARTED.md) · [Visualizer pack author guide](docs/VISUALIZER_PACKS_4.0.4.md) · [Testing](TESTING.md) · [SteamOS matrix](docs/STEAMOS_COMPATIBILITY.md)
 
-This repository includes a root-level `plugin.json` so community discovery tools can recognize it as a Decky plugin.
+### Community & development
 
-Decky Plugin Explorer:
-https://safetzahirovic.github.io/decky-plugins-explorer/
+[Request a feature](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=feature_request.yml) · [Support an idea](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2) · [Vote on priorities](https://github.com/ValentineBSAA/Game-Theme-Music/issues/3) · [Report a bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md). Requests are reviewed for feasibility; **suggestions and votes are not promises of implementation**.
 
-</details>
+GTM contains editable Python and a **compiled** JavaScript frontend; the original TypeScript/React source project is not available as a reproducible build. [Source and integrity](SOURCE.md) · [Release manifest](docs/RELEASE_MANIFEST_4.0.4.md) · [License](LICENSE) · [Third-party notices](THIRD-PARTY-NOTICES.md).
 
-<details>
-<summary><strong>Development, licensing, and project lineage</strong></summary>
-
-Game Theme Music uses AI-assisted development under Valentine’s direction with iterative Steam Deck hardware testing.
-
-Current developer: **Valentine**
-
-Project lineage:
-- OMGDuke / SDH-GameThemeMusic
-- MegalonVII / SDH-GameThemeMusic
-- Valentine / Game Theme Music
-
-Game Theme Music continues the GPL-licensed project lineage and is distributed under **GPL-3.0-only**. See [LICENSE](LICENSE).
-
-Bundled/runtime third-party software has its own licensing requirements. In particular, yt-dlp itself uses the Unlicense, while upstream standalone executables can contain third-party components under additional licenses. The bundled yt-dlp executable is therefore documented using the complete upstream third-party licensing information rather than being described simply as “Unlicense.”
-
-See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for details.
-
-Technical validation:
-- [3.7.0 hardware validation](docs/VALIDATION_3.7.0.md)
-- [3.7.0 release manifest](docs/RELEASE_MANIFEST_3.7.0.md)
-- [3.6.9 validation notes](docs/VALIDATION_3.6.9.md)
-- [3.6.9 release manifest](docs/RELEASE_MANIFEST_3.6.9.md)
-- [ResonaDeck audio-focus notes](docs/RESONADECK_AUDIO_FOCUS_3.6.9.md)
-
-</details>
+Maintained by Valentine, continuing the GPL-licensed OMGDuke → MegalonVII → Valentine project lineage with AI-assisted, maintainer-directed development and real Steam Deck testing. Thanks to Dollet for the earlier mini-player HUD request.

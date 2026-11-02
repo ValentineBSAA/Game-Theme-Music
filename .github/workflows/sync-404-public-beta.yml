@@ -1,0 +1,77 @@
+name: Sync GTM 4.0.4 beta source and gallery
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/sync-404-public-beta.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download verified public release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p /tmp/gtm404
+          gh release download V4.0.4 --repo ValentineBSAA/Game-Theme-Music --dir /tmp/gtm404 --pattern 'Game-Theme-Music-4.0.4-PUBLIC-BETA-RC4-PACK-SHUFFLE-PINBALL.zip'
+          gh release download V4.0.4 --repo ValentineBSAA/Game-Theme-Music --dir /tmp/gtm404 --pattern 'GTM.Visualizers.Screenshots.zip'
+      - name: Synchronize source snapshot and real screenshots
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile,hashlib,json,ast
+          zpath=Path('/tmp/gtm404/Game-Theme-Music-4.0.4-PUBLIC-BETA-RC4-PACK-SHUFFLE-PINBALL.zip')
+          checksum=hashlib.sha256(zpath.read_bytes()).hexdigest()
+          if checksum!='d61dad137277efe7d4032eb4c0b1cb4bce192477a9a408e49db9e188e278e1db':raise RuntimeError('Installer SHA-256 differs from tested RC4: '+checksum)
+          with zipfile.ZipFile(zpath) as z:
+              if z.testzip():raise RuntimeError('Corrupt installer')
+              prefix='Game-Theme-Music/'
+              manifest=json.loads(z.read(prefix+'visualizer-packs/volume1/manifest.json'))
+              if json.loads(z.read(prefix+'package.json'))['version']!='4.0.4' or len(manifest['scenes'])!=10:
+                  raise RuntimeError('Wrong beta version or visualizer pack')
+              files=['main.py','dist/index.js','visualizer-packs/volume1/manifest.json']
+              for file in z.namelist():
+                  if file.startswith(prefix+'GTM_4.0.4_') and file.endswith(('.py','.cjs')):
+                      files.append('tests/'+Path(file).name)
+              for file in files:
+                  dest=Path(file);dest.parent.mkdir(parents=True,exist_ok=True)
+                  source=Path(file).name if file.startswith('tests/') else file
+                  dest.write_bytes(z.read(prefix+source))
+          ast.parse(Path('main.py').read_text())
+          expected=set(["IMG_9276.JPG","IMG_9277.JPG","IMG_9278.JPG","IMG_9279.JPG","IMG_9280.JPG","IMG_9281.JPG","IMG_9282.JPG","IMG_9283.JPG","IMG_9284.JPG","IMG_9285.JPG","IMG_9286.JPG"])
+          with zipfile.ZipFile('/tmp/gtm404/GTM.Visualizers.Screenshots.zip') as z:
+              dest=Path('docs/screenshots/visual-worlds');dest.mkdir(parents=True,exist_ok=True)
+              for f in z.infolist():
+                  name=Path(f.filename).name
+                  if f.filename.startswith('__MACOSX/') or name not in expected:continue
+                  if f.file_size>2000000:raise RuntimeError('Unexpected screenshot size')
+                  bytes_=z.read(f)
+                  if not bytes_.startswith(bytes.fromhex('ffd8ff')):raise RuntimeError('Not JPEG')
+                  (dest/name).write_bytes(bytes_);expected.remove(name)
+          if expected:raise RuntimeError('Screenshot ZIP missing: '+str(expected))
+          print('Verified source and gallery from release ZIP:',checksum)
+          PY
+          node --check dist/index.js
+          python3 -m py_compile main.py
+      - name: Commit exact runtime source and screenshot JPEGs
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add main.py dist/index.js visualizer-packs tests docs/screenshots
+          if ! git diff --cached --quiet; then
+            git commit -m 'release: sync tested GTM 4.0.4 runtime and visualizer gallery'
+            git push origin HEAD:main
+          fi
+      - name: Align prerelease title and tag with verified source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release edit V4.0.4 --repo ValentineBSAA/Game-Theme-Music --title 'Game Theme Music 4.0.4 | Visual Worlds Overhaul • Public Beta' --notes-file docs/RELEASE_NOTES_4.0.4.md --prerelease
+          git tag -f V4.0.4 HEAD
+          git push --force origin refs/tags/V4.0.4
+          gh release view V4.0.4 --repo ValentineBSAA/Game-Theme-Music --json name,isPrerelease,tagName,assets

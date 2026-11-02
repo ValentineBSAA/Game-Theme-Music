@@ -1,3 +1,7 @@
+## 2026-11-01 | GTM 4.0.4 public beta acceptance
+
+RC4 physically tested on Steam Deck; crossfade, unlimited playlists, unified Store Music, four Visual Worlds categories, safe importer, Custom Packs removal and Shuffle All accepted. 22 built-in scenes, Music Reactive colors, refined Pinball/Pong, read-only ResonaDeck future bridge. Racing city effect deferred to a future engine/pack release. Source and screenshots are synchronized from the published V4.0.4 assets. Refer to docs/VALIDATION_4.0.4.md.
+
 # Game Theme Music: Development and Update Ledger
 
 > **Current release: 3.7.0 stable (October 28, 2026).** [Download](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0) · [3.7.0 release notes](docs/RELEASE_NOTES_3.7.0.md) · [Hardware validation](docs/VALIDATION_3.7.0.md) · [Getting started](docs/GETTING_STARTED.md)

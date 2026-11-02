@@ -1,3 +1,9 @@
+## [4.0.4] 2026-11-01 • Visual Worlds Overhaul (Public Beta)
+
+Prebuffered 8-second crossfade, improved caching/track transitions, unlimited game/Ambient/Store playlists, unified Store Music, 22 music-reactive visualizers across four categories, safe ZIP packs with Custom Packs management, optional Shuffle All, refined Pong and Pinball, Music Reactive colors, ResonaDeck focus and future passive visualization bridge.
+
+[Full release notes](docs/RELEASE_NOTES_4.0.4.md)
+
 ## 3.7.0 (2026-10-28) | User-configurable mini player HUD
 
 - New **Show mini player HUD** setting in Interface & Feedback, ON by default for existing users.

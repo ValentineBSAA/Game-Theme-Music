@@ -1,51 +1,21 @@
-# Hardware testing
+# GTM 4.0.4 Public Beta testing
 
-Game Theme Music needs testing on Steam Deck configurations other than the developer’s own hardware.
+[Current beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4) · [Previous stable](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0)
 
-## SteamOS version tracking
+**Reported physical Steam Deck successes:** 8-second crossfade, Ambient playlists above 20 songs, pack import/removal, Pong stabilization, Sakura Tempest, Tidal Bloom, Disc Prism, Mechanical Iris, custom pack manager, Shuffle All and Pinball refinements. SteamOS/Decky exact versions and full hardware frame-rate measurements were not recorded.
 
-The latest Valve stable release as of October 29, 2026 is **SteamOS 3.9.5**, released October 23. **GTM 3.7.0 is pending version-specific verification on 3.9.5**, although its mini-player feature has passed other physical Deck tests (OS version not recorded). See the [SteamOS compatibility matrix](docs/STEAMOS_COMPATIBILITY.md) and [tracking issue #1](https://github.com/ValentineBSAA/Game-Theme-Music/issues/1).
+## Regression checklist
+1. Record Steam Deck OLED/LCD, SteamOS release/channel, Steam Client version, Decky Loader, GTM, CSS Loader theme and related plugins.
+2. Upgrade in place, verify existing song downloads and playlists persist.
+3. Test native Steam, non-Steam game, Ambient, and both Store surfaces. Stores now **share** their Store Music session.
+4. Add 20+ Ambient songs and reload; check no truncation.
+5. Let several songs crossfade, toggle crossfade OFF/ON, try Next/Previous, sleep/resume and ResonaDeck audio-focus transitions.
+6. Test all four visualizer categories, color palettes, CSS footer blending, controller selection, and actual performance.
+7. Turn on Shuffle All and verify changes only at song transitions; turn off and verify manual scene persists.
+8. Install two custom packs, check category integration, confirm removal dialog and correct pack removal.
+9. Check mini-player HUD toggle and unrelated music playback unaffected.
+10. Do **not** claim ResonaDeck-to-GTM Plex visualization is verified until ResonaDeck receives and tests its corresponding update.
 
-When confirming compatibility, **always** record SteamOS version + channel, Steam Client build/channel, Decky Loader version, GTM version, OLED/LCD model and the exact passed/failed tests. Do not treat the newest official SteamOS version as hardware-verified until that evidence exists.
+Report: **SteamOS/Decky version, GTM version, playlist owner, selected scene, imported packs, shuffle/crossfade status, steps, expected/observed behavior, sanitized logs.** Never post tokens or credentials.
 
-
-## 3.7.0 Mini Player HUD acceptance checks
-
-- Set **Settings → Interface & Feedback → Show mini player HUD** OFF; music must continue with no HUD on Steam and non-Steam game pages.
-- Check native Steam Store, Decky Plugin Store and Home Ambient playback with the HUD hidden.
-- Restart the Steam Deck; the OFF preference should persist.
-- Switch HUD ON; the next actual playback event should show the mini player again.
-- Check that theme notifications and the HUD visualizer have independent settings.
-- Try disabling while a ribbon is already visible and while Quick Access is open. There should be no delayed reappearance.
-- Confirm ResonaDeck audio-focus behavior still works.
-
-These checks extend the developer's initial successful physical Steam Deck tests. Report OS/Decky version and reproduction details when possible.
-
-## High-value checks
-
-1. Install / reload / uninstall.
-2. Native Steam game soundtrack start and stop.
-3. Non-Steam shortcut soundtrack behavior.
-4. Ambient playback on supported Steam surfaces.
-5. Steam Store playback and stop timing.
-6. Shuffle, repeat, Previous, Next, and volume.
-7. Artwork in the Quick Access player and full manager.
-8. Local import and downloaded-track playback.
-9. Controller focus with LB/RB and D-pad navigation.
-10. Coexistence with ThemeDeck or other audio-related Decky plugins.
-11. ResonaDeck audio-focus pause and safe resume.
-
-## Useful report format
-
-- Steam Deck model:
-- SteamOS version:
-- Decky Loader version:
-- Game Theme Music version:
-- Other related Decky plugins:
-- Steam or non-Steam game:
-- Steps to reproduce:
-- Expected:
-- Actual:
-- Screenshot/log:
-
-Please do not include account tokens, cookies, or other private data in logs or screenshots.
+[Bug form](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) · [SteamOS matrix](docs/STEAMOS_COMPATIBILITY.md)
