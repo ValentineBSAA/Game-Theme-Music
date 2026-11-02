@@ -1,6 +1,6 @@
 # Game Theme Music 4.1.2 | Beta release notes
 
-**Status:** Beta candidate verified by the maintainer on a physical Steam Deck. **Release assets and GitHub release will be published separately by the maintainer.** The previous published beta is [4.0.4](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4), with 3.7.0 available as the previous stable release.
+**Status:** [Published 4.1.2 beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2), physically verified on a Steam Deck. The previous beta is [4.0.4](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4), with 3.7.0 available as the previous stable release.
 
 ## Highlights since 4.0.4
 
@@ -18,6 +18,6 @@ The maintainer reports that **GTM 4.1.2 resumes Ambient correctly after sleep/wa
 
 Automated regression checks previously passed for sleep/restart state simulations, delayed track resolution, ResonaDeck audio-focus handoff, visualizer shuffle, scene continuity, playlists, pack management, and crossfade. They are simulations, not benchmarks or a guarantee for every SteamOS version. No measured universal frame-rate guarantee is claimed.
 
-**Install:** When the maintainer publishes the beta release, install its named `Game-Theme-Music-4.1.2.zip` asset via Decky Loader. GitHub's automatically generated source archive is not an installable plugin. Keep a copy of your settings before updating.
+**Install:** Download the [Game-Theme-Music-4.1.2.zip asset](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.1.2/Game-Theme-Music-4.1.2.zip) and install via Decky Loader. GitHub's automatically generated source archive is not an installable plugin. Keep a copy of your settings before updating.
 
 [Hardware validation](VALIDATION_4.1.2.md) · [Getting started](GETTING_STARTED.md) · [Source notes](../SOURCE.md) · [Feedback](https://github.com/ValentineBSAA/Game-Theme-Music/issues)

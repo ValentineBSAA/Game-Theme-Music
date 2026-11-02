@@ -17,4 +17,4 @@
 
 **Important product distinction:** GTM's successful restart playback test does **not** verify ResonaDeck automatically resumes Plex after a full reboot. ResonaDeck's tested behavior is sleep/wake recovery.
 
-**Release status:** Beta package 4.1.2 is prepared, but the GitHub release and ZIP upload are handled separately by the maintainer.
+**Release status:** [Published GTM 4.1.2 beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2); asset checksum verified against local tested ZIP.
