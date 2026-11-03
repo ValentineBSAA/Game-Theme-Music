@@ -19,6 +19,12 @@ The public ZIP is self-contained and **does not require a previous GTM version**
 - **Playlists / crossfade:** Playlist management and optional prebuffered crossfade.
 - **ResonaDeck:** GTM can visualize supported Plex telemetry from the separately installed [ResonaDeck](https://github.com/ValentineBSAA/ResonaDeck). Each plugin handles its own playback and audio focus.
 
+## Visualizers are optional: music works without visuals
+
+To **hide the visualizer footer without stopping the music**, use **Quick Access → GTM → Visualizers → Enable Home visualizers → OFF**. Switch it **ON** to display visualizers again. Music playback, Ambient/Store soundtracks and playlists are independent of this display switch. **Shuffle All on Track Change** is a different control: OFF prevents automatic scene switching, but leaves visualizers themselves available.
+
+See the [real 4.4.9 screenshot gallery](SCREENSHOTS.md) for the controls and 15 selected visuals. These screenshots **do not show every visualizer**.
+
 ## Visualizers Quick Menu
 
 Open **Quick Access → GTM → Visualizers**. Browse **Retro Ambient**, **Classic Rhythm**, **GTM Signature**, **Anime Worlds** and other available collections. Opening a collection browses the entries; activate an individual scene to switch the footer. GTM shows a distinction between **ACTIVE** (currently used) and **SAVED** (remembered choice).

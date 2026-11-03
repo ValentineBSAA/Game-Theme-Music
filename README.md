@@ -7,7 +7,7 @@
 
 **Developed by Valentine · Current release: 4.4.9 · Steam Deck / Decky Loader**
 
-[**Download 4.4.9**](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) · [Getting started](docs/GETTING_STARTED.md) · [Current release notes](docs/RELEASE_NOTES_4.4.9.md) · [Get help](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new/choose)
+[**Download 4.4.9**](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) · [View 15 real screenshots](docs/SCREENSHOTS.md) · [Getting started](docs/GETTING_STARTED.md) · [Current release notes](docs/RELEASE_NOTES_4.4.9.md) · [Get help](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new/choose)
 
 </div>
 
@@ -24,6 +24,10 @@
 
 The release also supplies `SHA256SUMS.txt` for verifying the download. Full instructions: **[Getting started](docs/GETTING_STARTED.md)**.
 
+## 🎛️ Visualizers are optional
+
+**Want music without animated visualizers? You can turn visualizers OFF.** Open **Quick Access → GTM → Visualizers → Enable Home visualizers** and switch it **OFF**. Game soundtracks, Home Ambient music and Store music continue working; the visualizer footer is simply hidden. Switch **ON** whenever you want the visuals back. **Shuffle All** is a separate setting for automatic scene changes, not the visualizer ON/OFF control.
+
 ## What GTM offers
 
 | Feature | Experience |
@@ -35,6 +39,16 @@ The release also supplies `SHA256SUMS.txt` for verifying the download. Full inst
 | 🏓 **Arcade Spectator** | **Watch-only AI-versus-AI scenes**, adaptive Pong opponents, auto-changing paddles, arenas, ball physics and **32 powers/effects**. No gameplay controls or multiplayer matchmaking. |
 | 🎨 **Customize** | Controller-friendly Visualizers and Arcade Spectator tabs, nested scene categories, palette and color settings, music reactivity and Default / Couch-TV footer layout. |
 | 🎧 **ResonaDeck** | Compatible audio-focus and music-reactive visualizer integration with the separate Plex player. |
+
+## 📸 Real Steam Deck screenshots from 4.4.9
+
+**A selection of 15 screenshots, not every visualizer.** The gallery shows AI spectator scenes, traditional music visualizers and the Quick Menu, including the ON/OFF switches. Different visualizer packs, colors and effects are not all pictured.
+
+| Autonomous AI spectator | Traditional music visualizer | Visualizer ON/OFF controls |
+| :---: | :---: | :---: |
+| [![Neon Paddle Thunder Court AI spectator](docs/screenshots/gtm-4.4.9/spectator/neon-paddle-thunder-court.jpeg)](docs/SCREENSHOTS.md) | [![Multicolored visualizer equalizer bars](docs/screenshots/gtm-4.4.9/music/colored-equalizer-bars.jpeg)](docs/SCREENSHOTS.md) | [![Enable visualizers, Shuffle All and Couch/TV switches](docs/screenshots/gtm-4.4.9/controls/visualizer-power-shuffle-couch-layout.jpeg)](docs/SCREENSHOTS.md) |
+
+**[Browse all 15 screenshots by category →](docs/SCREENSHOTS.md)** · [Download the original screenshot ZIP from the release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.4.9/GTM.4.4.9.screenshots.zip)
 
 ### Find the visualizer controls
 
