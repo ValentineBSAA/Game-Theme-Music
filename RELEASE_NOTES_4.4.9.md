@@ -33,7 +33,7 @@ These checks **do not guarantee** that every real-world match scores within a fi
 
 ## Install and help
 
-Download **`Game-Theme-Music-4.4.9.zip`** under Assets on the [4.4.9 release page](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9). Do not use GitHub's generated source ZIP. The package installs directly through Decky and does not require an earlier GTM installer. See [Getting Started](docs/GETTING_STARTED.md), [Testing](TESTING.md), and [Report a Bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md).
+Download **`Game-Theme-Music-4.4.9.zip`** under Assets on the [4.4.9 release page](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9). Do not use GitHub's generated source ZIP. The package installs directly through Decky and does not require an earlier GTM installer. See [Getting Started](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/GETTING_STARTED.md), [Testing](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/TESTING.md), and [Report a Bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md).
 
 Thank you for trying GTM and helping me make it better. ❤️  
 **Valentine**
