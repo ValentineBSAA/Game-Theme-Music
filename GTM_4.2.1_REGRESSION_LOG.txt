@@ -1,0 +1,58 @@
+WARNING:test:Rejected visualizer pack: ZIP must contain only a root manifest.json (v1/v2/v3); no executable files
+WARNING:test:Rejected visualizer pack: Unknown effect; custom scripts are not supported
+PASS GTM 4.0.4: built-in pack, safe ZIP import, persistence, remove, protected built-in, forbidden scripts & bad effects rejected
+WARNING:gtm414:Rejected visualizer pack: Scene ID already belongs to another pack
+PASS GTM 4.1.4: 12 built-ins, v1 compatibility, v2 audio/overlays, ZIP import, upgrade, collisions, security bounds
+WARNING:gtm418:Rejected visualizer pack: ZIP must contain only a root manifest.json (v1/v2/v3); no executable files
+PASS v3 scene import, no script execution, strict VM budgets, pack options, v1/v2 compatibility
+PASS universal controls: AI default, 10-second visible takeover, reconnect, explicit take control
+PASS six action buttons, A reserved, Y/Triangle 800ms hold pause/resume, two controllers
+PASS 3 independent format-3 scenes, options persistence, bounded rendering and game pause
+PASS arcade registry, future-game isolation, configurable 1.5s/3s transitions and championship continuity
+PASS simulation 5/16/30/60/90 fps + sleep guard [
+  { fps: 5, sim: 12.011111111111072, steps: 1081 },
+  { fps: 16, sim: 12.011111111111072, steps: 1081 },
+  { fps: 30, sim: 12.011111111111072, steps: 1081 },
+  { fps: 60, sim: 12.011111111111072, steps: 1081 },
+  { fps: 90, sim: 12.011111111111072, steps: 1081 }
+]
+PASS 10 scenery bounded ops, audio-off stability, quiet Pong cadence {
+  solid: 2,
+  arcade: 27,
+  storm: 38,
+  stars: 94,
+  nebula: 48,
+  aurora: 50,
+  ocean: 12,
+  sunset: 11,
+  forest: 40,
+  city: 110
+}
+PASS visible match clock and starfield timeline at 16fps and 60fps
+PASS 4.1.6 Store playback scope, Ambient pause owner, couch HUD and countdown guards
+PASS 4.1.6: ten music-reactive arenas, opaque reset, single frame tick, relocated HUD and safe transitions
+PASS classic simulation: natural AI match + championship completed
+PASS power simulation: natural AI match + championship completed
+PASS RC4: explicit pack removal, custom scroll list, imported categories, opt-in shuffle on real Ambient/Store/Game changes, no repeat, per-frame pinball collision, distinct color balls.
+PASS GTM 4.1.4: manual Pause, focus pause/stop, unloaded Home Ambient, Ready recovery, Store/game/disabled safety, stale timer cancellation, late resolver
+PASS GTM 4.0.9: 60/90/40/30Hz cadence, adaptive resolution before economy FPS, hysteresis, audio-envelope interpolation, glow-filter removal, footer continuity, version.
+PASS 4.1.4 controller: startup 12s, gentle fade, hidden sleep pause, wake delay and resume, Plex priority, delayed URL cancellation
+PASS 4.1.4: delayed startup, hidden/sleep, wake, timer jump, preview/manual override, adjustable grace, ResonaDeck priority, soft fade, cleanup
+PASS GTM 4.1.4: SteamOS suspend pre-pause, backend sequencing, missed visibility, wake delay, stale packets, Plex focus, off toggle, unregister
+PASS GTM 4.0.4: prebuffer, true overlap, retired callbacks, focus clean-up, nonbuffered fallback, distinct playlist owners, compatibility, version
+PASS 3 controllers, assigned-only disconnect, 10 sec takeover, P1/P2 right-stick reclaim, anti-slot-steal
+PASS Arcade page/category and paginated dropdown limit
+PASS Pong miss travels behind paddle to rear goal, local impact freeze, point awarded exactly once
+PASS independent player cooldowns, readable power-state labels, player identity labels
+PASS 5 included scenes at startup, safe v3 validation, both native collections protected
+PASS world_arcade_beat_catcher 120s AI sim {"round":0,"wave":10,"score":9920}
+PASS world_arcade_orbital_duel 120s AI sim {"round":8,"wave":1,"score":4}
+PASS world_arcade_orbit_defenders 120s AI sim {"round":0,"wave":10,"score":950}
+PASS world_arcade_prism_bastion 120s AI sim {"round":0,"wave":3,"score":168}
+PASS world_arcade_target_roll 120s AI sim {"round":10,"wave":1,"score":9200}
+PASS black hole makes measurable physical trajectory change
+PASS all five built-in trusted games render for 30 frames
+PASS UI, readiness, and built-in game linkage
+PASS 4.2.1 compact scoreboard power indicators, no court occlusion, independent cooldown labels, Couch/Default layout and synced bundle
+
+PASS GTM 4.2.1 full regression suite. Physical Steam Deck acceptance still required.

@@ -1,0 +1,1929 @@
+{
+  "format": 3,
+  "pack_id": "gtm_arcade_builtin_420",
+  "name": "Spectator Worlds • AI Exhibitions",
+  "author": "Valentine / Game Theme Music",
+  "version": "4.4.9",
+  "description": "Original autonomous AI-versus-AI simulations and artwork, preserved as music-reactive spectator visualizers. No playable controls.",
+  "scenes": [
+    {
+      "id": "world_arcade_beat_catcher",
+      "title": "Beat Catcher • Endless Rhythm",
+      "category": "arcade",
+      "background": {
+        "style": "arcade",
+        "base": "#090b1f",
+        "accent": "#e75fb9",
+        "motion": 0.32,
+        "density": 0.55,
+        "reactivity": 0.15
+      },
+      "interaction": {
+        "kind": "spectator",
+        "default": "ai_ai",
+        "modes": [
+          "ai_ai"
+        ]
+      },
+      "options": [
+        {
+          "id": "speed",
+          "label": "Target speed",
+          "choices": [
+            {
+              "value": 0.5,
+              "label": "Calm"
+            },
+            {
+              "value": 1,
+              "label": "Normal"
+            },
+            {
+              "value": 1.7,
+              "label": "Quick"
+            }
+          ]
+        }
+      ],
+      "program": {
+        "version": 1,
+        "state": {
+          "player": 0.5,
+          "target": 0.4,
+          "phase": 0,
+          "score": 0,
+          "latch": 0
+        },
+        "update": [
+          {
+            "do": "set",
+            "var": "phase",
+            "value": [
+              "add",
+              [
+                "get",
+                "phase"
+              ],
+              [
+                "mul",
+                [
+                  "get",
+                  "dt"
+                ],
+                [
+                  "get",
+                  "opt_speed"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "get",
+              "human1"
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "player",
+                "value": [
+                  "clamp",
+                  [
+                    "add",
+                    [
+                      "get",
+                      "player"
+                    ],
+                    [
+                      "mul",
+                      [
+                        "get",
+                        "p1x"
+                      ],
+                      [
+                        "mul",
+                        [
+                          "get",
+                          "dt"
+                        ],
+                        0.8
+                      ]
+                    ]
+                  ],
+                  0.06,
+                  0.94
+                ]
+              }
+            ],
+            "else": [
+              {
+                "do": "set",
+                "var": "player",
+                "value": [
+                  "add",
+                  0.5,
+                  [
+                    "mul",
+                    0.35,
+                    [
+                      "sin",
+                      [
+                        "get",
+                        "phase"
+                      ]
+                    ]
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "do": "set",
+            "var": "target",
+            "value": [
+              "add",
+              0.5,
+              [
+                "mul",
+                0.38,
+                [
+                  "cos",
+                  [
+                    "mul",
+                    [
+                      "get",
+                      "phase"
+                    ],
+                    1.4
+                  ]
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "lt",
+                [
+                  "get",
+                  "beat"
+                ],
+                0.18
+              ],
+              [
+                "lt",
+                [
+                  "sin",
+                  [
+                    "mul",
+                    [
+                      "get",
+                      "phase"
+                    ],
+                    4.2
+                  ]
+                ],
+                0.45
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "latch",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "lt",
+                [
+                  "abs",
+                  [
+                    "sub",
+                    [
+                      "get",
+                      "player"
+                    ],
+                    [
+                      "get",
+                      "target"
+                    ]
+                  ]
+                ],
+                0.23
+              ],
+              [
+                "and",
+                [
+                  "or",
+                  [
+                    "gt",
+                    [
+                      "get",
+                      "beat"
+                    ],
+                    0.37
+                  ],
+                  [
+                    "gt",
+                    [
+                      "sin",
+                      [
+                        "mul",
+                        [
+                          "get",
+                          "phase"
+                        ],
+                        4.2
+                      ]
+                    ],
+                    0.94
+                  ]
+                ],
+                [
+                  "not",
+                  [
+                    "get",
+                    "latch"
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "score",
+                "value": [
+                  "add",
+                  [
+                    "get",
+                    "score"
+                  ],
+                  1
+                ]
+              },
+              {
+                "do": "set",
+                "var": "latch",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "get",
+              "p1a"
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "score",
+                "value": [
+                  "add",
+                  [
+                    "get",
+                    "score"
+                  ],
+                  1
+                ]
+              }
+            ]
+          }
+        ],
+        "draw": [
+          {
+            "do": "rect",
+            "x": 0,
+            "y": 0.65,
+            "w": 1,
+            "h": 0.18,
+            "color": "#11152e",
+            "alpha": 0.94
+          },
+          {
+            "do": "circle",
+            "x": [
+              "get",
+              "target"
+            ],
+            "y": 0.72,
+            "r": 0.042,
+            "color": "#ffce55"
+          },
+          {
+            "do": "rect",
+            "x": [
+              "sub",
+              [
+                "get",
+                "player"
+              ],
+              0.035
+            ],
+            "y": 0.78,
+            "w": 0.07,
+            "h": 0.07,
+            "color": "#64eaff"
+          },
+          {
+            "do": "text",
+            "x": 0.04,
+            "y": 0.23,
+            "size": 0.2,
+            "text": "BEAT CATCHER",
+            "color": "#f5efff"
+          },
+          {
+            "do": "text",
+            "x": 0.74,
+            "y": 0.23,
+            "size": 0.17,
+            "text": "SCORE ",
+            "value": [
+              "get",
+              "score"
+            ],
+            "color": "#fff2a5"
+          }
+        ]
+      },
+      "layers": []
+    },
+    {
+      "id": "world_arcade_orbital_duel",
+      "title": "Orbital Duel • Gravity Arena",
+      "category": "arcade",
+      "background": {
+        "style": "stars",
+        "base": "#080f29",
+        "accent": "#8db2fe",
+        "motion": 0.45,
+        "density": 0.65,
+        "reactivity": 0.15
+      },
+      "interaction": {
+        "kind": "spectator",
+        "default": "ai_ai",
+        "modes": [
+          "ai_ai"
+        ]
+      },
+      "options": [
+        {
+          "id": "blackhole",
+          "label": "Black hole gravity",
+          "choices": [
+            {
+              "value": 0,
+              "label": "Off"
+            },
+            {
+              "value": 0.55,
+              "label": "Gentle"
+            },
+            {
+              "value": 1,
+              "label": "Standard"
+            },
+            {
+              "value": 1.5,
+              "label": "Extreme"
+            }
+          ]
+        },
+        {
+          "id": "spread",
+          "label": "Orbit spread",
+          "choices": [
+            {
+              "value": 0.18,
+              "label": "Tight"
+            },
+            {
+              "value": 0.29,
+              "label": "Normal"
+            },
+            {
+              "value": 0.38,
+              "label": "Wide"
+            }
+          ]
+        }
+      ],
+      "program": {
+        "version": 1,
+        "state": {
+          "phase": 0,
+          "left": 0.3,
+          "right": 0.7,
+          "burst": 0,
+          "score_l": 0,
+          "score_r": 0,
+          "cool_l": 0,
+          "cool_r": 0
+        },
+        "update": [
+          {
+            "do": "set",
+            "var": "phase",
+            "value": [
+              "add",
+              [
+                "get",
+                "phase"
+              ],
+              [
+                "mul",
+                [
+                  "get",
+                  "dt"
+                ],
+                [
+                  "add",
+                  0.4,
+                  [
+                    "mul",
+                    0.3,
+                    [
+                      "get",
+                      "low"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "get",
+              "human1"
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "left",
+                "value": [
+                  "clamp",
+                  [
+                    "add",
+                    [
+                      "get",
+                      "left"
+                    ],
+                    [
+                      "mul",
+                      [
+                        "get",
+                        "p1y"
+                      ],
+                      [
+                        "mul",
+                        [
+                          "get",
+                          "dt"
+                        ],
+                        0.7
+                      ]
+                    ]
+                  ],
+                  0.14,
+                  0.86
+                ]
+              }
+            ],
+            "else": [
+              {
+                "do": "set",
+                "var": "left",
+                "value": [
+                  "add",
+                  0.5,
+                  [
+                    "mul",
+                    [
+                      "get",
+                      "opt_spread"
+                    ],
+                    [
+                      "sin",
+                      [
+                        "get",
+                        "phase"
+                      ]
+                    ]
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "get",
+              "human2"
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "right",
+                "value": [
+                  "clamp",
+                  [
+                    "add",
+                    [
+                      "get",
+                      "right"
+                    ],
+                    [
+                      "mul",
+                      [
+                        "get",
+                        "p2y"
+                      ],
+                      [
+                        "mul",
+                        [
+                          "get",
+                          "dt"
+                        ],
+                        0.7
+                      ]
+                    ]
+                  ],
+                  0.14,
+                  0.86
+                ]
+              }
+            ],
+            "else": [
+              {
+                "do": "set",
+                "var": "right",
+                "value": [
+                  "add",
+                  0.5,
+                  [
+                    "mul",
+                    [
+                      "get",
+                      "opt_spread"
+                    ],
+                    [
+                      "cos",
+                      [
+                        "get",
+                        "phase"
+                      ]
+                    ]
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "do": "set",
+            "var": "burst",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "burst"
+                ],
+                [
+                  "mul",
+                  [
+                    "get",
+                    "dt"
+                  ],
+                  1.1
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "or",
+              [
+                "get",
+                "p1rb"
+              ],
+              [
+                "get",
+                "p2rb"
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "burst",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "or",
+              [
+                "get",
+                "p1a"
+              ],
+              [
+                "get",
+                "p2a"
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "burst",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "do": "set",
+            "var": "cool_l",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "cool_l"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "lt",
+                [
+                  "get",
+                  "cool_l"
+                ],
+                0.01
+              ],
+              [
+                "or",
+                [
+                  "get",
+                  "p1rb"
+                ],
+                [
+                  "or",
+                  [
+                    "get",
+                    "p1a"
+                  ],
+                  [
+                    "and",
+                    [
+                      "not",
+                      [
+                        "get",
+                        "human1"
+                      ]
+                    ],
+                    [
+                      "gt",
+                      [
+                        "sin",
+                        [
+                          "mul",
+                          [
+                            "get",
+                            "phase"
+                          ],
+                          3.1
+                        ]
+                      ],
+                      0.96
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "cool_l",
+                "value": 0.75
+              },
+              {
+                "do": "set",
+                "var": "burst",
+                "value": 0.8
+              },
+              {
+                "do": "if",
+                "test": [
+                  "lt",
+                  [
+                    "abs",
+                    [
+                      "sub",
+                      [
+                        "get",
+                        "left"
+                      ],
+                      [
+                        "get",
+                        "right"
+                      ]
+                    ]
+                  ],
+                  0.32
+                ],
+                "then": [
+                  {
+                    "do": "set",
+                    "var": "score_l",
+                    "value": [
+                      "add",
+                      [
+                        "get",
+                        "score_l"
+                      ],
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "do": "set",
+            "var": "cool_r",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "cool_r"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "lt",
+                [
+                  "get",
+                  "cool_r"
+                ],
+                0.01
+              ],
+              [
+                "or",
+                [
+                  "get",
+                  "p2rb"
+                ],
+                [
+                  "or",
+                  [
+                    "get",
+                    "p2a"
+                  ],
+                  [
+                    "and",
+                    [
+                      "not",
+                      [
+                        "get",
+                        "human2"
+                      ]
+                    ],
+                    [
+                      "gt",
+                      [
+                        "sin",
+                        [
+                          "mul",
+                          [
+                            "get",
+                            "phase"
+                          ],
+                          3.7
+                        ]
+                      ],
+                      0.96
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "cool_r",
+                "value": 0.75
+              },
+              {
+                "do": "set",
+                "var": "burst",
+                "value": 0.8
+              },
+              {
+                "do": "if",
+                "test": [
+                  "lt",
+                  [
+                    "abs",
+                    [
+                      "sub",
+                      [
+                        "get",
+                        "right"
+                      ],
+                      [
+                        "get",
+                        "left"
+                      ]
+                    ]
+                  ],
+                  0.32
+                ],
+                "then": [
+                  {
+                    "do": "set",
+                    "var": "score_r",
+                    "value": [
+                      "add",
+                      [
+                        "get",
+                        "score_r"
+                      ],
+                      1
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "draw": [
+          {
+            "do": "line",
+            "x": 0.23,
+            "y": [
+              "get",
+              "left"
+            ],
+            "x2": 0.77,
+            "y2": [
+              "get",
+              "right"
+            ],
+            "color": "#cfdaff",
+            "alpha": 0.5,
+            "size": 0.012
+          },
+          {
+            "do": "circle",
+            "x": 0.23,
+            "y": [
+              "get",
+              "left"
+            ],
+            "r": [
+              "add",
+              0.06,
+              [
+                "mul",
+                [
+                  "get",
+                  "burst"
+                ],
+                0.025
+              ]
+            ],
+            "color": "#dc79fb"
+          },
+          {
+            "do": "circle",
+            "x": 0.77,
+            "y": [
+              "get",
+              "right"
+            ],
+            "r": [
+              "add",
+              0.06,
+              [
+                "mul",
+                [
+                  "get",
+                  "burst"
+                ],
+                0.025
+              ]
+            ],
+            "color": "#61d9fe"
+          },
+          {
+            "do": "text",
+            "x": 0.04,
+            "y": 0.18,
+            "text": "DUAL ORBITS",
+            "color": "#f8f4ff",
+            "size": 0.19
+          },
+          {
+            "do": "text",
+            "x": 0.38,
+            "y": 0.18,
+            "text": "P1 ",
+            "value": [
+              "get",
+              "score_l"
+            ],
+            "size": 0.13,
+            "color": "#dc79fb"
+          },
+          {
+            "do": "text",
+            "x": 0.62,
+            "y": 0.18,
+            "text": "P2 ",
+            "value": [
+              "get",
+              "score_r"
+            ],
+            "size": 0.13,
+            "color": "#61d9fe"
+          },
+          {
+            "do": "text",
+            "x": 0.04,
+            "y": 0.9,
+            "text": "AI EXHIBITION  ·  MUSIC REACTIVE",
+            "size": 0.09,
+            "color": "#cfdaff"
+          }
+        ]
+      },
+      "layers": []
+    },
+    {
+      "id": "world_arcade_orbit_defenders",
+      "title": "Orbit Defenders • Endless Co-op",
+      "category": "arcade",
+      "background": {
+        "style": "stars",
+        "base": "#050e23",
+        "accent": "#8aa4fd",
+        "motion": 0.42,
+        "density": 1,
+        "reactivity": 0.15
+      },
+      "interaction": {
+        "kind": "spectator",
+        "default": "ai_ai",
+        "modes": [
+          "ai_ai"
+        ]
+      },
+      "options": [
+        {
+          "id": "blackhole",
+          "label": "Black hole gravity",
+          "choices": [
+            {
+              "value": 0,
+              "label": "Off"
+            },
+            {
+              "value": 0.55,
+              "label": "Gentle"
+            },
+            {
+              "value": 1,
+              "label": "Standard"
+            },
+            {
+              "value": 1.5,
+              "label": "Extreme"
+            }
+          ]
+        },
+        {
+          "id": "pace",
+          "label": "Patrol pace",
+          "choices": [
+            {
+              "value": 0.65,
+              "label": "Calm"
+            },
+            {
+              "value": 1,
+              "label": "Standard"
+            },
+            {
+              "value": 1.5,
+              "label": "Fast"
+            }
+          ]
+        }
+      ],
+      "program": {
+        "version": 1,
+        "state": {
+          "ship": 0.5,
+          "phase": 0,
+          "target": 0.5,
+          "cool": 0,
+          "score": 0,
+          "blast": 0
+        },
+        "update": [
+          {
+            "do": "set",
+            "var": "phase",
+            "value": [
+              "add",
+              [
+                "get",
+                "phase"
+              ],
+              [
+                "mul",
+                [
+                  "get",
+                  "dt"
+                ],
+                [
+                  "mul",
+                  [
+                    "get",
+                    "opt_pace"
+                  ],
+                  [
+                    "add",
+                    0.72,
+                    [
+                      "mul",
+                      [
+                        "get",
+                        "low"
+                      ],
+                      0.15
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "target",
+            "value": [
+              "add",
+              0.5,
+              [
+                "mul",
+                0.34,
+                [
+                  "sin",
+                  [
+                    "get",
+                    "phase"
+                  ]
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "get",
+              "human1"
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "ship",
+                "value": [
+                  "clamp",
+                  [
+                    "add",
+                    [
+                      "get",
+                      "ship"
+                    ],
+                    [
+                      "mul",
+                      [
+                        "get",
+                        "p1x"
+                      ],
+                      [
+                        "mul",
+                        [
+                          "get",
+                          "dt"
+                        ],
+                        1.75
+                      ]
+                    ]
+                  ],
+                  0.1,
+                  0.9
+                ]
+              }
+            ],
+            "else": [
+              {
+                "do": "set",
+                "var": "ship",
+                "value": [
+                  "add",
+                  0.5,
+                  [
+                    "mul",
+                    0.31,
+                    [
+                      "sin",
+                      [
+                        "mul",
+                        [
+                          "get",
+                          "phase"
+                        ],
+                        0.84
+                      ]
+                    ]
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "do": "set",
+            "var": "cool",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "cool"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "blast",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "blast"
+                ],
+                [
+                  "mul",
+                  [
+                    "get",
+                    "dt"
+                  ],
+                  3
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "lt",
+                [
+                  "get",
+                  "cool"
+                ],
+                0.01
+              ],
+              [
+                "or",
+                [
+                  "get",
+                  "p1rb"
+                ],
+                [
+                  "or",
+                  [
+                    "get",
+                    "p1a"
+                  ],
+                  [
+                    "and",
+                    [
+                      "not",
+                      [
+                        "get",
+                        "human1"
+                      ]
+                    ],
+                    [
+                      "gt",
+                      [
+                        "sin",
+                        [
+                          "mul",
+                          [
+                            "get",
+                            "phase"
+                          ],
+                          4
+                        ]
+                      ],
+                      0.97
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "cool",
+                "value": 0.38
+              },
+              {
+                "do": "set",
+                "var": "blast",
+                "value": 1
+              },
+              {
+                "do": "if",
+                "test": [
+                  "lt",
+                  [
+                    "abs",
+                    [
+                      "sub",
+                      [
+                        "get",
+                        "ship"
+                      ],
+                      [
+                        "get",
+                        "target"
+                      ]
+                    ]
+                  ],
+                  0.14
+                ],
+                "then": [
+                  {
+                    "do": "set",
+                    "var": "score",
+                    "value": [
+                      "add",
+                      [
+                        "get",
+                        "score"
+                      ],
+                      1
+                    ]
+                  }
+                ],
+                "else": []
+              }
+            ],
+            "else": []
+          }
+        ],
+        "draw": [
+          {
+            "do": "text",
+            "text": "ORBIT DEFENDERS",
+            "x": 0.045,
+            "y": 0.19,
+            "size": 0.18,
+            "color": "#e8f4ff"
+          },
+          {
+            "do": "text",
+            "text": "HITS",
+            "x": 0.73,
+            "y": 0.17,
+            "size": 0.15,
+            "color": "#ffeda8",
+            "value": [
+              "get",
+              "score"
+            ]
+          },
+          {
+            "do": "circle",
+            "x": [
+              "get",
+              "target"
+            ],
+            "y": 0.45,
+            "r": 0.075,
+            "color": "#ffb45e",
+            "alpha": 0.88
+          },
+          {
+            "do": "circle",
+            "x": [
+              "get",
+              "target"
+            ],
+            "y": 0.45,
+            "r": 0.12,
+            "color": "#ffd58d",
+            "alpha": 0.22,
+            "stroke": true
+          },
+          {
+            "do": "rect",
+            "x": [
+              "sub",
+              [
+                "get",
+                "ship"
+              ],
+              0.039
+            ],
+            "y": 0.81,
+            "w": 0.078,
+            "h": 0.085,
+            "color": "#69d6fc"
+          },
+          {
+            "do": "circle",
+            "x": [
+              "get",
+              "ship"
+            ],
+            "y": 0.77,
+            "r": 0.029,
+            "color": "#b0eeff"
+          },
+          {
+            "do": "if",
+            "test": [
+              "get",
+              "blast"
+            ],
+            "then": [
+              {
+                "do": "rect",
+                "x": [
+                  "sub",
+                  [
+                    "get",
+                    "ship"
+                  ],
+                  0.01
+                ],
+                "y": 0.53,
+                "w": 0.02,
+                "h": 0.23,
+                "color": "#feef9f",
+                "alpha": [
+                  "get",
+                  "blast"
+                ]
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "text",
+            "text": "AI EXHIBITION  ·  MUSIC REACTIVE",
+            "x": 0.035,
+            "y": 0.96,
+            "size": 0.1,
+            "color": "#e9ecff"
+          }
+        ]
+      },
+      "layers": []
+    },
+    {
+      "id": "world_arcade_neon_strike_gallery",
+      "title": "Neon Strike Gallery • Endless Target Siege",
+      "category": "arcade",
+      "background": {
+        "style": "arcade",
+        "base": "#071326",
+        "accent": "#6ce4ff",
+        "motion": 0.28,
+        "density": 0.46,
+        "reactivity": 0.12
+      },
+      "interaction": {
+        "kind": "spectator",
+        "default": "ai_ai",
+        "modes": [
+          "ai_ai"
+        ]
+      },
+      "options": [
+        {
+          "id": "speed",
+          "label": "Target motion",
+          "choices": [
+            {
+              "value": 0.65,
+              "label": "Easy"
+            },
+            {
+              "value": 1,
+              "label": "Normal"
+            },
+            {
+              "value": 1.35,
+              "label": "Fast"
+            }
+          ]
+        }
+      ],
+      "program": {
+        "version": 1,
+        "state": {
+          "aim": 0.5,
+          "target": 0.5,
+          "phase": 0,
+          "score": 0,
+          "cool": 0,
+          "roll": 0,
+          "last": 0
+        },
+        "update": [
+          {
+            "do": "set",
+            "var": "phase",
+            "value": [
+              "add",
+              [
+                "get",
+                "phase"
+              ],
+              [
+                "mul",
+                [
+                  "get",
+                  "dt"
+                ],
+                [
+                  "get",
+                  "opt_speed"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "target",
+            "value": [
+              "add",
+              0.5,
+              [
+                "mul",
+                0.28,
+                [
+                  "sin",
+                  [
+                    "mul",
+                    [
+                      "get",
+                      "phase"
+                    ],
+                    1.2
+                  ]
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "get",
+              "human1"
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "aim",
+                "value": [
+                  "clamp",
+                  [
+                    "add",
+                    [
+                      "get",
+                      "aim"
+                    ],
+                    [
+                      "mul",
+                      [
+                        "get",
+                        "p1x"
+                      ],
+                      [
+                        "mul",
+                        [
+                          "get",
+                          "dt"
+                        ],
+                        1.35
+                      ]
+                    ]
+                  ],
+                  0.12,
+                  0.88
+                ]
+              }
+            ],
+            "else": [
+              {
+                "do": "set",
+                "var": "aim",
+                "value": [
+                  "add",
+                  0.5,
+                  [
+                    "mul",
+                    0.26,
+                    [
+                      "sin",
+                      [
+                        "add",
+                        [
+                          "get",
+                          "phase"
+                        ],
+                        0.4
+                      ]
+                    ]
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "do": "set",
+            "var": "cool",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "cool"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "roll",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "roll"
+                ],
+                [
+                  "mul",
+                  [
+                    "get",
+                    "dt"
+                  ],
+                  1.5
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "lt",
+                [
+                  "get",
+                  "cool"
+                ],
+                0.01
+              ],
+              [
+                "or",
+                [
+                  "or",
+                  [
+                    "get",
+                    "p1rb"
+                  ],
+                  [
+                    "get",
+                    "p1rt"
+                  ]
+                ],
+                [
+                  "or",
+                  [
+                    "get",
+                    "p1a"
+                  ],
+                  [
+                    "and",
+                    [
+                      "not",
+                      [
+                        "get",
+                        "human1"
+                      ]
+                    ],
+                    [
+                      "gt",
+                      [
+                        "cos",
+                        [
+                          "mul",
+                          [
+                            "get",
+                            "phase"
+                          ],
+                          4
+                        ]
+                      ],
+                      0.97
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "cool",
+                "value": 0.65
+              },
+              {
+                "do": "set",
+                "var": "roll",
+                "value": 1
+              },
+              {
+                "do": "if",
+                "test": [
+                  "lt",
+                  [
+                    "abs",
+                    [
+                      "sub",
+                      [
+                        "get",
+                        "aim"
+                      ],
+                      [
+                        "get",
+                        "target"
+                      ]
+                    ]
+                  ],
+                  0.12
+                ],
+                "then": [
+                  {
+                    "do": "set",
+                    "var": "score",
+                    "value": [
+                      "add",
+                      [
+                        "get",
+                        "score"
+                      ],
+                      3
+                    ]
+                  },
+                  {
+                    "do": "set",
+                    "var": "last",
+                    "value": 3
+                  }
+                ],
+                "else": [
+                  {
+                    "do": "set",
+                    "var": "score",
+                    "value": [
+                      "add",
+                      [
+                        "get",
+                        "score"
+                      ],
+                      1
+                    ]
+                  },
+                  {
+                    "do": "set",
+                    "var": "last",
+                    "value": 1
+                  }
+                ]
+              }
+            ],
+            "else": []
+          }
+        ],
+        "draw": [
+          {
+            "do": "text",
+            "text": "NEON STRIKE GALLERY",
+            "x": 0.05,
+            "y": 0.18,
+            "size": 0.2,
+            "color": "#fff0d7"
+          },
+          {
+            "do": "text",
+            "text": "PTS",
+            "x": 0.72,
+            "y": 0.18,
+            "size": 0.16,
+            "color": "#ffd47e",
+            "value": [
+              "get",
+              "score"
+            ]
+          },
+          {
+            "do": "rect",
+            "x": 0,
+            "y": 0.48,
+            "w": 1,
+            "h": 0.07,
+            "color": "#392642"
+          },
+          {
+            "do": "circle",
+            "x": [
+              "get",
+              "target"
+            ],
+            "y": 0.46,
+            "r": 0.1,
+            "color": "#ffbd68",
+            "alpha": 0.76
+          },
+          {
+            "do": "circle",
+            "x": [
+              "get",
+              "target"
+            ],
+            "y": 0.46,
+            "r": 0.05,
+            "color": "#542b55"
+          },
+          {
+            "do": "circle",
+            "x": [
+              "get",
+              "target"
+            ],
+            "y": 0.46,
+            "r": 0.025,
+            "color": "#fffcbd"
+          },
+          {
+            "do": "rect",
+            "x": [
+              "sub",
+              [
+                "get",
+                "aim"
+              ],
+              0.03
+            ],
+            "y": 0.82,
+            "w": 0.06,
+            "h": 0.08,
+            "color": "#6adffb"
+          },
+          {
+            "do": "if",
+            "test": [
+              "get",
+              "roll"
+            ],
+            "then": [
+              {
+                "do": "circle",
+                "x": [
+                  "get",
+                  "aim"
+                ],
+                "y": [
+                  "sub",
+                  0.76,
+                  [
+                    "mul",
+                    0.26,
+                    [
+                      "get",
+                      "roll"
+                    ]
+                  ]
+                ],
+                "r": 0.032,
+                "color": "#f8f9ff"
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "text",
+            "text": "AI EXHIBITION  ·  MUSIC REACTIVE",
+            "x": 0.05,
+            "y": 0.96,
+            "size": 0.1,
+            "color": "#ffedd5"
+          }
+        ]
+      },
+      "layers": []
+    },
+    {
+      "id": "world_arcade_neon_chess",
+      "title": "Neon Chess Championship",
+      "category": "arcade",
+      "background": {
+        "style": "stars",
+        "base": "#050c1d",
+        "accent": "#83bbec",
+        "motion": 0.18,
+        "density": 0.3,
+        "reactivity": 0.08
+      },
+      "interaction": {
+        "kind": "spectator",
+        "default": "ai_ai",
+        "modes": [
+          "ai_ai"
+        ]
+      },
+      "layers": [],
+      "program": {
+        "version": 1,
+        "state": {},
+        "update": [],
+        "draw": []
+      }
+    }
+  ]
+}

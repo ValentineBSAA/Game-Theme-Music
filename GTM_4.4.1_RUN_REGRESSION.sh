@@ -1,0 +1,46 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")"
+python3 -m py_compile main.py gtm_pack_v3.py
+node --check dist/index.js
+for file in src/visualizer-behaviors/controller-418.js src/visualizer-behaviors/pack-program-418.js src/visualizer-behaviors/arcade-421.js src/visualizer-behaviors/runtime-414.js src/visualizer-behaviors/scenery-415.js src/visualizer-behaviors/chess-440.js; do node --check "$file"; done
+python3 tests/arcade_backend_422.py
+python3 GTM_4.1.8_PACK_SECURITY_TESTS.py
+node tests/arcade_startup_429.cjs
+node tests/arcade_429_mechanics.cjs
+node tests/arcade_abilities_425.cjs
+node tests/arcade_429_acceptance.cjs
+node tests/arcade_430_layout_visibility.cjs
+node tests/arcade_430_all_tabs.cjs
+node tests/arcade_430_renderer_safety.cjs
+node tests/arcade_430_endurance.cjs
+node tests/arcade_430_pong_stress.cjs
+node tests/arcade_430_adaptive_ai.cjs
+node tests/arcade_431_freeze_recovery.cjs
+node tests/arcade_432_seamless_handoff.cjs
+node tests/arcade_433_couch_and_gameplay.cjs
+node tests/arcade_434_mindball_adaptive_styles.cjs
+node tests/arcade_435_tactical_rhythm.cjs
+node tests/arcade_440_chess_rules.cjs
+node tests/arcade_440_chess_performance.cjs
+node tests/arcade_441_focused_chess_layout.cjs
+node tests/arcade_440_visualizer_navigation.cjs
+node tests/arcade_429_live_tuning.cjs
+node tests/arcade_426_ai_disconnect.cjs
+node tests/arcade_427_post_update_idle.cjs
+node tests/arcade_428_pong_morphs.cjs
+node tests/arcade_428_community_vm.cjs
+python3 pack_validate.py visualizer-packs/sdk-examples/Neon_Dodger_Community/manifest.json
+node tests/ready_and_goal_423_rev2.cjs
+node tests/pong_timing_rev2.cjs
+node tests/pong_abilities_423.cjs
+node tests/ready_and_goal_423_rev2.cjs
+node tests/controller_dual_join_424.cjs
+node GTM_4.2.1_AUDIO_AND_CLOCK_REGRESSION.cjs
+node GTM_4.1.8_BUDGET_AND_SCENERY_TESTS.cjs
+node GTM_4.4.1_VERSION_CONSISTENCY_TESTS.cjs
+node GTM_4.3.0_FOCUS_INTEGRATION.cjs
+node GTM_4.3.0_CROSSFADE_REGRESSION_TESTS.cjs
+node GTM_4.3.0_SLEEP_MODE_TESTS.cjs
+node GTM_4.3.0_RENDER_PERFORMANCE_TESTS.cjs
+printf '\nPASS 4.4.1 Public Beta integrated suite. Physical Steam Deck UI acceptance still required.\n'

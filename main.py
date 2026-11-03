@@ -1,4 +1,4 @@
-"""Game Theme Music 4.0.4 Public Beta candidate backend.
+"""Game Theme Music 4.4.6 Spectator Edition preview backend.
 
 Cached audio is streamed over a tokenized loopback server. Provider, storage,
 update, health, and diagnostic operations are exposed as Decky RPC methods.
@@ -38,7 +38,7 @@ from settings import SettingsManager  # type: ignore
 logging.basicConfig(level=logging.INFO)
 logger = getattr(decky, "logger", logging.getLogger(__name__))
 
-PLUGIN_VERSION = getattr(decky, "DECKY_PLUGIN_VERSION", "4.1.2")
+PLUGIN_VERSION = getattr(decky, "DECKY_PLUGIN_VERSION", "4.4.9")
 INDEX_VERSION = 1
 DEFAULT_STORAGE_LIMIT_MB = 2048
 MAX_AUDIO_BYTES = 2 * 1024**3
@@ -585,12 +585,39 @@ class Plugin:
         "seismic_mountains", "mechanical_iris", "sakura_tempest",
         "supernova_bloom", "neon_pong", "tidal_bloom",
     })
-    VISUAL_CATEGORIES = frozenset({"retro", "rhythm", "signature", "anime"})
+    VISUAL_CATEGORIES = frozenset({"retro", "rhythm", "signature", "anime", "arcade"})
+    # v3 adds a bounded visual-program VM; v1/v2 retain their existing validation.
+    # v2 keeps packs declarative: no scripts, HTML, URLs, filesystem paths or ZIP extraction.
+    VISUAL_OVERLAYS = frozenset({"sparks", "lightning", "rings", "stardust", "comets", "scanlines", "confetti", "orbits", "hexagons", "laser", "snow", "embers", "grid", "waves", "shards", "flares", "bubbles"})
+    VISUAL_AUDIO_SOURCES = frozenset({"low", "mid", "high", "beat", "rms", "energy"})
+    VISUAL_TRIGGERS = frozenset({"always", "beat", "bass", "treble"})
+    # 4.1.5: allowlisted scenery is independent from layer/overlay effects.
+    VISUAL_SCENERIES = frozenset({"solid", "arcade", "storm", "stars", "nebula", "aurora", "ocean", "sunset", "forest", "city"})
     VISUAL_PACK_ID = re.compile(r"^[a-z][a-z0-9_]{2,62}$")
 
     def _validate_visualizer_pack(self, payload: Any) -> dict[str, Any]:
-        if not isinstance(payload, dict) or payload.get("format") != 1:
-            raise ValueError("Expected Visual Worlds pack format 1")
+        """Strict v1/v2 manifest parser. Nothing from a ZIP is executed or extracted."""
+        if isinstance(payload, dict) and type(payload.get("format")) is int and payload["format"] == 3:
+            try:
+                from gtm_pack_v3 import validate_pack
+            except ModuleNotFoundError as error:
+                if error.name != 'gtm_pack_v3':
+                    raise
+                # Some Decky loader environments do not add the plugin's
+                # directory to sys.path. Import our own bundled validator
+                # from the trusted install location rather than dropping games.
+                import importlib.util
+                validator_path = Path(decky.DECKY_PLUGIN_DIR) / 'gtm_pack_v3.py'
+                spec = importlib.util.spec_from_file_location('gtm_pack_v3', validator_path)
+                if spec is None or spec.loader is None:
+                    raise FileNotFoundError('Missing bundled format-3 validator')
+                module = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(module)
+                validate_pack = module.validate_pack
+            return validate_pack(payload, self._validate_visualizer_pack)
+        if not isinstance(payload, dict) or type(payload.get("format")) is not int or payload["format"] not in (1, 2):
+            raise ValueError("Expected Visual Worlds pack format 1 or 2")
+        fmt = payload["format"]
         pack_id = payload.get("pack_id")
         if not isinstance(pack_id, str) or not self.VISUAL_PACK_ID.fullmatch(pack_id):
             raise ValueError("Invalid pack ID")
@@ -598,14 +625,19 @@ class Plugin:
             if not isinstance(value, str) or not 1 <= len(value.strip()) <= limit:
                 raise ValueError(f"Invalid {name}")
             return value.strip()
+        def number(value: Any, name: str, low: float, high: float) -> float:
+            import math
+            if type(value) not in (int, float) or not math.isfinite(value) or not low <= value <= high:
+                raise ValueError(f"Invalid {name} parameter")
+            return float(value)
         name = label(payload.get("name"), "pack name")
         author = label(payload.get("author", "Community"), "author")
         version = label(payload.get("version", "1.0.0"), "version", 24)
+        description = label(payload.get("description", "Visualizer scene pack"), "description", 360)
         raw = payload.get("scenes")
         if not isinstance(raw, list) or not 1 <= len(raw) <= 32:
             raise ValueError("Pack must contain 1–32 scenes")
-        scenes = []
-        ids = set()
+        scenes, ids = [], set()
         for scene in raw:
             if not isinstance(scene, dict):
                 raise ValueError("Invalid scene")
@@ -632,14 +664,66 @@ class Plugin:
                     ("density", .3, 1.5, 1.), ("intensity", .2, 1.5, 1.),
                     ("hueShift", -1., 1., 0.),
                 ):
-                    value = layer.get(field, default)
-                    if type(value) not in (int, float) or not lower <= float(value) <= upper:
-                        raise ValueError(f"Invalid {field} parameter")
-                    safe[field] = float(value)
+                    safe[field] = number(layer.get(field, default), field, lower, upper)
+                if fmt >= 2:
+                    audio = layer.get("audio", {})
+                    if not isinstance(audio, dict) or len(audio) > 5:
+                        raise ValueError("Invalid audio modulators")
+                    safe_audio = {}
+                    for field, entry in audio.items():
+                        if field not in ("scale", "speed", "density", "intensity", "hueShift") or not isinstance(entry, dict):
+                            raise ValueError("Unknown audio modulator")
+                        if entry.get("source") not in self.VISUAL_AUDIO_SOURCES:
+                            raise ValueError("Invalid audio source")
+                        safe_audio[field] = {"source": entry["source"], "amount": number(entry.get("amount", 0), "amount", -1, 1)}
+                    if safe_audio:
+                        safe["audio"] = safe_audio
                 safe_layers.append(safe)
-            scenes.append({"id": scene_id, "title": title, "category": category, "layers": safe_layers})
-        return {"format": 1, "pack_id": pack_id, "name": name, "author": author,
-                "version": version, "scenes": scenes}
+            safe_scene = {"id": scene_id, "title": title, "category": category, "layers": safe_layers}
+            if fmt >= 2:
+                backdrop = scene.get("background")
+                if backdrop is not None:
+                    if not isinstance(backdrop, dict) or set(backdrop)-{"style", "base", "accent", "density", "motion", "reactivity"}:
+                        raise ValueError("Unknown background field")
+                    style = backdrop.get("style", "solid")
+                    if style not in self.VISUAL_SCENERIES:
+                        raise ValueError("Unknown scenery style")
+                    def hex_color(field: str, default: str) -> str:
+                        value = backdrop.get(field, default)
+                        if not isinstance(value, str) or not re.fullmatch(r"#[0-9a-fA-F]{6}", value):
+                            raise ValueError(f"Invalid background {field} color")
+                        return value
+                    safe_scene["background"] = {
+                        "style": style,
+                        "base": hex_color("base", "#0a1229"),
+                        "accent": hex_color("accent", "#8b9bff"),
+                        "density": number(backdrop.get("density", 1), "background density", .3, 1.5),
+                        "motion": number(backdrop.get("motion", 1), "background motion", 0, 1),
+                        "reactivity": number(backdrop.get("reactivity", 1), "background reactivity", 0, 1.5),
+                    }
+                overlays = scene.get("overlays", [])
+                if not isinstance(overlays, list) or len(overlays) > 4:
+                    raise ValueError("Scenes support 0–4 overlays")
+                safe_overlays = []
+                for entry in overlays:
+                    if not isinstance(entry, dict) or entry.get("effect") not in self.VISUAL_OVERLAYS:
+                        raise ValueError("Unknown overlay effect")
+                    if entry.get("trigger", "always") not in self.VISUAL_TRIGGERS:
+                        raise ValueError("Unknown overlay trigger")
+                    color = entry.get("color", "auto")
+                    if not (color == "auto" or isinstance(color, str) and re.fullmatch(r"#[0-9a-fA-F]{6}", color)):
+                        raise ValueError("Overlay colors must be auto or #RRGGBB")
+                    safe_overlays.append({
+                        "effect": entry["effect"], "trigger": entry.get("trigger", "always"), "color": color,
+                        "density": number(entry.get("density", 1), "overlay density", .2, 2),
+                        "speed": number(entry.get("speed", 1), "overlay speed", .2, 2),
+                        "intensity": number(entry.get("intensity", .8), "overlay intensity", .05, 1.5),
+                    })
+                if safe_overlays:
+                    safe_scene["overlays"] = safe_overlays
+            scenes.append(safe_scene)
+        return {"format": fmt, "pack_id": pack_id, "name": name, "author": author,
+                "version": version, "description": description, "scenes": scenes}
 
     def _visualizer_pack_path(self) -> Path:
         return Path(decky.DECKY_PLUGIN_RUNTIME_DIR) / "visualizer-packs"
@@ -647,9 +731,11 @@ class Plugin:
     async def list_visualizer_packs(self):
         packs = []
         failures = []
+        seen_scene_ids = set()
         builtin = Path(decky.DECKY_PLUGIN_DIR) / "visualizer-packs" / "volume1" / "manifest.json"
         custom = self._visualizer_pack_path()
-        for path in [builtin, *sorted(custom.glob("*.json"))]:
+        arcade_builtin = Path(decky.DECKY_PLUGIN_DIR) / 'visualizer-packs' / 'arcade' / 'manifest.json'
+        for path in [builtin, arcade_builtin, *sorted(custom.glob("*.json"))]:
             try:
                 if path.stat().st_size > 128 * 1024:
                     raise ValueError("Manifest exceeds 128KB")
@@ -657,6 +743,10 @@ class Plugin:
                     candidate = self._validate_visualizer_pack(json.load(handle))
                 if any(p["pack_id"] == candidate["pack_id"] for p in packs):
                     raise ValueError("Duplicate pack ID")
+                scene_ids = {scene["id"] for scene in candidate["scenes"]}
+                if scene_ids & seen_scene_ids:
+                    raise ValueError("Scene IDs collide with an earlier pack")
+                seen_scene_ids.update(scene_ids)
                 packs.append(candidate)
             except Exception as error:
                 failures.append(f"{path.name}: {error}")
@@ -672,14 +762,20 @@ class Plugin:
                     raise ValueError("This pack contains too many ZIP entries")
                 names = [info for info in archive.infolist() if not info.is_dir()]
                 if len(names) != 1 or names[0].filename != "manifest.json":
-                    raise ValueError("ZIP must contain only a root manifest.json; no executable files")
+                    raise ValueError("ZIP must contain only a root manifest.json (v1/v2/v3); no executable files")
                 info = names[0]
                 if info.file_size > 128 * 1024 or info.compress_size > 128 * 1024:
                     raise ValueError("Pack manifest is too large")
                 content = archive.read(info).decode("utf-8")
             pack = self._validate_visualizer_pack(json.loads(content))
-            if pack["pack_id"] == "gtm_visual_worlds_vol1":
+            if pack["pack_id"] in ("gtm_visual_worlds_vol1", "gtm_arcade_builtin_420"):
                 raise ValueError("Built-in Volume 1 cannot be overwritten")
+            # A pack upgrade may reuse its own scene IDs, never other packs'.
+            existing = await self.list_visualizer_packs()
+            incoming_ids = {scene["id"] for scene in pack["scenes"]}
+            for item in existing["packs"]:
+                if item["pack_id"] != pack["pack_id"] and incoming_ids.intersection(scene["id"] for scene in item["scenes"]):
+                    raise ValueError("Scene ID already belongs to another pack")
             dest = self._visualizer_pack_path()
             dest.mkdir(parents=True, exist_ok=True)
             installed = list(dest.glob("*.json"))
@@ -698,13 +794,62 @@ class Plugin:
             return {"ok": False, "error": str(error)}
 
     async def uninstall_visualizer_pack(self, pack_id: str):
-        if not isinstance(pack_id, str) or not self.VISUAL_PACK_ID.fullmatch(pack_id) or pack_id == "gtm_visual_worlds_vol1":
+        if not isinstance(pack_id, str) or not self.VISUAL_PACK_ID.fullmatch(pack_id) or pack_id in ("gtm_visual_worlds_vol1", "gtm_arcade_builtin_420"):
             return {"ok": False, "error": "Invalid or protected pack ID"}
         target = self._visualizer_pack_path() / (pack_id + ".json")
         if not target.exists():
             return {"ok": False, "error": "Imported pack not found"}
         target.unlink()
         return {"ok": True}
+
+    def _gtm444_shuffle_sidecar(self) -> Path:
+        # Decky's persistent plugin settings directory, never the release ZIP.
+        return Path(decky.DECKY_PLUGIN_SETTINGS_DIR) / 'gtm-visualizer-shuffle-v1.json'
+
+    async def get_visualizer_shuffle_preference(self):
+        """Read the separately persisted user's explicit visualizer shuffle choice.
+
+        None/missing means an older install: migrate from the existing complete
+        settings dictionary. A valid False must never become a default True.
+        """
+        try:
+            sidecar = self._gtm444_shuffle_sidecar()
+            if sidecar.is_file():
+                raw = json.loads(sidecar.read_text(encoding='utf-8'))
+                if isinstance(raw, dict) and type(raw.get('enabled')) is bool:
+                    return {'exists': True, 'enabled': raw['enabled']}
+        except Exception as error:
+            logger.warning('Could not read GTM shuffle preference file: %s', error)
+        try:
+            saved = self.settings.getSetting('visualizer_shuffle_all', None)
+            if type(saved) is bool:
+                return {'exists': True, 'enabled': saved}
+            existing = self.settings.getSetting('settings', {})
+            if isinstance(existing, dict) and type(existing.get('homeReactiveVisualizerShuffleAll')) is bool:
+                return {'exists': True, 'enabled': existing['homeReactiveVisualizerShuffleAll']}
+        except Exception as error:
+            logger.warning('Could not read GTM shuffle preference settings: %s', error)
+        return {'exists': False, 'enabled': False}
+
+    async def set_visualizer_shuffle_preference(self, enabled):
+        """Commit one authoritative bool independent of the full settings blob."""
+        choice = enabled is True
+        sidecar = self._gtm444_shuffle_sidecar()
+        sidecar.parent.mkdir(parents=True, exist_ok=True)
+        temporary = sidecar.with_suffix('.json.tmp')
+        try:
+            temporary.write_text(json.dumps({'schema': 1, 'enabled': choice}), encoding='utf-8')
+            os.replace(temporary, sidecar)
+        finally:
+            try:
+                temporary.unlink(missing_ok=True)
+            except OSError:
+                pass
+        # The sidecar is the authoritative copy. Commit it first, then the
+        # secondary SettingsManager key; a crash cannot leave an older sidecar
+        # overriding the user's latest OFF choice on the next launch.
+        self.settings.setSetting('visualizer_shuffle_all', choice)
+        return {'exists': True, 'enabled': choice}
 
     async def set_setting(self, key, value):
         self.settings.setSetting(key, value)

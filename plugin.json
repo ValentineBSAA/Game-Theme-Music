@@ -7,9 +7,9 @@
     "tags": [
       "audio"
     ],
-    "description": "Game Theme Music 4.1.2: Ambient Sleep Mode, configurable delayed wake/restart, smooth reactive visualizers and ResonaDeck audio focus.",
-    "image": "https://raw.githubusercontent.com/MegalonVII/SDH-GameThemeMusic/main/assets/publish_image.png"
+    "description": "GTM 4.4.9: improve AI-vs-AI Pong scoring with real rally pressure and sharper shots; preserve all 4.4.8 Home, Quick Menu, visualizer and music features.",
+    "image": "https://raw.githubusercontent.com/ValentineBSAA/Game-Theme-Music/main/assets/game-theme-music-icon.webp"
   },
-  "description": "Game Theme Music 4.1.2: Ambient Sleep Mode, configurable delayed wake/restart, smooth reactive visualizers and ResonaDeck audio focus.",
-  "version": "4.1.2"
+  "description": "GTM 4.4.9: improve AI-vs-AI Pong scoring with real rally pressure and sharper shots; preserve all 4.4.8 Home, Quick Menu, visualizer and music features.",
+  "version": "4.4.9"
 }

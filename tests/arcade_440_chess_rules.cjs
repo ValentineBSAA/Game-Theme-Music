@@ -1,0 +1,28 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const source=fs.readFileSync(__dirname+'/../src/visualizer-behaviors/chess-440.js','utf8');
+const ctx=vm.createContext({Math,console,g421Base:()=>({seed:124,elapsed:0})});
+vm.runInContext(source+`\nthis.rules={start:G440_START,create:()=>GTM440_CHESS.create(),legal:g440Legal,apply:g440Apply,attacked:g440Attacked,check:g440InCheck,result:g440Result,ai:g440AiMove,hash:g440Hash,engine:GTM440_CHESS};`,ctx);
+const c=ctx.rules,start=c.create(),algebra=s=>('abcdefgh'.indexOf(s[0])+(8-Number(s[1]))*8),m=(s,from,to,promotion)=>{let moves=c.legal(s),found=moves.find(x=>x.from===algebra(from)&&x.to===algebra(to)&&(promotion?x.promotion===promotion:!x.promotion));assert(found,from+' '+to+' legal');return c.apply(s,found)};
+assert.equal(start.board.length,64);
+assert.equal(c.legal(start).length,20,'20 opening moves');
+function perft(s,depth){if(depth===0)return 1;let sum=0;for(const x of c.legal(s))sum+=perft(c.apply(s,x),depth-1);return sum;}
+assert.equal(perft(start,2),400,'perft depth 2');assert.equal(perft(start,3),8902,'perft depth 3');
+let s=start;for(const [a,b] of [['f2','f3'],['e7','e5'],['g2','g4'],['d8','h4']])s=m(s,a,b);
+assert.equal(c.result(s),'BLACK WINS · CHECKMATE');
+s=start;for(const [a,b] of [['e2','e4'],['a7','a6'],['e4','e5'],['d7','d5']])s=m(s,a,b);
+assert(c.legal(s).some(x=>x.from===algebra('e5')&&x.to===algebra('d6')),'en passant available');
+s=m(s,'e5','d6');assert.equal(s.board[algebra('d5')],'.');assert.equal(s.board[algebra('d6')],'P');
+s=start;for(const [a,b] of [['e2','e4'],['e7','e5'],['g1','f3'],['b8','c6'],['f1','c4'],['g8','f6']])s=m(s,a,b);
+assert(c.legal(s).some(x=>x.from===algebra('e1')&&x.to===algebra('g1')),'castling available');
+s=m(s,'e1','g1');assert.equal(s.board[algebra('f1')],'R');assert.equal(s.board[algebra('h1')],'.');
+let promo={...c.create(),board:Array(64).fill('.'),turn:'w',castle:'',ep:-1,half:0,full:1};promo.board[algebra('e1')]='K';promo.board[algebra('h8')]='k';promo.board[algebra('a7')]='P';
+assert.equal(c.legal(promo).filter(x=>x.from===algebra('a7')&&x.to===algebra('a8')).length,4);
+promo=m(promo,'a7','a8','n');assert.equal(promo.board[algebra('a8')],'N');
+const move=c.ai({...c.create(),seed:3},.65);assert(c.legal(c.create()).some(x=>x.from===move.from&&x.to===move.to));
+const board=c.create(),I={p1:{x:0,y:0,lt:0,rt:0,lb:0,rb:0},p2:{x:0,y:0,lt:0,rt:0,lb:0,rb:0},human1:false,human2:false};
+for(let i=0;i<180;i++)c.engine.step(board,1/60,I,{},{});
+assert(board.played>0,'AI vs AI plays actual legal moves');
+let captured=c.create();const hum={...I,human1:true},options={};
+c.engine.step(captured,.017,{...hum,p1:{...I.p1,rt:1}}, {},options);
+assert.equal(captured.selected[0],52,'RT selects white pawn at e2');
+console.log('PASS 4.4.0 chess legal rules, perft 20/400/8902, checkmate, castling, en passant, promotion, AI + controller');
