@@ -1,41 +1,39 @@
-# Game Theme Music 4.4.9 | Pong AI-vs-AI Scoring Fix
+# Game Theme Music 4.4.9 | AI Spectator Scoring Fix
 
 **Developer:** Valentine  
 **Version:** 4.4.9  
-**Status:** regular numbered release (no Beta suffix). Initial hardware checks passed; wider compatibility QA is ongoing.
+**Status:** Public regular release (no Beta suffix). Two specific Steam Deck hardware observations confirmed; broader compatibility QA remains ongoing.
 
-## Fixed
+## Problem solved
 
-A five-minute spectator match could remain 0–0 after two AI paddle agents had learned high defensive precision. The previous system improved skills on every return without balancing offensive difficulty; it was possible to make over 300 returns without a goal.
+Extremely strong learned Pong AI defenders could exchange 300+ returns without a goal for five minutes or longer. GTM 4.4.9 adds bounded spectator rally pressure after 13 seconds of continuous play: momentary defensive fatigue, reduced prediction accuracy and more challenging corner-directed return shots. The pressure resets after a **real** goal, respects serve/celebration transitions, and does not erase saved AI learning.
 
-- A new **spectator-only rally director** increases pressure gradually after 13 seconds of continuous ball play without a goal. This produces momentary defensive fatigue, slower reactions and less exact predictions during exceptionally long rallies; it **does not change the saved learning profile**.
-- As a rally extends, AI shots gain carefully bounded corner angles so superior learned defense has a realistic challenge. Genuine ball travel and paddle collision still determine every goal.
-- The pressure resets after a **real goal**, and pauses correctly during serves/goal celebrations/match transitions. Existing AI learning, powers, color changes and match variations are untouched.
-- Bounded velocities, non-finite ball recovery, rear goal-line scoring, and 90 Hz physics remain as before. No timer-based or fabricated score is awarded.
+**Every goal still requires the ball to pass a paddle and cross the rear goal line.** There is no score timer, score injection or fake goal event. The 90 Hz physics engine, velocity bounds, power effects and recovery logic remain.
 
 ## Preserved from 4.4.8
 
-- Valentine’s per-version full-screen Home-screen welcome, route checks, saved acknowledgment and Steam Deck A/Cross control.
-- Visualizers and Arcade Spectator pages, nested browse-only categories, accurate ACTIVE/SAVED scene indicators.
-- Colored theme-adaptive ON/OFF switches, color/reaction settings, CSS palette support, Default/Couch-TV controls, persistent Shuffle All OFF.
-- 17 built-in Visual Worlds, visualizer-pack installer, 32 power effects, adaptive learning, saved settings.
-- Steam/non-Steam game soundtracks, ambient/store playlists, crossfade and ResonaDeck integration.
-- Zero new human-playable or multiplayer Arcade systems.
+- Valentine's one-time-per-version full-screen **Steam Home** welcome, with controller A/Cross continuation.
+- Separate **Visualizers** and **Arcade Spectator** Quick Menu pages, nested browse-only scene categories and ACTIVE/SAVED indicators.
+- Colored ON/OFF switches, palettes and CSS Loader colors, reactivity controls, **Default and Couch/TV** layouts, and persistent explicit Shuffle All OFF.
+- 17 built-in Visual Worlds, custom visualizer pack management, 32 ball powers and adaptive spectator AI.
+- Game soundtracks, Ambient/Store playlists, crossfade, ResonaDeck audio-focus/telemetry cooperation.
 
-## Automated validation
+**Not included:** Human-playable Arcade games, controller claiming, player-versus-AI or local multiplayer games. Earlier 4.4.1 materials describe historical experiments, not 4.4.9 functionality.
 
-- Reproduced original bug: **two learned-max AI scenarios completed five simulated minutes at 0–0**, with 342 and 316 returns.
-- Patched engine: corresponding 300-second runs recorded **12 and 10 genuine goals**, with no ball-recovery events.
-- Eight randomized five-minute runs: all scored, longest tested scoreless gap **45 seconds**.
-- All 12 match-physics modes tested for 180 simulated seconds each with max-skilled opponents: every mode scored, greatest scoreless gap **36.1 seconds**.
-- Frontend `node --check`, backend `python -m py_compile`, JSON, original archive preservation, embedded fallback-manifest version and ZIP integrity checked.
-- Home welcome, nested category controls and shuffle persistence regression checks remain required in the final packaged candidate.
+## Verification
 
-## Initial Steam Deck verification and follow-up QA
+- Old defect reproduced: two 300-second, max-learned AI runs ended 0–0 after 342 and 316 successful returns.
+- New behavior: corresponding tests recorded 12 and 10 genuine goals.
+- Eight 300-second simulations produced goals; maximum tested scoreless interval 45 seconds.
+- All 12 physics modes produced goals within 180-second max-skill simulations.
+- JavaScript syntax, Python compilation, archive contents, matching version metadata and shuffle persistence checks passed.
+- **Steam Deck hardware confirmed:** Valentine photographed the correct Home welcome and witnessed Pong AI scoring in 4.4.9.
 
-1. Install GTM 4.4.9 over 4.4.8, leave your existing saved settings intact and confirm the version is **4.4.9**.
-2. Start Neon Paddle AI-vs-AI on Home, including with a previously trained high-skill AI profile. Watch for real return-to-goal action and legitimate scoring. The change **reduces the risk of five-minute 0–0 matches** but is not an enforced score timer.
-3. Switch between Classic, Thunder, and Starlight courts, and through Gravity/Zen/Chaos when available.
-4. Confirm the full Home welcome, Visualizers categories, colors, footer, Shuffle All OFF, ambient music, and ResonaDeck still behave as in 4.4.8.
+These checks **do not guarantee** that every real-world match scores within a fixed interval, nor do they establish universal SteamOS, theme or plugin compatibility.
 
-**Physical hardware verified so far:** Valentine confirmed that the 4.4.9 full-screen Home welcome appears correctly and that Pong AI-vs-AI scored a genuine goal. The remaining scenarios above are follow-up regression checks, not completed hardware certifications.
+## Install and help
+
+Download **`Game-Theme-Music-4.4.9.zip`** under Assets on the [4.4.9 release page](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9). Do not use GitHub's generated source ZIP. The package installs directly through Decky and does not require an earlier GTM installer. See [Getting Started](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/GETTING_STARTED.md), [Testing](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/TESTING.md), and [Report a Bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md).
+
+Thank you for trying GTM and helping me make it better. ❤️  
+**Valentine**

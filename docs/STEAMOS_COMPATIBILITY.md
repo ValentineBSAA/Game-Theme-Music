@@ -1,25 +1,35 @@
-# GTM / SteamOS compatibility and known limitations
+# GTM 4.4.9: SteamOS compatibility and known limitations
 
-## Latest maintainer observations: 4.4.1 Public Beta candidate
+**Maintainer: Valentine. Current public release: 4.4.9.**
 
-The maintainer reports on a **real Steam Deck**:
-- **Original visualizers:** function and are navigable.
-- **Neon Paddle Championship:** working, including local multiplayer; occasional brief controller ↔ AI handoff stutter remains.
-- **Orbital Duel and Orbit Defenders:** working, including multiplayer.
-- **Neon Strike Gallery:** working in basic use; multiplayer not confidently confirmed.
-- **Chess:** enlarged board now displays and functions visually in Couch / TV; **game remains very early alpha**, not a completed chess experience.
-- **Beat Catcher:** included but no complete, game-by-game physical acceptance reported.
+## Verified on physical Steam Deck (November 3, 2026)
 
-These are qualitative observations, not calibrated performance or cross-hardware coverage. The beta candidate has been packaged; check GitHub Releases for the current status of its installer upload.
+- The full-screen **per-version welcome** appeared on **Steam Home** in the maintainer's photograph.
+- After the 4.4.9 scoring update, **Neon Paddle AI versus AI** produced a legitimate goal on the maintainer's Steam Deck.
 
-## Earlier 4.1.2 hardware checks
+These are **specific observations**, not a blanket certification of every scene, SteamOS version, CSS theme, Decky version, OLED/LCD model, TV resolution, controller or audio setup.
 
-Ambient recovery after sleep/wake and a full Steam Deck restart were physically confirmed with the configurable delay. The maintainer also accepted visualizer pacing and ResonaDeck integration. This does not prove that ResonaDeck resumes playback automatically after a full reboot.
+## Automated coverage (not a hardware guarantee)
 
-## Reporting a compatibility problem
+- Learned high-skill AI scoring and extended Pong rallies, including all 12 spectator ball-physics modes.
+- JavaScript/Python syntax, package integrity and synchronized version metadata.
+- Explicit visualizer Shuffle All ON/OFF persistence and selected settings behavior.
 
-Include GTM version, Steam Deck OLED/LCD, SteamOS channel/version, Decky version, whether you use an external controller, visualizer/game and mode, Couch / TV setting and exact steps. Screenshots/logs are helpful **but optional**. Remove passwords, tokens and private account data.
+## Still worth testing
 
-**A passing offline test does not establish stable frame rates on every SteamOS build.** Major AI and renderer work may still be experimental.
+- Continuous multi-hour AI spectator sessions and AI learning after reboot.
+- Controller navigation through every nested visualizer pack, collection and settings page.
+- CSS Loader palette compatibility, custom gradients and color contrast.
+- Default and Couch/TV footer size after sleep/wake and a full restart.
+- Ambient/Store playlists, crossfade and audio focus with ResonaDeck.
+- Imported visualizer packs, SteamOS/Decky versions other than the maintainer's actual configuration.
 
-[Testing matrix](../TESTING.md) · [Release notes](RELEASE_NOTES_4.4.1.md) · [Beta feedback](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4)
+## Current gameplay status
+
+**4.4.9 is spectator-only.** AI-vs-AI animations are not controller games. Former human multiplayer, player claiming, the Chess alpha and playable Arcade controls belong to historical 4.4.1-era material, not the current release.
+
+## Report compatibility issues
+
+Please specify GTM version, Steam Deck model, SteamOS version/channel, Decky version, theme, selected visualizer, footer layout and steps to reproduce. Logs, clips and screenshots can help but are **optional**. Remove passwords, account tokens and private details.
+
+[Current release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) · [Testing status](../TESTING.md) · [Report a bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) · [Main README](../README.md)

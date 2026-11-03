@@ -1,36 +1,42 @@
-# Getting started with Game Theme Music 🎵
+# Getting started with Game Theme Music 4.4.9 🎵
 
-GTM is a **music-first Steam Deck Decky Loader plugin**. It provides music for games, Steam Home, and Steam/Decky Store pages alongside reactive visualizers. Its **4.4.1 Public Beta** also contains an optional, experimental Arcade.
+**Developer: Valentine.** GTM is a music-first Decky Loader plugin for Steam Deck, with custom soundtracks, Ambient/Store music, reactive visualizers and **watch-only** AI spectator scenes. There are **no playable Arcade modes or local multiplayer controls** in 4.4.9.
 
 ## Install or update
 
-1. Open [GitHub Releases](https://github.com/ValentineBSAA/Game-Theme-Music/releases) and download the actual maintainer-uploaded **Game Theme Music plugin ZIP** for the version you want.
-2. Look for **4.4.1** on the Releases page. If it is not listed yet, [4.1.2](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2) remains an available published release asset.
-3. Install the plugin ZIP through Decky Loader's manual plugin install flow. Do **not** use GitHub's generated "Source code" ZIP.
-4. Preserve your playlists/settings when updating. For 4.4.1, see the [candidate checksum](RELEASE_MANIFEST_4.4.1.md).
+1. Download the **`Game-Theme-Music-4.4.9.zip`** asset from the [official 4.4.9 release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9).
+2. Use Decky Loader's manual ZIP installation option. **Do not select the auto-generated GitHub source ZIP**; it is not a complete installer.
+3. Leave Decky's persistent settings in place when upgrading to keep your playlists, palettes, shuffle preference and AI learning.
+4. Return to **Steam Home** and close Quick Access. GTM's full-screen thank-you from Valentine appears once per version on Home. Press **A / Cross** to continue; it is not a page inside Quick Access.
 
-## Music and original visualizers
+The public ZIP is self-contained and **does not require a previous GTM version**. The attached `SHA256SUMS.txt` file can be used to verify the download. [Release index and rollback](RELEASE_INDEX.md).
 
-**Game music:** Per-game tracks for Steam and non-Steam titles. **Ambient:** Steam Home soundtracks and sleep/wake recovery. **Store:** shared Steam/Decky Store soundtrack controls. GTM supports long playlists and optional crossfade.
+## Music
 
-The original Visual Worlds collections cover **Retro Ambient, Classic Rhythm, GTM Signature, and Anime Worlds**, with packs, scene shuffle, palettes and Couch / TV display sizing. The 4.4.x visualizer selection UI replaces unreliable nested “More choices” pagination with directly selectable entries and visible page controls.
+- **Game Music:** Configure soundtracks for Steam and non-Steam titles.
+- **Ambient:** Steam Home music. Sleep/wake delay and related controls live under **Full Manager → Ambient**. A prior 4.1.2 release introduced a configurable 5–60-second delay (12 seconds by default).
+- **Store:** Music for Steam and Decky Store browsing.
+- **Playlists / crossfade:** Playlist management and optional prebuffered crossfade.
+- **ResonaDeck:** GTM can visualize supported Plex telemetry from the separately installed [ResonaDeck](https://github.com/ValentineBSAA/ResonaDeck). Each plugin handles its own playback and audio focus.
 
-For Plex-reactive visualizers, pair GTM with a compatible [ResonaDeck](https://github.com/ValentineBSAA/ResonaDeck) release and enable the audio telemetry bridge. GTM manages Ambient audio focus separately from ResonaDeck's playback.
+## Visualizers Quick Menu
 
-**Ambient Sleep Mode** (introduced in 4.1.2) is under **Full Manager → Ambient** with a configurable 5–60 second wake/restart delay, default 12 seconds.
+Open **Quick Access → GTM → Visualizers**. Browse **Retro Ambient**, **Classic Rhythm**, **GTM Signature**, **Anime Worlds** and other available collections. Opening a collection browses the entries; activate an individual scene to switch the footer. GTM shows a distinction between **ACTIVE** (currently used) and **SAVED** (remembered choice).
 
-## Optional 4.4.1 Arcade beta 🎮
+- **Visualizer ON/OFF:** Controls whether the footer visualizer is displayed.
+- **Shuffle All on Track Change:** Optional. **Off** is a valid saved preference and must not be silently changed by an update.
+- **Colors and effects:** Use palette, multi-color/custom-gradient, intensity and music reactivity controls; actual appearance varies by visualizer.
+- **Layout:** Choose **Default** for a smaller footer or **Couch/TV** for a larger, more readable presentation. The choice is persistent.
+- **Packs:** The Visualizer Pack Manager imports supported custom scene packs; historical playable game packages are not a supported 4.4.9 feature.
 
-The Arcade is an experiment in adding interactivity to music-reactive visualizers; it is not the main purpose of GTM. Open Arcade settings through GTM's Quick Menu, choose a game visualizer and its modes, then return to Steam Home to play or watch an AI demonstration.
+## Arcade Spectator (watch-only)
 
-- **Neon Paddle Championship:** AI, human multiplayer, morphs and Mindball.
-- **Orbital Duel / Orbit Defenders:** Arcade action; local multiplayer reported working on Deck.
-- **Neon Strike Gallery:** working in basic maintainer testing; multiplayer less certain.
-- **Beat Catcher:** includes an experimental Piano Lanes mode.
-- **Neon Chess Championship:** **VERY EARLY ALPHA**; the focused board layout is larger, but the game is not finished or polished.
+The **Arcade Spectator** Quick Menu page controls optional automatic exhibitions. Neon Paddle has Classic, Thunder and Starlight versions. AI 1 and AI 2 play without human input; paddle colors, arena backgrounds, ball appearances and effects can change automatically. The system includes **32 ball powers** and adaptive AI.
 
-For Couch / TV, Chess automatically uses a taller, non-fullscreen board layout. The standard game visualizer footer continues for the other games. **Known Pong issue:** brief controller-to-AI handoff stutter.
+There are **no player-versus-AI, player-versus-player, controller claiming or matchmaking controls** in the current 4.4.9 edition. "Arcade" refers to visualizers, not playable games.
 
-The Arcade may be substantially changed or removed based on user feedback. **[Tell us what should stay](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4).**
+## Need help?
 
-[Game-by-game status](BETA_4.4.1_GAME_STATUS.md) · [4.4.1 notes](RELEASE_NOTES_4.4.1.md) · [Real historical screenshots](SCREENSHOTS.md) · [Testing](../TESTING.md)
+Check [hardware compatibility and limitations](STEAMOS_COMPATIBILITY.md), [testing scope](../TESTING.md), or [report a bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md). Include what you expected, what happened and the GTM version, plus Deck/SteamOS details when available. Screenshots are optional; remove private data.
+
+[Back to GTM homepage](../README.md) · [Release notes](RELEASE_NOTES_4.4.9.md)
