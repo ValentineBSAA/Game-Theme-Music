@@ -1,0 +1,298 @@
+{
+  "original_code_chars": 2040545,
+  "original_pack": {
+    "format": 3,
+    "version": "4.4.1",
+    "name": "GTM Arcade • Built-in Games",
+    "scenes": [
+      {
+        "id": "world_arcade_beat_catcher",
+        "title": "Beat Catcher • Endless Rhythm",
+        "category": "arcade",
+        "layers": [],
+        "program_keys": [
+          "version",
+          "state",
+          "update",
+          "draw"
+        ],
+        "program_length": 1778,
+        "interaction": {
+          "kind": "game",
+          "default": "ai_ai",
+          "modes": [
+            "ai_ai",
+            "solo",
+            "player_player"
+          ],
+          "action_label": "Catch notes"
+        },
+        "options": [
+          {
+            "id": "speed",
+            "label": "Target speed",
+            "choices": [
+              {
+                "value": 0.5,
+                "label": "Calm"
+              },
+              {
+                "value": 1,
+                "label": "Normal"
+              },
+              {
+                "value": 1.7,
+                "label": "Quick"
+              }
+            ]
+          }
+        ],
+        "overlays": null
+      },
+      {
+        "id": "world_arcade_orbital_duel",
+        "title": "Orbital Duel • Gravity Arena",
+        "category": "arcade",
+        "layers": [],
+        "program_keys": [
+          "version",
+          "state",
+          "update",
+          "draw"
+        ],
+        "program_length": 3246,
+        "interaction": {
+          "kind": "game",
+          "default": "ai_ai",
+          "modes": [
+            "ai_ai",
+            "player_ai",
+            "player_player"
+          ],
+          "action_label": "Fire / Shield"
+        },
+        "options": [
+          {
+            "id": "blackhole",
+            "label": "Black hole gravity",
+            "choices": [
+              {
+                "value": 0,
+                "label": "Off"
+              },
+              {
+                "value": 0.55,
+                "label": "Gentle"
+              },
+              {
+                "value": 1,
+                "label": "Standard"
+              },
+              {
+                "value": 1.5,
+                "label": "Extreme"
+              }
+            ]
+          },
+          {
+            "id": "spread",
+            "label": "Orbit spread",
+            "choices": [
+              {
+                "value": 0.18,
+                "label": "Tight"
+              },
+              {
+                "value": 0.29,
+                "label": "Normal"
+              },
+              {
+                "value": 0.38,
+                "label": "Wide"
+              }
+            ]
+          }
+        ],
+        "overlays": null
+      },
+      {
+        "id": "world_arcade_orbit_defenders",
+        "title": "Orbit Defenders • Endless Co-op",
+        "category": "arcade",
+        "layers": [],
+        "program_keys": [
+          "version",
+          "state",
+          "update",
+          "draw"
+        ],
+        "program_length": 2322,
+        "interaction": {
+          "kind": "game",
+          "default": "ai_ai",
+          "modes": [
+            "ai_ai",
+            "solo",
+            "player_player"
+          ],
+          "action_label": "Fire / Shield"
+        },
+        "options": [
+          {
+            "id": "blackhole",
+            "label": "Black hole gravity",
+            "choices": [
+              {
+                "value": 0,
+                "label": "Off"
+              },
+              {
+                "value": 0.55,
+                "label": "Gentle"
+              },
+              {
+                "value": 1,
+                "label": "Standard"
+              },
+              {
+                "value": 1.5,
+                "label": "Extreme"
+              }
+            ]
+          },
+          {
+            "id": "pace",
+            "label": "Patrol pace",
+            "choices": [
+              {
+                "value": 0.65,
+                "label": "Calm"
+              },
+              {
+                "value": 1,
+                "label": "Standard"
+              },
+              {
+                "value": 1.5,
+                "label": "Fast"
+              }
+            ]
+          }
+        ],
+        "overlays": null
+      },
+      {
+        "id": "world_arcade_neon_strike_gallery",
+        "title": "Neon Strike Gallery • Endless Target Siege",
+        "category": "arcade",
+        "layers": [],
+        "program_keys": [
+          "version",
+          "state",
+          "update",
+          "draw"
+        ],
+        "program_length": 2502,
+        "interaction": {
+          "kind": "game",
+          "default": "ai_ai",
+          "modes": [
+            "ai_ai",
+            "solo",
+            "player_ai",
+            "player_player"
+          ],
+          "action_label": "Aim and shoot"
+        },
+        "options": [
+          {
+            "id": "speed",
+            "label": "Target motion",
+            "choices": [
+              {
+                "value": 0.65,
+                "label": "Easy"
+              },
+              {
+                "value": 1,
+                "label": "Normal"
+              },
+              {
+                "value": 1.35,
+                "label": "Fast"
+              }
+            ]
+          }
+        ],
+        "overlays": null
+      },
+      {
+        "id": "world_arcade_neon_chess",
+        "title": "Neon Chess Championship",
+        "category": "arcade",
+        "layers": [],
+        "program_keys": [
+          "version",
+          "state",
+          "update",
+          "draw"
+        ],
+        "program_length": 53,
+        "interaction": {
+          "kind": "game",
+          "default": "ai_ai",
+          "modes": [
+            "ai_ai",
+            "player_ai",
+            "player_player"
+          ],
+          "action_label": "Right stick / RT select"
+        },
+        "options": null,
+        "overlays": null
+      }
+    ]
+  },
+  "sections": {
+    "const GTM413_EFFECTS": {
+      "pos": 1528240,
+      "snippet": "const GTM413_EFFECTS = Object.freeze({\n    fire:{label:'FIRE',rgb:'#ff9255',trail:'#ff3f17'},\n    ice:{label:'ICE',rgb:'#8debff',trail:'#2bbfff'},\n    lightning:{label:'LIGHTNING',rgb:'#fff9a2',trail:'#b68aff'},\n    plasma:{label:'PLASMA',rgb:'#fc8fff',trail:'#a35dff'},\n    comet:{label:'COMET',rgb:'#ecfaff',trail:'#67afff'},\n    gravity:{label:'GRAVITY',rgb:'#a0f7ce',trail:'#4cf5a6'},\n    mirror:{label:'MIRROR',rgb:'#e1c9ff',trail:'#a88cff'},\n    pulse:{label:'PULSE',rgb:'#ffee8c',trail:'#ffae53'},\n    shadow:{label:'SHADOW',rgb:'#eacfff',trail:'#9584f7'},\n    rainbow:{label:'RAINBOW',rgb:'#ffffff',trail:'#5fffdf'},\n    magnet:{label:'MAGNET',rgb:'#8cffe3',trail:'#42ccba'},\n    vortex:{label:'VORTEX',rgb:'#d5c3ff',trail:'#775dff'},\n    shield:{label:'SHIELD',rgb:'#94e2ff',trail:'#2e91fa'},\n    giant:{label:'GIANT',rgb:'#a9ffad',trail:'#4bff72'},\n    shrink:{label:'SHRINK',rgb:'#ffb5e5',trail:'#f35ca6'},\n    warp:{label:'WARP',rgb:'#d9b3ff',trail:'#8368ff'},\n    quake:{label:'QUAKE',rgb:'#fff2bd',trail:'#eab34e'},\n    meteor:{label:'METEOR',rgb:'#ff9c7d',trail:'#ff5329'},\n    storm:{label:'STORM',rgb:'#baf4ff',trail:'#59b7ff'},\n    prism:{label:'PRISM',rgb:'#ffdcfb',trail:'#9ad3ff'}\n});\nconst GTM413_POWER_NAMES=Object.keys(GTM413_EFFECTS);\nfunction gtm413RegisterBehavior(effect, hooks){\n    if(!/^[a-z][a-z0-9_]{2,48}$/.test(effect)||!hooks||typeof hooks.create!=='function'||\n  "
+    },
+    "const GTM413_BEHAVIORS": {
+      "pos": 1528204,
+      "snippet": "const GTM413_BEHAVIORS = new Map();\nconst GTM413_EFFECTS = Object.freeze({\n    fire:{label:'FIRE',rgb:'#ff9255',trail:'#ff3f17'},\n    ice:{label:'ICE',rgb:'#8debff',trail:'#2bbfff'},\n    lightning:{label:'LIGHTNING',rgb:'#fff9a2',trail:'#b68aff'},\n    plasma:{label:'PLASMA',rgb:'#fc8fff',trail:'#a35dff'},\n    comet:{label:'COMET',rgb:'#ecfaff',trail:'#67afff'},\n    gravity:{label:'GRAVITY',rgb:'#a0f7ce',trail:'#4cf5a6'},\n    mirror:{label:'MIRROR',rgb:'#e1c9ff',trail:'#a88cff'},\n    pulse:{label:'PULSE',rgb:'#ffee8c',trail:'#ffae53'},\n    shadow:{label:'SHADOW',rgb:'#eacfff',trail:'#9584f7'},\n    rainbow:{label:'RAINBOW',rgb:'#ffffff',trail:'#5fffdf'},\n    magnet:{label:'MAGNET',rgb:'#8cffe3',trail:'#42ccba'},\n    vortex:{label:'VORTEX',rgb:'#d5c3ff',trail:'#775dff'},\n    shield:{label:'SHIELD',rgb:'#94e2ff',trail:'#2e91fa'},\n    giant:{label:'GIANT',rgb:'#a9ffad',trail:'#4bff72'},\n    shrink:{label:'SHRINK',rgb:'#ffb5e5',trail:'#f35ca6'},\n    warp:{label:'WARP',rgb:'#d9b3ff',trail:'#8368ff'},\n    quake:{label:'QUAKE',rgb:'#fff2bd',trail:'#eab34e'},\n    meteor:{label:'METEOR',rgb:'#ff9c7d',trail:'#ff5329'},\n    storm:{label:'STORM',rgb:'#baf4ff',trail:'#59b7ff'},\n    prism:{label:'PRISM',rgb:'#ffdcfb',trail:'#9ad3ff'}\n});\nconst GTM413_POWER_NAMES=Object.keys(GTM413_EFFECTS);\nfunction gtm413RegisterBehavior(effect, hooks){\n    if(!/^[a-z][a-z0-9_]{2,48}$/.test(effect)||!hooks||t"
+    },
+    "function gtm413RunBehavior": {
+      "pos": 1531295,
+      "snippet": "function gtm413RunBehavior(effect,frame,layerIndex,env){\n    const handler=GTM413_BEHAVIORS.get(effect);if(!handler)return false;\n    const stateMap=frame.behaviors||(frame.behaviors=Object.create(null));\n    const key=effect+':'+layerIndex;\n    let record=stateMap[key];\n    const signature=typeof handler.signature==='function'?handler.signature(env):'';\n    if(!record||record.signature!==signature){\n        if(record&&typeof handler.dispose==='function')handler.dispose(record.state);\n        record={state:handler.create(env),signature,accumulator:0,steps:0};stateMap[key]=record;\n    }\n    // 4.1.7: A visual render frame is NOT a physics tick. At 16 FPS the old\n    // 4-step cap advanced only 0.044 seconds per 0.0625 wall seconds; at 5 FPS\n    // it advanced just 0.044 seconds per 0.2 wall seconds (22% real speed).\n    // Pong now catches up small frame stalls with bounded 90Hz substeps.\n    // A genuinely long suspend gap (>400ms) is discarded, not simulated.\n    const pong=effect==='neon_pong';\n    const arcade=pong?gtm418ReadPlayers(env.settings,['ai_ai','player_ai','player_player'],'neon_pong'):null;\n    if(pong)env.arcade=arcade; // one controller snapshot per render, never per physics substep\n    // 4.3.2: claiming a controller must never erase the live Pong rally,\n    // scores, active morphs or ball velocity. The old full recreation caused\n    // a fresh 0.68s serve del"
+    },
+    "function gtm413PongRandom": {
+      "pos": 1535668,
+      "snippet": "function gtm413PongRandom(s){\n    let seed=s.seed|0;seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;\n    s.seed=seed|0;return (seed>>>0)/4294967296;\n}\n// Shared championship state resumes after Shuffle All returns to ANY Pong scene.\n// It deliberately pauses the simulation while Pong is off-screen, to avoid\n// running invisible physics or stealing CPU from other visualizers.\nconst GTM414_PONG_POOL=new Map();\nconst GTM414_PONG_PALETTES=Object.freeze({\n    red_blue:['#ff995e','#68caff'],purple_pink:['#a67dff','#ff82c4'],\n    magenta_cyan:['#f45bce','#59eeff'],green_orange:['#64ed8b','#ffad54'],\n    yellow_violet:['#f8e66b','#a583fa'],cherry_gold:['#e65776','#ffd777'],\n    white_ice:['#f2f9ff','#5abef5'],lava_plasma:['#ff763f','#617bff'],\n    rose_emerald:['#ff91b9','#45d69b'],ultraviolet_lime:['#914dff','#b8f95f']\n});\n// GTM 4.2.8: reusable, bounded Arcade ability descriptors. Packs use their own\n// validated JSON state programs; executable game hooks remain trusted built-ins.\nconst GTM428_PONG_MORPHS=Object.freeze({\n  fortress:Object.freeze({slot:'defense',duration:3,cooldown:20,label:'FORTRESS'}),\n  magnet:Object.freeze({slot:'defense',duration:2.4,cooldown:16,label:'MAGNET'}),\n  gravity:Object.freeze({slot:'defense',duration:2.4,cooldown:18,label:'GRAVITY'}),\n  mirror:Object.freeze({slot:'attack',duration:2.0,cooldown:15,label:'MIRROR'}),\n  thunder:Object.freeze({slot:'attack',du"
+    },
+    "function gtm421DrawArcade": {
+      "pos": 1712010,
+      "snippet": "function gtm421DrawArcade(ctx,canvas,scene,mode,frame,data,w,h){\n const game=GTM421_GAMES[scene.id];if(!game)return false;\n let instances=GTM421_INSTANCE_POOLS.get(canvas);\n if(!instances){instances=new Map();GTM421_INSTANCE_POOLS.set(canvas,instances);}\n let inst=instances.get(mode);if(!inst){if(instances.size>=24)instances.delete(instances.keys().next().value);\n   inst={state:game.create(),elapsed:0,accum:0,lastMode:'ai_ai'};instances.set(mode,inst);}\n const allowed=scene.interaction?.modes||['ai_ai'];\n const controls=gtm418ReadPlayers(snapshot$1,allowed,'program:'+mode);\n const I=g421Input(controls);\n if(scene.id==='world_arcade_neon_chess'){\n  const reset=typeof window!=='undefined'?(window.__GTM440_CHESS_NEW_GAME__||0):0;\n  if(inst.lastChessReset!==reset){inst.lastChessReset=reset;inst.state=game.create();inst.accum=0;}\n }\n if(controls.joinEpoch && inst.lastJoinEpoch!==controls.joinEpoch){\n    if(scene.id!=='world_arcade_neon_chess'){inst.state=game.create();inst.accum=0;}\n    inst.lastJoinEpoch=controls.joinEpoch;\n }\n const s=inst.state;\n if(inst.lastMode!==controls.requested){inst.lastMode=controls.requested;\n    s.ready=scene.id==='world_arcade_neon_chess'||!(controls.human1||controls.human2);s.needInput=!s.ready;s.wait=.28;inst.accum=0;}\n if(s.needInput){s.wait=Math.max(0,s.wait-Math.min(.06,frame.physicsDt||frame.wallDt||0));\n   const motion=[I.human1&&Math.hypot(I.p1"
+    },
+    "function gtm418DrawProgram": {
+      "pos": 1642684,
+      "snippet": "function gtm418DrawProgram(ctx,canvas,scene,mode,frame,data,w,h){\n    if(!scene?.program)return;\n    if(typeof GTM421_ARCADE_IDS!=='undefined'&&GTM421_ARCADE_IDS.has(scene.id))\n        return gtm421DrawArcade(ctx,canvas,scene,mode,frame,data,w,h);\n    const program=scene.program;\n    // Keep each interactive scene's simulation across Shuffle All; don't burn CPU while off-screen.\n    let states=GTM418_PROGRAM_STATES.get(canvas);\n    if(!states){states=new Map();GTM418_PROGRAM_STATES.set(canvas,states);}\n    let instance=states.get(mode);\n    if(!instance||instance.program!==program){\n        if(states.size>=32)states.delete(states.keys().next().value);\n        instance={mode,program,registers:{...program.state},time:0,smoothed:{low:0,mid:0,high:0,beat:0,rms:0,energy:0},slowFrameStrikes:0,disabled:false};\n        states.set(mode,instance);\n    }\n    if(instance.disabled)return;\n    const budget={left:GTM418_PROGRAM_LIMIT,draw:0};\n    const realDt=gtm418Clamp(frame.physicsDt??frame.wallDt??(1/60),0,.25);\n    const env={...instance.registers,time:instance.time,dt:realDt,width:1,height:1,pi:Math.PI,tau:Math.PI*2,paused:0,audio_paused:data?.live?0:1};\n    // Audio envelopes are eased; the physical scenery and game simulation advance independently.\n    for(const name of ['low','mid','high','beat','rms','energy']){\n        const value=data?.live?gtm418Clamp(Number(data?.[name])||0,0,1)"
+    },
+    "const GTM422_EMBEDDED_BUILTINS": {
+      "pos": 2015716,
+      "snippet": "const GTM422_EMBEDDED_BUILTINS=[{\"format\":2,\"pack_id\":\"gtm_visual_worlds_vol1\",\"name\":\"GTM Visual Worlds • Volume 1\",\"author\":\"Valentine • GTM\",\"version\":\"1.3.1\",\"description\":\"GTM 4.1.5: distinctly painted Pong arenas with reusable safe scene backgrounds and power effects.\",\"scenes\":[{\"id\":\"world_crt_pulse\",\"title\":\"CRT Pulse Field\",\"category\":\"retro\",\"layers\":[{\"effect\":\"crt_pulse\",\"scale\":1.0,\"speed\":1.0,\"density\":1.0,\"intensity\":1.0,\"hueShift\":0.0,\"audio\":{\"intensity\":{\"source\":\"beat\",\"amount\":0.35}}}]},{\"id\":\"world_liquid_chrome\",\"title\":\"Liquid Chrome\",\"category\":\"retro\",\"layers\":[{\"effect\":\"liquid_chrome\",\"scale\":1.0,\"speed\":1.0,\"density\":1.0,\"intensity\":1.0,\"hueShift\":0.0}]},{\"id\":\"world_disc_prism\",\"title\":\"Disc Prism XL\",\"category\":\"retro\",\"layers\":[{\"effect\":\"disc_prism\",\"scale\":1.25,\"speed\":1.0,\"density\":1.0,\"intensity\":1.0,\"hueShift\":0.0}]},{\"id\":\"world_beat_pinball\",\"title\":\"Beat Pinball\",\"category\":\"rhythm\",\"layers\":[{\"effect\":\"beat_pinball\",\"scale\":1.0,\"speed\":1.0,\"density\":1.0,\"intensity\":1.0,\"hueShift\":0.0}]},{\"id\":\"world_neon_pong\",\"title\":\"Neon Paddle • Classic Court\",\"category\":\"signature\",\"layers\":[{\"effect\":\"neon_pong\",\"scale\":1.0,\"speed\":1.0,\"density\":1.0,\"intensity\":1.0,\"hueShift\":0.0}],\"background\":{\"style\":\"arcade\",\"base\":\"#07152b\",\"accent\":\"#36b8ff\",\"density\":1.0,\"motion\":0.7,\"reactivity\":0.9},\"overlays\":[{\"effect\":\"scanlines\",\"trigger\":\"always\",\"col"
+    },
+    "function Gtm419ArcadePage": {
+      "pos": 1152130,
+      "snippet": "function Gtm419ArcadePage(){\n const {settings,updateSettings}=useSettings();\n gtm404UsePackEpoch();\n const [libraryOpen,setLibraryOpen]=SP_REACT.useState(false);\n const [group,setGroup]=SP_REACT.useState('rules');\n const [advancedOpen,setAdvancedOpen]=SP_REACT.useState(false);\n const [bridgeOpen,setBridgeOpen]=SP_REACT.useState(false);\n const [packOpen,setPackOpen]=SP_REACT.useState(false);\n const [epoch,setEpoch]=SP_REACT.useState(0);\n // Refresh device labels only while Bridge is open, not during gameplay.\n SP_REACT.useEffect(()=>{if(!advancedOpen||!bridgeOpen)return;\n  const timer=setInterval(()=>setEpoch(n=>n+1),1000);\n  return()=>clearInterval(timer);\n },[advancedOpen,bridgeOpen]);\n const [choice,setChoice]=SP_REACT.useState('');\n SP_REACT.useEffect(()=>{void gtm404RefreshPacks();},[]);\n const modes=GTM_V376_GROUPS.find(g=>g.id==='arcade')?.modes||[];\n const remembered=['world_arcade_prism_bastion','world_arcade_neon_drift_circuit'].includes(settings.homeReactiveVisualizerArcadeSelected)?\n  'world_neon_pong':settings.homeReactiveVisualizerArcadeSelected;\n const raw=modes.includes(choice)?choice:modes.includes(remembered)?remembered:\n  modes.includes(settings.homeReactiveVisualizerMode)?settings.homeReactiveVisualizerMode:'world_neon_pong';\n const id=gtm420IsPong(raw)?'world_neon_pong':raw;\n const isPong=gtm420IsPong(raw);\n const builtIn=isPong||Boolean(GTM429_GAME_OPTIONS["
+    },
+    "const GTM420_ARCADE_GAMES": {
+      "pos": 1146042,
+      "snippet": "const GTM420_ARCADE_GAMES=[\n ['world_neon_pong','Neon Paddle Championship'],\n ['world_arcade_beat_catcher','Beat Catcher'],\n ['world_arcade_neon_chess','Neon Chess Championship'],\n ['world_arcade_orbital_duel','Orbital Duel'],\n ['world_arcade_orbit_defenders','Orbit Defenders'],\n ['world_arcade_neon_strike_gallery','Neon Strike Gallery'],\n];\nconst GTM421_GAME_INFO={\n world_neon_pong:'AI championship or 2-player paddle competition. RB power / LB shield. Three arenas.',\n world_arcade_neon_chess:'Authentic chess: legal moves, checkmate, AI opponents, local multiplayer and timed matches.',\n world_arcade_beat_catcher:'Classic falling-note catcher OR Piano Lanes: select lanes with right stick and tap / hold RT on beat. Solo or two-player.',\n world_arcade_orbital_duel:'Two ships duel across a gravitational well. Move with the right stick, RB fires, LB shields.',\n world_arcade_orbit_defenders:'Endless cooperative defense waves, boss ships, upgrades and optional black hole gravity.',\n world_arcade_neon_strike_gallery:'Precision target shooting, elite enemies, combo streaks and separate player reticles. Right stick aims, RB fires.'\n};\n\n// GTM 4.2.3: controller-friendly persistent option editor. Unlike native Steam\n// dropdowns, a button press never dismisses the Arcade section or loses focus.\n// 4.2.8: A single focusable row per setting, with no native popup or\n// competing focus traps. "
+    },
+    "function gtm404DrawLayer": {
+      "pos": -1,
+      "snippet": ""
+    }
+  }
+}
