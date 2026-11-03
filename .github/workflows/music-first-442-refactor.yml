@@ -41,6 +41,13 @@ jobs:
           assert all(s['layers'] and not s.get('interaction') and not s.get('program') for s in e['scenes'])
           assert all(json.load(open(p))['version']=='4.4.2' for p in ('package.json','plugin.json'))
           assert not Path('visualizer-packs/arcade/manifest.json').exists()
+          source=Path('dist/index.js').read_text()
+          assert 'arcade:arcadeScene' not in source
+          assert 'function gtm418ReadPlayers' not in source
+          assert 'function Gtm419ArcadePage' not in source
+          assert 'function gtm421DrawArcade' not in source
+          assert 'class AmbientController' in source and 'class StoreController' in source
+          assert 'const GTM404_VISUAL_SHUFFLE' in source
           print('PASS 17 built-in music visualizers; zero playable scenes; 4.4.2 metadata')
           PY
       - name: Preserve music, ResonaDeck, rendering, sleep regression coverage
@@ -62,6 +69,7 @@ jobs:
             echo "::endgroup::"
           done
           python3 tests/GTM_4.1.3_BACKEND_POWER_TESTS.py
+          python3 tests/GTM_4.4.2_MUSIC_FIRST_PACKS_TEST.py
       - name: Commit validated preview to refactor branch only
         shell: bash
         run: |
