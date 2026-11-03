@@ -1,0 +1,81 @@
+name: Import verified GTM 4.4.9 screenshots
+on:
+  push:
+    branches: [docs/gtm-449-screenshot-gallery]
+    paths: [.github/workflows/import-gtm-449-screenshots.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import-gallery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Download Valentine's screenshot ZIP from existing V4.4.9 release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/gtm449-gallery-input"
+          gh release download V4.4.9 --pattern "GTM.4.4.9.screenshots.zip" --dir "$RUNNER_TEMP/gtm449-gallery-input" --clobber
+          echo "823c8f7b1f9aab448bff4f90ba8370ae725450c53b584a316e45c3259abffb11  $RUNNER_TEMP/gtm449-gallery-input/GTM.4.4.9.screenshots.zip" | sha256sum -c -
+      - name: Safely extract exactly 15 originals into categorized gallery
+        run: |
+          python - <<'PY'
+          import os,zipfile,pathlib,hashlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'gtm449-gallery-input'/'GTM.4.4.9.screenshots.zip'
+          mapping={
+            1:'spectator/neon-paddle-thunder-court.jpeg',
+            2:'spectator/orbital-duel-ai-exhibition.jpeg',
+            3:'spectator/neon-chess-ai-exhibition.jpeg',
+            4:'controls/spectator-scene-selection.jpeg',
+            5:'spectator/neon-paddle-starlight-court.jpeg',
+            6:'spectator/orbit-defenders-ai-exhibition.jpeg',
+            7:'controls/arcade-spectator-quick-menu.jpeg',
+            8:'controls/adaptive-theme-colors.jpeg',
+            9:'controls/visualizer-collection-menu.jpeg',
+            10:'controls/visualizer-power-shuffle-couch-layout.jpeg',
+            11:'music/colored-equalizer-bars.jpeg',
+            12:'music/neon-skyline.jpeg',
+            13:'music/glowing-circles.jpeg',
+            14:'music/orbital-rings.jpeg',
+            15:'music/cyan-waves.jpeg'
+          }
+          with zipfile.ZipFile(p) as z:
+            matches={}
+            for info in z.infolist():
+              name=info.filename
+              if name.startswith('__MACOSX/') or name.endswith('/'):continue
+              if not name.startswith('GTM 4.4.9 screenshots/') or not name.lower().endswith('.jpeg'):raise AssertionError('Unexpected input file '+name)
+              if info.file_size>800_000:raise AssertionError('Oversized screenshot '+name)
+              base=name.rsplit('/',1)[-1].lower()
+              import re
+              m=re.fullmatch(r'screenshot(?: (\d+))?\.jpeg',base)
+              if not m:raise AssertionError('Unexpected image filename '+base)
+              idx=int(m.group(1)) if m.group(1) else 1
+              if idx in matches:raise AssertionError('Duplicate screenshot '+str(idx))
+              matches[idx]=z.read(info)
+          assert set(matches)==set(mapping),(sorted(matches),sorted(mapping))
+          dest=pathlib.Path('docs/screenshots/gtm-4.4.9')
+          for idx,rel in mapping.items():
+            data=matches[idx]
+            assert data[:2]==b'\xff\xd8' and data[-2:]==b'\xff\xd9','Invalid JPEG '+str(idx)
+            output=dest/rel
+            output.parent.mkdir(parents=True,exist_ok=True)
+            output.write_bytes(data)
+            print(idx,rel,len(data),hashlib.sha256(data).hexdigest())
+          print('PASS: 15 original screenshot bytes preserved, 4.4.9 gallery organized')
+          PY
+      - name: Commit visual gallery (no runtime or release changes)
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/screenshots/gtm-4.4.9/
+          git diff --cached --quiet && exit 0
+          git commit -m "docs: add 15 verified GTM 4.4.9 screenshots grouped by visualizer type"
+          git push origin HEAD:docs/gtm-449-screenshot-gallery
