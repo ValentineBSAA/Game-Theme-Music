@@ -1,3 +1,5 @@
+> **GTM 4.4.3 Music-First Store Preview:** fixes packaging, version consistency, and private DeckFix Store artwork. All 17 non-interactive Visual Worlds remain, including five repurposed Arcade experiments; playable Arcade games remain removed. This preview is **not** the published stable release. For DeckFix Store, upload the direct 4.4.3 ZIP, not the GitHub Actions artifact's outer wrapper.
+
 <p align="center"><img src="assets/game-theme-music-glyph.webp" width="120" alt="GTM logo"></p>
 <p align="center"><img src="assets/game-theme-music-banner.webp" width="680" alt="Game Theme Music"></p>
 
