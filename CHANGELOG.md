@@ -1,3 +1,11 @@
+## 4.4.9 · AI Spectator Scoring and Music-First Release
+
+- Fixed learned, high-skill Pong AI vs AI exhibitions that could remain scoreless for five minutes or longer. Bounded rally pressure and shot variation generate **real** goals without granting artificial points or resetting AI learning.
+- Preserved 4.4.8 Steam Home welcome, Valentine attribution, reorganized Visualizers and Arcade Spectator Quick Menu, nested scene collections, color palettes, persistent shuffle settings, Couch/TV footer layouts, and visualizer pack infrastructure.
+- Retained the existing music player, Ambient/Store, crossfade, ResonaDeck integration, 32 spectator ball powers, and autonomous AI-versus-AI exhibitions.
+- Aligned frontend/backend/package metadata and icon branding to **4.4.9**; shipped a directly installable ZIP.
+- Automated game-mode scoring regressions, JavaScript/Python syntax and archive integrity checks. Maintainer physically confirmed Home welcome appearance and a Pong spectator goal; broader hardware coverage remains ongoing.
+
 ## 4.4.1 Public Beta · Chess Focused Board View
 
 - Expand only the Chess Couch / TV footer to a taller, still non-fullscreen stage (up to 46% of viewport height).
