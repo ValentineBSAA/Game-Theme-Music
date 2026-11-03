@@ -167,6 +167,26 @@ swap("maxHeight:focusedChess?'48vh':pongCouch?'28vh':'12vh'",
 # Preserve cached mode IDs for updates; the old Pong scene is now a passive
 # neon-court animation, with the original lightweight renderer as fallback.
 
+# Rename the remaining performance guard to cover complex visualizers, not games.
+swap("const arcadeScene=!!selectedScene&&(selectedScene.layers?.some(layer=>layer.effect==='neon_pong')||!!selectedScene.interaction);",
+     "const complexScene=!!selectedScene&&(selectedScene.category==='experiments'||selectedScene.layers?.some(layer=>layer.effect==='neon_pong'));",
+     "visualizer performance budget scene selector")
+swap("if(arcadeScene)frameInterval=Math.max(frameInterval,1000/30)",
+     "if(complexScene)frameInterval=Math.max(frameInterval,1000/30)",
+     "cap complex visuals at 30fps")
+swap("            if(arcadeScene){\n", "            if(complexScene){\n",
+     "protect complex visual scenes")
+swap("'ARCADE RENDER PAUSED FOR SAFETY'", "'VISUALIZER PAUSED FOR SAFETY'",
+     "clear game-specific visual safety overlay")
+swap("            // Preserve bundled games when the backend returns a partial list.",
+     "            // Preserve embedded visualizers when the backend returns a partial list.",
+     "pack recovery wording")
+swap("'Optional pack service unavailable; built-in games remain playable.'",
+     "'Optional pack service unavailable; built-in visuals remain available.'",
+     "optional pack service wording")
+swap("                    pongPhysicsSteps:pongBackdrop?(GTM404_FRAME_STATES.get(canvas)?.pongPhysicsSteps||0):undefined,\n                    pongPhysicsLagMs:pongBackdrop?(GTM404_FRAME_STATES.get(canvas)?.pongPhysicsLagMs||0):undefined,\n",
+     "", "remove dead game physics diagnostics")
+
 # Convert format-3 built-in game pack into passive, music-responsive visual art.
 styles={
  "world_arcade_beat_catcher":("Beat Trails • Rhythm Lights","beat_pinball","rings"),
