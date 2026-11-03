@@ -1,0 +1,40 @@
+name: Restore checksum-verified GTM 4.4.1 archival prerelease
+on:
+  push:
+    branches: [docs/gtm-449-repository-cleanup]
+    paths: [.github/workflows/restore-gtm-441-archive.yml]
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: write
+jobs:
+  restore-archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recover immutable beta ZIP from verified workflow artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if gh release view V4.4.1 >/dev/null 2>&1; then
+            echo "Archive release V4.4.1 already exists; do not overwrite."
+            exit 0
+          fi
+          mkdir -p "$RUNNER_TEMP/gtm-441-archive"
+          gh run download 41713569847 --name GTM-441-ORIGINAL-FOR-VISUAL-PRESERVATION --dir "$RUNNER_TEMP/gtm-441-archive"
+          src="$RUNNER_TEMP/gtm-441-archive/GTM-4.4.1-original.zip"
+          test -s "$src"
+          echo "f287d2f85eb5e52ec64b38eb4e6702292139e6db128ea379899db88b956cb537  $src" | sha256sum --check
+          dst="$RUNNER_TEMP/gtm-441-archive/Game-Theme-Music-4.4.1-PUBLIC-BETA-CHESS-FOCUSED-BOARD.zip"
+          cp "$src" "$dst"
+          gh release create V4.4.1 "$dst" --verify-tag --prerelease --title "GTM 4.4.1 Public Beta (archived)" --notes "Historical Arcade-era beta restored from the checksum-verified original installation archive. This is **not** the current GTM release. For the latest music-first, spectator-only experience, use V4.4.9. This 4.4.1 build contains experimental human-playable Arcade features and is retained for archival testing and rollback."
+      - name: Confirm V4.4.9 remains the current regular release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          gh release view V4.4.9 --json tagName,isPrerelease --jq 'select(.tagName=="V4.4.9" and .isPrerelease==false) | .tagName'
