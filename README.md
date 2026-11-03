@@ -2,62 +2,39 @@
 <p align="center"><img src="assets/game-theme-music-banner.webp" width="680" alt="Game Theme Music"></p>
 
 # 🎵 Game Theme Music
-### 4.4.1 Public Beta • Music first, Arcade experimental
+### 4.4.2 Music-First Preview (development branch only)
 
-**Soundtracks for your Steam Deck, music-reactive Visual Worlds, and a playful experiment in interactive Arcade visualizers.**
+**Soundtracks for your Steam Deck. Music-reactive visual worlds. No built-in Arcade games.**
 
-GTM remains a **music and visualizer plugin** for Decky Loader. The Arcade started as an experiment with making visualizers interactive. It's an optional extra, **not a commitment to make GTM a standalone gaming platform**. We want the community to tell us whether this idea belongs in GTM.
+This isolated preview begins from the **exact published 4.4.1 Public Beta runtime**, removes the playable Arcade subsystem, and keeps the useful visuals and audio features. It has **not** been merged into `main`, published as stable, or verified on physical hardware. The original [4.4.1 prerelease](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.1) remains available.
 
-**[🎮 Public beta feedback and game reports](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4)** · [4.4.1 beta notes](docs/RELEASE_NOTES_4.4.1.md) · [Hardware verification matrix](TESTING.md) · [Install instructions](docs/GETTING_STARTED.md)
+**[4.4.2 music-first migration and checks](docs/MUSIC_FIRST_4.4.2_PREVIEW.md)** · [4.4.1 historical beta notes](docs/RELEASE_NOTES_4.4.1.md) · [Source integrity](SOURCE.md) · [Install instructions](docs/GETTING_STARTED.md)
 
-> **Download status:** For **4.4.1 Public Beta**, obtain the named plugin ZIP when it appears on **[Releases](https://github.com/ValentineBSAA/Game-Theme-Music/releases)**. The latest release asset confirmed while preparing these notes was [4.1.2](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2). **Do not install GitHub's auto-generated “Source code” ZIP.** The main-branch runtime files still reflect the 4.1.2 source snapshot pending an exact-version source synchronization. [Details](SOURCE.md).
+> **Download safely:** Use only a properly packaged GTM plugin ZIP, not GitHub's automatically generated “Source code” ZIP. This feature branch has not been declared a stable release. The `main` runtime still tracks an older snapshot pending controlled integration.
 
-## 🎵 GTM's main purpose hasn't changed
+## 🎶 Music first, always
 
-- **Game theme music:** Steam and non-Steam game soundtracks, playlists, configurable playback and optional crossfade.
-- **Home / Ambient music:** Music for the Steam Deck Home experience, including sleep/wake options.
-- **Steam and Decky Store music:** Shared Store soundtrack controls.
-- **Visualizer collections:** Built-in **Visual Worlds**, custom packs, vivid reactive colors, animated scenes, and scene shuffle.
-- **ResonaDeck integration:** Optional, read-only audio visualization and protected music/audio focus with compatible ResonaDeck versions.
-- **Controller-friendly customization:** Quick Menu, Couch / TV sizing, optional mini-player and visualizer preferences.
+- **Game theme music:** Steam and non-Steam soundtracks, assignments, playlists, volume, shuffling, and optional crossfade.
+- **Home / Ambient:** Background audio and sleep/wake choices with playback focus handling.
+- **Steam and Decky Store music:** Dedicated playlist, volume, and transport settings.
+- **Music Library:** Imported and downloaded music, organization and caching.
+- **Now Playing and mini-player:** Existing UI and non-intrusive controls.
+- **ResonaDeck compatibility:** Optional shared telemetry and cooperative music playback ownership.
+- **Visual Worlds:** Preserved animated Canvas2D effects, custom packs, music-reactive colors, overlays, and visualizer shuffle.
+- **Steam Deck navigation:** Controller-friendly tabs and familiar visual styles.
 
-[Explore music features](docs/GETTING_STARTED.md) · [Visualizer pack guide](docs/VISUALIZER_PACKS_4.0.4.md) · [Screenshots](docs/SCREENSHOTS.md)
+[Music setup](docs/GETTING_STARTED.md) · [Visualizer pack guide](docs/VISUALIZER_PACKS_4.0.4.md) · [Screenshots](docs/SCREENSHOTS.md)
 
-## 🎮 Experimental Arcade (4.4.1 Public Beta)
+## ✨ What happened to the Arcade visuals?
 
-We asked what would happen if a music-reactive Pong visualizer could **actually play Pong**. The answer turned into a small Arcade. These are optional interactive visualizers, not separate installed games.
+The playable games, controller combat/competition, AI, chess logic, game settings and Arcade tab have been removed in this preview.
 
-| Arcade visualizer | Current status, based on maintainer testing |
-| --- | --- |
-| 🏓 **Neon Paddle Championship** | **Verified on Steam Deck**, including two-controller multiplayer. AI, Chaos, morphs and Mindball are experimental enhancements. |
-| 🌌 **Orbital Duel** | **Verified on Steam Deck**, including multiplayer. |
-| 🚀 **Orbit Defenders** | **Verified on Steam Deck**, including multiplayer. This is the space-invaders-inspired survival/defense game. |
-| 🎯 **Neon Strike Gallery** | **Reported working on Steam Deck**; multiplayer status is still tentative, not a confirmed coverage claim. |
-| 🎹 **Beat Catcher** | Included, with Piano Lanes and long notes; not individually accepted on physical hardware for every mode. |
-| ♟️ **Neon Chess Championship** | **VERY EARLY ALPHA.** The enlarged board displays and runs, but gameplay/polish are bare-bones. Not represented as a finished or fully verified chess game. Its future is undecided. |
+The art is still useful. The music-first edition preserves **12 core Visual Worlds**, including passive neon court scenes, and adds **five non-interactive experiments** inspired by Arcade: Beat Trails, Orbital Prism, Event Horizon, Neon Target Grid and Neon Checkboard. The scenes react to audio without running games, claiming gamepads, or showing scores. Saved scene IDs remain compatible.
 
-**Known limitation:** A short controller/AI handoff stutter can still occur in Neon Paddle Championship. A majority of the tested features work according to the maintainer, but this is **not an independently measured “90% test coverage” claim**. [Full testing boundaries](TESTING.md).
+[See the exact migration map and validation results](docs/MUSIC_FIRST_4.4.2_PREVIEW.md).
 
-### Neon Paddle Championship: illustrated glimpse
+## 🧪 Testing and history
 
-![Illustrative Neon Paddle Championship visual, not a real gameplay screenshot](docs/screenshots/arcade/neon-paddle-illustrative.svg)
+Crossfade, Ambient/Store focus, ResonaDeck handoff, sleep/wake, adaptive rendering, and scene pack checks run in GitHub Actions. **Hardware verification is still required.** The 4.4.1 Arcade experience and reports remain documented in [historical release notes](docs/RELEASE_NOTES_4.4.1.md), but those game features are not present in 4.4.2.
 
-*Illustrative showcase graphic, not a capture from Steam Deck or a promise of pixel-identical in-game appearance.* See the [real Steam Deck Visual Worlds gallery](docs/SCREENSHOTS.md) for older hardware captures.
-
-## 📣 Tell us if the Arcade belongs in GTM
-
-Does interactive Pong make your Home visualizer more fun? Are Orbital Duel and Orbit Defenders worth keeping? Would you rather GTM focus solely on music? And should early-alpha Chess stay, be rebuilt or eventually leave the Arcade?
-
-**[Join the GTM 4.4.1 Public Beta feedback thread](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4)**. Screenshots are welcome but not required. Other [feature requests](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=feature_request.yml) and [bug reports](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) are welcome too. Suggestions are considered, not promised.
-
-## Installation and release integrity
-
-Use Decky Loader's manual **plugin ZIP** installer, not GitHub's source archive. For the upcoming 4.4.1 asset, the expected ZIP filename is **Game-Theme-Music-4.4.1-PUBLIC-BETA-CHESS-FOCUSED-BOARD.zip** and SHA-256 is:
-
-`f287d2f85eb5e52ec64b38eb4e6702292139e6db128ea379899db88b956cb537`
-
-If that exact asset is uploaded, users can verify it against [the release manifest](docs/RELEASE_MANIFEST_4.4.1.md). Check the Releases page for current availability; the 4.4.1 upload is performed separately by the maintainer.
-
-[Release notes](docs/RELEASE_NOTES_4.4.1.md) · [Getting started](docs/GETTING_STARTED.md) · [Testing](TESTING.md) · [Source integrity](SOURCE.md) · [Community hub](docs/COMMUNITY_FEATURES.md) · [Changelog](CHANGELOG.md)
-
-**Source and licensing:** GPL-3.0-only lineage: OMGDuke → MegalonVII → Valentine. The main branch currently contains an editable Python backend and compiled frontend for 4.1.2, not a complete original TypeScript project or the 4.4.1 beta runtime. AI-assisted changes are directed and evaluated by the maintainer; hardware observations are maintainer-reported, not independent certification.
+To compare the published legacy releases, see [GitHub Releases](https://github.com/ValentineBSAA/Game-Theme-Music/releases). The `main` branch is not automatically the same runtime as the latest release; see [SOURCE.md](SOURCE.md).
