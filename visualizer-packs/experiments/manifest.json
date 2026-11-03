@@ -1,0 +1,175 @@
+{
+  "format": 2,
+  "pack_id": "gtm_visual_experiments_442",
+  "name": "GTM Visual Experiments",
+  "author": "Valentine / Game Theme Music",
+  "version": "4.4.2",
+  "description": "Five music-reactive visual worlds preserved from the 4.4.1 Arcade art experiments. No playable games or controller input.",
+  "scenes": [
+    {
+      "id": "world_arcade_beat_catcher",
+      "title": "Beat Trails • Rhythm Lights",
+      "category": "experiments",
+      "background": {
+        "style": "arcade",
+        "base": "#090b1f",
+        "accent": "#e75fb9",
+        "motion": 0.32,
+        "density": 0.55,
+        "reactivity": 0.15
+      },
+      "layers": [
+        {
+          "effect": "beat_pinball",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 0.95,
+          "hueShift": 0
+        }
+      ],
+      "overlays": [
+        {
+          "effect": "rings",
+          "trigger": "beat",
+          "color": "auto",
+          "density": 0.65,
+          "speed": 1,
+          "intensity": 0.5
+        }
+      ]
+    },
+    {
+      "id": "world_arcade_orbital_duel",
+      "title": "Orbital Prism • Starfield",
+      "category": "experiments",
+      "background": {
+        "style": "stars",
+        "base": "#080f29",
+        "accent": "#8db2fe",
+        "motion": 0.45,
+        "density": 0.65,
+        "reactivity": 0.15
+      },
+      "layers": [
+        {
+          "effect": "disc_prism",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 0.95,
+          "hueShift": 0
+        }
+      ],
+      "overlays": [
+        {
+          "effect": "orbits",
+          "trigger": "beat",
+          "color": "auto",
+          "density": 0.65,
+          "speed": 1,
+          "intensity": 0.5
+        }
+      ]
+    },
+    {
+      "id": "world_arcade_orbit_defenders",
+      "title": "Event Horizon • Defense Nebula",
+      "category": "experiments",
+      "background": {
+        "style": "stars",
+        "base": "#050e23",
+        "accent": "#8aa4fd",
+        "motion": 0.42,
+        "density": 1,
+        "reactivity": 0.15
+      },
+      "layers": [
+        {
+          "effect": "supernova_bloom",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 0.95,
+          "hueShift": 0
+        }
+      ],
+      "overlays": [
+        {
+          "effect": "comets",
+          "trigger": "beat",
+          "color": "auto",
+          "density": 0.65,
+          "speed": 1,
+          "intensity": 0.5
+        }
+      ]
+    },
+    {
+      "id": "world_arcade_neon_strike_gallery",
+      "title": "Neon Target Grid • Pulse Field",
+      "category": "experiments",
+      "background": {
+        "style": "arcade",
+        "base": "#071326",
+        "accent": "#6ce4ff",
+        "motion": 0.28,
+        "density": 0.46,
+        "reactivity": 0.12
+      },
+      "layers": [
+        {
+          "effect": "crt_pulse",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 0.95,
+          "hueShift": 0
+        }
+      ],
+      "overlays": [
+        {
+          "effect": "hexagons",
+          "trigger": "beat",
+          "color": "auto",
+          "density": 0.65,
+          "speed": 1,
+          "intensity": 0.5
+        }
+      ]
+    },
+    {
+      "id": "world_arcade_neon_chess",
+      "title": "Neon Checkboard • Luminous Grid",
+      "category": "experiments",
+      "background": {
+        "style": "stars",
+        "base": "#050c1d",
+        "accent": "#83bbec",
+        "motion": 0.18,
+        "density": 0.3,
+        "reactivity": 0.08
+      },
+      "layers": [
+        {
+          "effect": "mechanical_iris",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 0.95,
+          "hueShift": 0
+        }
+      ],
+      "overlays": [
+        {
+          "effect": "grid",
+          "trigger": "beat",
+          "color": "auto",
+          "density": 0.65,
+          "speed": 1,
+          "intensity": 0.5
+        }
+      ]
+    }
+  ]
+}

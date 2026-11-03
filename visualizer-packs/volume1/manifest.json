@@ -74,7 +74,7 @@
     },
     {
       "id": "world_neon_pong",
-      "title": "Neon Paddle • Classic Court",
+      "title": "Neon Court • Classic Court",
       "category": "signature",
       "layers": [
         {
@@ -181,7 +181,7 @@
     },
     {
       "id": "world_pong_thunder",
-      "title": "Neon Paddle • Thunder Court",
+      "title": "Neon Court • Thunder Court",
       "category": "signature",
       "layers": [
         {
@@ -222,7 +222,7 @@
     },
     {
       "id": "world_pong_starlight",
-      "title": "Neon Paddle • Starlight Court",
+      "title": "Neon Court • Starlight Court",
       "category": "signature",
       "layers": [
         {

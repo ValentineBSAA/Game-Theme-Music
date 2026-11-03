@@ -32,12 +32,12 @@ assert(Math.abs(interval(expensive)-1000/30)<.02);
 // Hysteresis prevents rapid flicker in canvas dimensions when render time varies.
 for(let i=0;i<60;i++){now+=20;record(expensive,now,i%2===0?2:12);}
 assert.equal(expensive.quality,.72);
-assert(source.includes('const maxWidth=arcade?1000:1200,maxPixels=arcade?550000:1400000'));assert(source.includes('if(arcadeScene)frameInterval=Math.max(frameInterval,1000/30)')); 
+assert(source.includes('const maxWidth=heavy?1000:1200,maxPixels=heavy?550000:1400000'));assert(source.includes('if(complexScene)frameInterval=Math.max(frameInterval,1000/30)')); 
 assert(source.includes('const dpr=Math.min(1.35,window.devicePixelRatio||1,1300/cw)*gtm409QualityScale(canvas)'));
 assert(!source.includes("filter:'drop-shadow(0 0 7px rgba(215,234,255,.45))'"),'avoid compositing a giant blurred canvas each frame');
 assert(source.includes('displayBands[i]=follow(displayBands[i],bands[i])'),'interpolate 12 audio bands between incoming packets');
 assert(source.includes("entry.target?.closest?.('[data-gtm-live-footer]')"),'ignore self-generated DOM changes');
 assert(source.includes("key:'gtm406-scene-stable'"),'no-remount canvas preserved');
 assert(source.includes('gtm406BlendOutgoingFrame(accentRef.current,gtm406Fade.current,now)'));
-assert(source.includes('const GTM_VERSION = "4.4.1";'));
+assert(source.includes('const GTM_VERSION = "4.4.2";'));
 console.log('PASS GTM 4.0.9: 60/90/40/30Hz cadence, adaptive resolution before economy FPS, hysteresis, audio-envelope interpolation, glow-filter removal, footer continuity, version.');

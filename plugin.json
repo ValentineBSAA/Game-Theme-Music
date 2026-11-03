@@ -7,9 +7,9 @@
     "tags": [
       "audio"
     ],
-    "description": "Public beta candidate: Neon Chess joins the Arcade, original visualizer menus get controller-safe browsing, plus Pong and rhythm upgrades.",
+    "description": "GTM 4.4.2 Music-First Preview: preserved soundtracks, crossfade, Visual Worlds, and passive Arcade-inspired visuals, without playable games.",
     "image": "https://raw.githubusercontent.com/MegalonVII/SDH-GameThemeMusic/main/assets/publish_image.png"
   },
-  "description": "GTM 4.4.1 Public Beta: larger focused Chess board, controller-safe visualizer browsing and Arcade gameplay.",
-  "version": "4.4.1"
+  "description": "GTM 4.4.2 Music-First Preview: preserved soundtracks, crossfade, Visual Worlds, and passive Arcade-inspired visuals, without playable games.",
+  "version": "4.4.2"
 }

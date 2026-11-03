@@ -585,7 +585,7 @@ class Plugin:
         "seismic_mountains", "mechanical_iris", "sakura_tempest",
         "supernova_bloom", "neon_pong", "tidal_bloom",
     })
-    VISUAL_CATEGORIES = frozenset({"retro", "rhythm", "signature", "anime", "arcade"})
+    VISUAL_CATEGORIES = frozenset({"retro", "rhythm", "signature", "anime", "arcade", "experiments"})
     # v3 adds a bounded visual-program VM; v1/v2 retain their existing validation.
     # v2 keeps packs declarative: no scripts, HTML, URLs, filesystem paths or ZIP extraction.
     VISUAL_OVERLAYS = frozenset({"sparks", "lightning", "rings", "stardust", "comets", "scanlines", "confetti", "orbits", "hexagons", "laser", "snow", "embers", "grid", "waves", "shards", "flares", "bubbles"})
@@ -598,6 +598,8 @@ class Plugin:
     def _validate_visualizer_pack(self, payload: Any) -> dict[str, Any]:
         """Strict v1/v2 manifest parser. Nothing from a ZIP is executed or extracted."""
         if isinstance(payload, dict) and type(payload.get("format")) is int and payload["format"] == 3:
+            if isinstance(payload.get("scenes"), list) and any(isinstance(s, dict) and isinstance(s.get("interaction"), dict) and s["interaction"].get("kind") == "game" for s in payload["scenes"]):
+                raise ValueError("Interactive Arcade packs are not supported in this music-first edition")
             try:
                 from gtm_pack_v3 import validate_pack
             except ModuleNotFoundError as error:
@@ -734,7 +736,7 @@ class Plugin:
         seen_scene_ids = set()
         builtin = Path(decky.DECKY_PLUGIN_DIR) / "visualizer-packs" / "volume1" / "manifest.json"
         custom = self._visualizer_pack_path()
-        arcade_builtin = Path(decky.DECKY_PLUGIN_DIR) / 'visualizer-packs' / 'arcade' / 'manifest.json'
+        arcade_builtin = Path(decky.DECKY_PLUGIN_DIR) / 'visualizer-packs' / 'experiments' / 'manifest.json'
         for path in [builtin, arcade_builtin, *sorted(custom.glob("*.json"))]:
             try:
                 if path.stat().st_size > 128 * 1024:
@@ -768,7 +770,7 @@ class Plugin:
                     raise ValueError("Pack manifest is too large")
                 content = archive.read(info).decode("utf-8")
             pack = self._validate_visualizer_pack(json.loads(content))
-            if pack["pack_id"] in ("gtm_visual_worlds_vol1", "gtm_arcade_builtin_420"):
+            if pack["pack_id"] in ("gtm_visual_worlds_vol1", "gtm_arcade_builtin_420", "gtm_visual_experiments_442"):
                 raise ValueError("Built-in Volume 1 cannot be overwritten")
             # A pack upgrade may reuse its own scene IDs, never other packs'.
             existing = await self.list_visualizer_packs()
@@ -794,7 +796,7 @@ class Plugin:
             return {"ok": False, "error": str(error)}
 
     async def uninstall_visualizer_pack(self, pack_id: str):
-        if not isinstance(pack_id, str) or not self.VISUAL_PACK_ID.fullmatch(pack_id) or pack_id in ("gtm_visual_worlds_vol1", "gtm_arcade_builtin_420"):
+        if not isinstance(pack_id, str) or not self.VISUAL_PACK_ID.fullmatch(pack_id) or pack_id in ("gtm_visual_worlds_vol1", "gtm_arcade_builtin_420", "gtm_visual_experiments_442"):
             return {"ok": False, "error": "Invalid or protected pack ID"}
         target = self._visualizer_pack_path() / (pack_id + ".json")
         if not target.exists():
