@@ -1,62 +1,61 @@
 name: "💡 Feature request"
-description: "Suggest an improvement to Game Theme Music and help shape its future."
+description: "Suggest a practical Game Theme Music improvement for Steam Deck."
 title: "[Feature] "
 body:
   - type: markdown
     attributes:
       value: |
-        ## Thanks for sharing an idea with GTM! 🎵
-        GTM is still **music-first**. Arcade games are optional experiments, not a commitment to a permanent gaming platform. For beta gameplay feedback, [join the Arcade thread](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4). Chess is currently **very early alpha**.
-        Tell us what you would like to do and why it would improve your Steam Deck experience.
-
-        We consider community ideas alongside feasibility, performance, compatibility and development priorities. Some ideas make their way into GTM; others may stay on the wishlist or help inspire a different solution. **Votes and requests are not a confirmed roadmap.**
-
-        Before posting, please [browse existing requests](https://github.com/ValentineBSAA/Game-Theme-Music/issues). You can support a similar request with a 👍 reaction instead of opening a duplicate. See the [community guide](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/COMMUNITY_FEATURES.md).
+        ## Thanks for helping improve GTM! 🎵
+        GTM **4.4.9 is music-first**. The Arcade Spectator page is for autonomous AI-vs-AI visuals, **not playable or multiplayer Arcade games**.
+        Please describe the problem you're trying to solve. Ideas are welcome; requests and votes are not guaranteed plans or release dates.
+        Check the [community ideas guide](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/COMMUNITY_FEATURES.md) and [existing requests](https://github.com/ValentineBSAA/Game-Theme-Music/issues) first.
   - type: dropdown
     id: area
     attributes:
       label: "Which part of GTM would this improve?"
       options:
-        - "Visualizers and animations"
-        - "Experimental Arcade (Pong, Orbital Duel, Chess, etc.)"
-        - "Interface and customization"
+        - "Visual Worlds and animation"
+        - "AI-vs-AI Arcade Spectator visualizers"
+        - "Color palettes, effects and customization"
+        - "Quick Menu, navigation and accessibility"
+        - "Default / Couch-TV footer layout"
         - "Game soundtrack playback"
         - "Ambient / Home music"
-        - "Steam Store / Decky Store music"
-        - "Soundtrack Manager and controller navigation"
-        - "Music discovery, imports and library"
-        - "Performance and compatibility"
+        - "Steam / Decky Store music"
+        - "Playlists, discovery and library management"
+        - "Visualizer packs"
+        - "ResonaDeck interoperability"
+        - "Performance, SteamOS or Decky compatibility"
         - "Something else"
     validations:
       required: true
   - type: textarea
     id: idea
     attributes:
-      label: "What would you like to see?"
-      description: "Explain the requested feature in your own words."
-      placeholder: "I'd love a way to..."
+      label: "What should be improved?"
+      description: "Explain the desired behavior in your own words."
+      placeholder: "I'd love to be able to..."
     validations:
       required: true
   - type: textarea
     id: why
     attributes:
-      label: "How would this improve your experience?"
-      description: "Describe a real use case or the problem this would solve."
-      placeholder: "When I'm using GTM on my Steam Deck..."
+      label: "Why would this help?"
+      description: "Describe a real situation on your Steam Deck or TV."
+      placeholder: "While browsing Steam Home..."
     validations:
       required: true
   - type: textarea
     id: experience
     attributes:
-      label: "What would an ideal result look or feel like?"
-      description: "Optional behavior, controller flow, visuals, or examples."
-      placeholder: "For example, selecting this setting would..."
+      label: "What would a good result look like?"
+      description: "Optional controls, visual behavior or flow."
     validations:
       required: false
   - type: textarea
     id: extra
     attributes:
-      label: "Anything else to share?"
-      description: "Optional screenshots or mockups. Remove private information before uploading."
+      label: "Additional information"
+      description: "Screenshots or mockups are optional. Do not include passwords or private data."
     validations:
       required: false
