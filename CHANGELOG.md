@@ -1,42 +1,341 @@
-# 4.4.1 Public Beta documentation and community status (candidate handoff prepared)
+## 4.4.9 · AI Spectator Scoring and Music-First Release
 
-- **Music-first positioning:** The Arcade is an optional, experimental extension of GTM visualizers, not a guaranteed new product direction.
-- **Steam Deck acceptance:** Neon Paddle Championship, Orbital Duel and Orbit Defenders reported working including local multiplayer; Neon Strike reported working but multiplayer not fully confirmed. Beat Catcher hardware coverage incomplete.
-- **Chess:** focused board enlarged and physically accepted for display; **game remains VERY EARLY ALPHA** and may be changed or removed.
-- **Original visualizers:** maintainer reports working, including repaired nested navigation. A brief Pong controller/AI handoff stutter remains known.
-- **Community feedback:** [4.4.1 beta issue](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4); release ZIP is distributed separately. GitHub main branch remains at the 4.1.2 runtime snapshot, separate from this documentation update.
+- Fixed learned, high-skill Pong AI vs AI exhibitions that could remain scoreless for five minutes or longer. Bounded rally pressure and shot variation generate **real** goals without granting artificial points or resetting AI learning.
+- Preserved 4.4.8 Steam Home welcome, Valentine attribution, reorganized Visualizers and Arcade Spectator Quick Menu, nested scene collections, color palettes, persistent shuffle settings, Couch/TV footer layouts, and visualizer pack infrastructure.
+- Retained the existing music player, Ambient/Store, crossfade, ResonaDeck integration, 32 spectator ball powers, and autonomous AI-versus-AI exhibitions.
+- Aligned frontend/backend/package metadata and icon branding to **4.4.9**; shipped a directly installable ZIP.
+- Automated game-mode scoring regressions, JavaScript/Python syntax and archive integrity checks. Maintainer physically confirmed Home welcome appearance and a Pong spectator goal; broader hardware coverage remains ongoing.
 
----
+## 4.4.1 Public Beta · Chess Focused Board View
 
-## 4.1.2 | Beta candidate (2026-11-02)
+- Expand only the Chess Couch / TV footer to a taller, still non-fullscreen stage (up to 46% of viewport height).
+- Render the board square at 82.2% of the available canvas height with all pieces, cursors, and highlights scaled together.
+- Put turn, game mode, clock/player indicators, move number, and RT/LT/LB/RB instructions in a separate side panel.
+- Preserve Chess rules, AI, controls, existing menu navigation, audio, and other Arcade stage sizes.
+- Physical Deck/docked TV verification remains required before public GitHub release.
 
-- Added Ambient Sleep Mode reliability controls, including a configurable wake/restart delay and gentle fade-in. Maintainer physically verified GTM Ambient behavior after both sleep/wake and a full Steam Deck restart.
-- Completed ResonaDeck audio-ownership bridge with immediate visualizer-disable handling, improved scene continuity, smoother frame pacing and adaptive quality.
-- Preserved the 22 built-in visualizers, custom packs, eight-second crossfade, unlimited playlists, shuffle and unified Store Music.
-- Beta release documentation, checksum manifest and offline verifier added. The 4.1.2 compiled runtime and backend are synchronized to the tested ZIP. The checksum-matching 4.1.2 beta ZIP and GitHub prerelease are now published.
-- [Notes](docs/RELEASE_NOTES_4.1.2.md) · [Validation](docs/VALIDATION_4.1.2.md) · [ZIP checksum](docs/RELEASE_MANIFEST_4.1.2.md).
+## 4.4.0 Public Beta Candidate
+- Added playable offline Neon Chess Championship with legal moves, AI exhibitions, two-controller play, time controls, themes, and new-game reset.
+- Replaced original visualizer nested popovers and the nonfunctional More choices entry with controller-focusable collection/scene navigation and real page controls.
+- Bounded Chess AI computation to protect SteamUI render timing; expanded beta regression coverage.
 
-## [4.0.4] 2026-11-01 • Visual Worlds Overhaul (Public Beta)
+## 4.3.5 Preview (private)
+- Mindball Adaptive steers toward a tactical crossing angle based on receiving paddle position and current trajectory, with Gentle / Strategic / Dynamic awareness and midfield-only velocity caps.
+- Beat Catcher adds opt-in four-lane, RT-timing rhythm gameplay with short notes, sustained holds, accurate judgments, solo / local versus and bounded AI exhibition. Legacy Catcher remains available.
+- Regression tests added for new mechanics, score integrity, pace, drawing, and source-vs-bundle parity. Physical Steam Deck validation still pending.
 
-Prebuffered 8-second crossfade, improved caching/track transitions, unlimited game/Ambient/Store playlists, unified Store Music, 22 music-reactive visualizers across four categories, safe ZIP packs with Custom Packs management, optional Shuffle All, refined Pong and Pinball, Music Reactive colors, ResonaDeck focus and future passive visualization bridge.
+## 4.3.4 Preview (private)
+- Independent Mindball modifier for Morph/Power/Competitive, configurable personality and steering intensity.
+- Relaxed/Balanced/Challenging AI styles across built-in games with unchanged exhibition and fixed difficulties.
+- New game integration regression, inherited suite passing; physical Deck check pending.
 
-[Full release notes](docs/RELEASE_NOTES_4.0.4.md)
+## 4.3.3 Preview (private)
+- Reinstated a high-contrast full-screen, couch-readable Pong joining and ready-up overlay while AI gameplay continues behind it.
+- Bright yellow Mindball indicator is now tied to actual autonomous steering; goal-zone and non-steering frames stay normal.
+- Human morph attempts provide active/recharging messages without spamming failed AI attempts.
+- Replaced generic non-Pong Adaptive movement/progress heuristic with per-game outcome measures and cooperative base support.
+- Added sustained blue hold notes to Beat Catcher as the first step toward a complete rhythm-game rebuild.
+- Added targeted gameplay regression coverage and preserved all 4.3.2 stability/hand-off safeguards.
 
-## 3.7.0 (2026-10-28) | User-configurable mini player HUD
+### 4.3.1 Preview | Pong AI demo freeze recovery and frame budgeting (2026-11-02)
+- Clear stale human pause on AI handoff/disconnect and settings-mode transition.
+- Detect and recover invalid/stationary balls without phantom scores.
+- Bounded 12-step physics bursts after dropped/long render frames; Pong-phase diagnostics.
+- Expanded tests for controller and physics state transitions, stall recovery and source/shipped parity.
+- Keep previous 4.3.0 renderer safety and Arcade menu layout.
 
-- New **Show mini player HUD** setting in Interface & Feedback, ON by default for existing users.
-- OFF hides the SAO-style Now Playing HUD and prevents future game, Ambient, Store, track-change and error ribbons without interrupting music.
-- Turning OFF dismisses visible HUD content, clears delayed popups/Quick Access queues and prevents old diagnostics from resurfacing later.
-- Setting persists through restart; turning ON again restores future HUD events.
-- Independent of theme notifications, visualizer, mini-player position and music playback.
-- Hardware-tested by the developer on Catherine Classic, NFS MW2005, both Steam Stores and Home Ambient music. OFF persisted through full Deck restart and ON restored the HUD.
-- Thanks to **Dollet** for the Discord report that inspired this feature.
-- Preserves the playback and ResonaDeck audio-focus behavior from 3.6.9.
+### 4.3.0 Preview | Adaptive AI correction & crash guards
+- Pong Adaptive now responds to actual human scoring, substantially relaxing AI tracking, reaction delay, and predictions when the human struggles, and progressively increasing challenge for a winning player.
+- Additional tests cover AI demo, left/right player ownership, score resets, manual difficulties, real Pong engine integration and synchronized shipped/editable runtime.
+- Retired Neon Drift Circuit prototype from active play following physical gameplay dissatisfaction and crash reports. Preserve source for redesign.
+- Renderer cleanup and circuit breaker protect from repeated JS scene errors; no claim of proven SteamOS GPU reboot fix without hardware traces.
 
-## 3.6.9 | ResonaDeck audio-focus interoperability
+## 4.3.0 Preview · SteamUI renderer protection and targeted Pong/racing crash investigation (2026-11-02)
+- Respond to real Steam Deck reports of two renderer/game resets, including one during Pong and one during player-controlled Neon Drift Circuit. Actual OS/GPU root cause still requires hardware diagnostics.
+- Wrap all scenery and game-layer Canvas2D drawing in guaranteed balanced save/restore even during nested exceptions.
+- Contain repeated render exceptions after three consecutive failures and stop drawing after sustained slow frames, with a visible safe fallback and in-memory render-health diagnostic.
+- Cap active Arcade rendering near 30fps and 1,000px / 550,000 backing pixels; cap silent Pong frames too, retaining fixed-step physics and the Default/Couch screen dimensions.
+- Reduce noisy SteamUI mutation observation; retain audio-focus, playlists, visualizer shuffle, Quick Menu layout, controller bridge and earlier 4.2.x fixes.
+- **Retire Neon Drift Circuit from the active Arcade lineup** rather than keep presenting the unsatisfying and crash-reported oval-racing prototype. Keep archived game manifest, source and offline physics tests for an eventual proper replacement. Migrate saved racing selection to Pong.
+- Add 90-minute simulated all-modes Pong gameplay/draw soak, 40-minute active non-Pong endurance, 100+100 injected Canvas failures, stuck/slow frame guards, race-retirement regression, and full inherited audio/controller/sleep tests. Hardware reboot fix NOT verified.
 
-- Adds a cooperative audio-focus listener to pause GTM when ResonaDeck takes audio focus and safely resume when focus is released.
-- Preserves the 3.6.8 gameplay, Store, Ambient, library and artwork baseline.
+## 4.2.9 Preview · Per-game Arcade settings, mode visibility and Advanced Controller Bridge
+
+- Exposed previously invisible Pong modes and morph loadouts under the selected game settings.
+- Introduced compact one-game-at-a-time Arcade UI with Rules, Abilities, Visuals and Play/AI categories.
+- Added five built-in games’ independently persisted and functional settings, with per-game AI and cooldown selection.
+- Moved Controller Bridge tuning into collapsed Advanced submenu, with on-open detection refresh.
+- Preserved 4.2.8 gameplay, controller joining, update recovery and audio ownership.
+- Automated regression complete; physical Steam Deck/SteamUI verification pending.
+
+## 4.2.8 Preview · Morphing Pong, Mindball, cinematic sky and community game SDK
+
+- Six Pong gameplay modes; configurable Fortress/Magnet/Gravity defensive and Thunder/Mirror/Cryo/Inferno attacking morphs; full-height collision and per-slot cooldowns.
+- Deterministic, bounded Mindball steering with visual cue, and Chaos combining autonomous steering, morphs and existing passive ball powers.
+- Cinematic parallax/beat light layers in the five other trusted games; original game simulations unchanged.
+- True external community sample Flux Shield Run with score, AI, local two-player, LB shield/RB dash, per-player cooldowns; public SDK rules, validator and standalone importable ZIP.
+- Base 4.2.7 unclaimed-controller/idle-demo startup fixes retained; regression tests expanded. Hardware verification pending.
+
+## 4.2.6 Preview (2026-11-02)
+- Repair Arcade menu regressions reported during on-TV physical testing of 4.2.5: avoid separate game-library modal and native Arcade dropdowns, use themed inline controller-focusable game/setting rows.
+- Remove overlapping three-column section picker; scroll to Controller Setup on shortcut; show current AI difficulty prominently with a reachable Play setting.
+- Lower footer draw layer to avoid overlap with Steam context menus; preserve existing menu-hidden behavior.
+- Fix AI-to-AI phantom takeover when powering off unclaimed controllers or turning off a controller whose slot was already handed back to AI. Keep genuine human disconnect countdown.
+- Expand regression suite; hardware acceptance remains pending. See GTM_4.2.6_PREVIEW_UI_REPAIR_NOTES.md.
+
+## 4.2.5 Preview (2026-11-02)
+- Replace Prism Bastion with Neon Drift Circuit: five tracks, laps, competitive AI, driving physics, two human racers and five active power-ups.
+- Adaptive AI defaults for Pong and other Arcade games, gradual difficulty updates, preserved explicit user preferences.
+- Add Score Surge, Seeker and Phase Shift, correct Gallery LT Overdrive and per-power recharge displays.
+- Add opaque controller-friendly Arcade Library modal, remove redundant section buttons and obsolete Diagnostics navigation, migrate old saved selections.
+- Reset matches when humans join, preserve matches on AI handoff, keep 15-second ready countdown.
+- Bound hot-update audio-endpoint adoption to 1.8 seconds and skip only the misapplied boot grace for active transport handoff.
+- Integrated 4.2.5 automated regression green; hardware Steam Deck verification pending.
+
+## 4.2.4 Preview (2026-11-02)
+- Two independent controller Triangle/Y claims for P1 and P2; paused-only Square/X hands an individual slot to AI without disconnecting.
+- Retain the 15-second player-ready countdown and AI-only immediate start; explicit human modes also support paused Square handoff.
+- Align installer, backend, Arcade manifest, banner badge, and footer version to 4.2.4.
+- Fix footer stuck on 4.2.0; show explicit Preview badge on the main brand banner.
+- Gameplay inherited unchanged from 4.2.3 Revised Preview.
+
+## 4.2.3 Revised Preview (R2) – November 2, 2026
+- Replace Target Roll with built-in Neon Strike Gallery: moving targets, independent P1/P2 aim, powers and escalation.
+- Pong RB Power Shot is pre-contact-only; AI shield usage upgraded; richer AI-game tactics, enemy pressure, bases, notes and original 2.5D Canvas artwork.
+- Human arcade modes use an input-triggered 15-second ready countdown; AI demos begin immediately; hold Triangle/Y joins the active AI arcade game.
+- Pong rear-goal premium celebration: bounded light, goal-mouth frames, rings, sparks and GOAL callout; one point only, adjustable density via existing effects setting.
+- Fix format-3 Arcade manifest validation and restore programmable safe pack VM in the distribution bundle.
+- Regression suite expanded to cover ready/join, PvP, Pong scoring visuals, startup/backend, gameplay abilities and existing playback.
+
+## 4.2.3 Preview — Flagship Arcade Visuals, Abilities & Controller UX
+
+- Improved original procedural 2D artwork for all five newer built-in Arcade games: ships, invaders, planets, lane effects, targets and tower details.
+- Added meaningful independent ability cooldowns, per-game power HUD feedback, and AI activation for the five additional games.
+- Pong LB shield now redirects the ball and RB Power Shot boosts an outgoing return.
+- Arcade settings use persistent Previous/Next selectors; Easy through Extreme and session-only adaptive AI tiers.
+- Preserved six synchronous built-in Arcade games, Couch/Default view options, media playback protections and the 11-item dropdown limit.
+- Expanded automated regressions for real ability effects. Hardware testing remains necessary.
+
+## 4.2.2 Preview (2026-11-02)
+
+- Fixed a Steam Deck startup/Decky RPC case that left five bundled Arcade games invisible. All six now register at frontend startup with a validated embedded manifest and survive partial or failed pack-service responses.
+- Added a trusted-install-path fallback for the format-3 Python validator, and correct frontend version label.
+- Game selection remains exclusively in GTM Arcade; music visualizer category dropdown excludes Arcade games. Preserve existing music shuffle, Couch View, Pong scoring and controller logic.
+- Added real failure-path regression coverage; physical Deck acceptance pending.
+
+## 4.2.0 Preview (2026-11-02)
+
+- Six GTM Arcade playable experiences ship built-in: Neon Paddle Championship with three courts plus five new original 2D arcade prototypes. No external pack install needed.
+- Rebuilt Arcade page with independent game/arena selection, grouped menus, in-place controller slot cycling and reachable section navigation.
+- More responsive human Pong paddles with adjustable speeds; stronger distinctions between Classic, Thunder and Starlight courts.
+- Built-in packs protected, existing third-party format-1/2/3 compatibility retained. First-frame program rendering slowdown no longer disables a new game immediately.
+- Combined regression suite green; hardware Deck acceptance outstanding.
+
+## 4.1.9 Preview · GTM Arcade, controller reliability and community SDK
+
+- **GTM Arcade** category separates the three built-in Pong arenas and compatible imported game scenes from GTM Signature. The original music-reactive visualizer categories remain intact.
+- **Dedicated Arcade Quick Menu page**, separate from Settings, with Play/Pause, Controllers, Powers, Championship, Scenery, Packs and Diagnostics sections. The old huge Pong Studio block is no longer duplicated under music Settings.
+- **Controller assignments** show detected Gamepad API device names and slot numbers. Steam Deck plus two external controllers can all be detected, and any distinct assigned slots may be chosen. Different hardware unexpectedly appearing at an assigned slot is blocked rather than silently taking a paddle. Steam Input may expose virtual slots or identical device names, so actual hardware identification still requires live testing.
+- **AI vs AI still defaults.** Player vs AI and Player vs Player can reclaim control after the 10-second controller-loss countdown by deliberately moving the original assigned controller's right stick twice (return to center between motions). Unused third controllers do not trigger takeover. Reclaim does not reset championship progress. A/Cross remains Steam confirmation; Y/Triangle hold pauses gameplay but not audio.
+- **Pong** separates Player 1/Player 2 scoreboard identity from color names when people are controlling. Distinct RB power and LB shield recharge timers and feedback are visible during Power Battle. Ball travel continues beyond a missed paddle to a rear goal line; only then does a localized glow and ~0.62s score-impact freeze award the point. This does not flash the whole screen.
+- **Dropdown safety:** paged choice lists with seven choices and at most two navigation items, leaving Cancel visible below the 11-item Steam Gaming Mode limit. Existing backup context choices are capped at ten plus native Cancel; backup paging is future work.
+- **Community-only SDK:** public pack contract, examples, validation helper and sample pack. No GTM internal audio/Store/backend source code in this SDK. The distributed installable plugin remains inspectable by users, as is typical for client-side Decky software.
+
+## 4.1.8 Private Preview (Nov 2, 2026)
+
+- Universal Visualizer Pack v3: strictly validated JSON expression/drawing engine with editable scene-level options, audio inputs, optional interactivity, scene state retained across shuffle, and old pack compatibility.
+- Shared optional controller bridge for standard-mapped Deck, Xbox and PlayStation controllers; right sticks and six gameplay buttons. A/Cross always belongs to the Quick Menu. AI versus AI remains the default.
+- Hold Triangle/Y to pause gameplay only; 10-second visible disconnect recovery automatically falls back to AI/autoplay. Quick Menu offers pause/resume, take control, and game actions.
+- Pong optional RB power, LB shield, LT precision, RT boost, X dash and short Y power without modifying score and championship continuity on player-mode changes.
+- Three-scene real importable sample ZIP and one developer SDK, including precise ownership map and validations.
+- PASS focused automated regressions. Real Deck controller-access and performance acceptance outstanding. 4.1.7 remains rollback.
+
+## 4.1.7 Preview (Nov 2, 2026)
+
+- Fix slow Pong ball simulation at low render FPS; bounded catch-up physics with sleep/wake protection and performance diagnostics.
+- Improve independent scenery animation and reduce harsh music-reactive movement, with distinct storm, stars, arcade and additional backdrops.
+- Remove unnecessary 5–10 second match holds: default 1.5-second intermatch and 3-second championship pauses, configurable independently.
+- Add generic trusted arcade-game lifecycle and developer SDK to enable future Skee-Ball and other arcade visualizers without unsafe ZIP scripts.
+- Preserve 4.1.6 Store, Plugin Store and Ambient playback fixes; run the full focused regression suite before Steam Deck acceptance.
+
+## 4.1.6 Preview HOTFIX (Nov 2, 2026)
+
+- **Store music regression:** Remove erroneous Ambient-only `sleepSurface` reference from Store controller introduced in 4.1.4; Steam Store and Decky Plugin Store share that controller. Preserve Ambient manual-pause latch. Add Store-owner manual-pause check in its own valid scope.
+- **Scenery animation:** Increase visible star, comet and storm movement and keep quiet Pong rendering around 16 FPS while unrelated visualizers retain their previous lower quiet update rate.
+- **TV HUD:** Display team names, scores, a dedicated bold timer and match/series announcements in separate opaque dark regions. Move the entire Pong court below the HUD and keep powers/ball/paddles visible. Increase couch-height limit only for Pong (18vh); compact and unrelated visualizers keep existing limits.
+- **Timing:** Separate bounded wall clock from 90Hz fixed-step physics. Correct discarded time at low footer FPS, keeping stopwatch and rematch countdown aligned with wall time without unbounded catch-up after suspend.
+- No new powers, external dependencies or pack schema changes. 4.1.5 remains the rollback fallback; **physical Steam Deck playback and display acceptance is still required**.
+
+## 4.1.5 Preview (Nov 2, 2026)
+
+- Music-reactive scenery engine: bass controls pulse, mids control movement, treble controls details, beats trigger bounded accents, with Off/Subtle/Balanced/Dynamic options.
+- Prevent duplicate frame-clock advancement during background rendering.
+- Three visually distinct Signature Pong environments: arcade neon grid, thunderstorm, and starlight galaxy.
+- Customizable Pong scenery (ten safe styles), optional scene/custom colors, and couch scoreboard mode.
+- Wider, higher-contrast championship HUD with visible match time, series standings, and most recent winner.
+- Replace the white point-scoring flash with subtle team-color edge pulses; render opaque scenery to avoid a white host backdrop during resets.
+- Declarative v2 pack scenery field, strictly validated by Python, with a separate trusted procedural renderer for all supported scenes.
+- Preserve AI physics, power sets, tournament state, shuffle, Audio/Ambient behavior, and prior pack compatibility.
+- Source-level tests are not a physical Deck acceptance pass; keep 4.1.4 for rollback.
+
+## 4.1.4 Preview (private, not published)
+
+- Pong Championship Studio: best-of series, clock, history, 20 powers, team palettes, paddle effects and three Signature Pong variants.
+- Declarative Effects Pack SDK format 2: 17 overlays, bounded audio modulators, safe backward-compatible v1 import, stricter scene ID collision protection, sample pack.
+- Quick Menu Ambient play/pause manual latch and developer handoff/regressions; physical Deck validation pending.
+
+## 4.1.2 | Ambient sleep/wake event reliability
+
+4.1.1 relied on SteamUI's browser visibility and 350-ms timer loop to
+recognize sleep. SteamOS may freeze and resume browser audio before those
+callbacks fire, making an already-playing Ambient track audible immediately
+on wake, before the Gaming Mode Home screen is visible.
+
+4.1.2 now uses multiple independent signals:
+
+- A new backend monitor listens for Linux `org.freedesktop.login1.Manager.PrepareForSleep` via `dbus-monitor --system` where available and emits a Decky event with a monotonically increasing event sequence. No system files or rootfs changes, and no pip dependencies.
+- Backend `get_power_state` allows polling to recover event notifications missed while SteamUI was frozen. A Linux `CLOCK_BOOTTIME` minus `CLOCK_MONOTONIC` drift detector provides an independent missed-wake fallback when logind events are absent.
+- Optional SteamClient suspend/resume callbacks are registered only when available; these are known to be unreliable on some SteamOS versions, so they are not the sole authority.
+- On confirmed suspend, the audio transport pauses immediately. An active suspension blocks Ambient regardless of the elapsed time.
+- On wake, the 5–60-second configured delay restarts (12 seconds default). Existing/resumed media uses the existing gentle 1.6-second fade-in.
+- The transport's `playing` callback also enforces the Ambient guard; delayed media events cannot bypass it.
+- ResonaDeck audio focus, external-visualizer bridge, all 22 scenes/custom packs, frame governor, crossfade and music playback engine are otherwise unchanged.
+
+## 4.1.1 (2026-11-02) — Ambient Sleep Mode / Delayed Wake Startup
+
+- Added Sleep Mode ON/OFF and configurable 5–60 second Ambient wake/restart delay (12 seconds by default).
+- During sleep/hidden SteamUI Ambient is paused; it resumes after wake delay only on eligible pages and when no higher-priority audio owner is playing.
+- Gentle 1.6 second Ambient fade-in after the delay and cancellation of in-flight track loads during sleep.
+- Preserved ResonaDeck focus, external visualizer toggle, no-flash visuals, frame pacing, crossfade and playlist behavior.
+
+## 4.1.0 (2026-11-01) — ResonaDeck Visualizer Responsiveness
+
+- Honor ResonaDeck user-disabled visualizer stop immediately, without releasing active Plex audio focus.
+- Keep the existing grace period for ordinary dropouts and crossfades.
+- Reject stale packets from older sharing epochs and preserve scene shuffle, frame pacing and playlists.
+
+## 4.0.5 PRIVATE TEST (2026-11-01): ResonaDeck telemetry interoperability
+
+- Supports direct and cross-context read-only ResonaDeck frequency packet delivery.
+- GTM retains all 22 visuals, categories, custom packs, footer CSS matching, Shuffle All and its own audio priority.
+- Existing prebuffered crossfade and playlists untouched.
+- Works together with ResonaDeck 1.3.3 Private Test; not yet tested on physical Steam Deck.
+
+## 4.0.4 RC4 — Visual Worlds usability and pinball polish (private public-beta candidate)
+
+- Added scrollable **Custom Packs** area while imported scenes remain available in their parent categories.
+- Pack removal now requires selecting a specific imported pack and confirming removal.
+- Added optional **Shuffle All Visualizers** on real GTM track changes, including installed custom scenes.
+- Beat Pinball collision detection now checks every frame and supports distinct rainbow balls.
+- Preserved the working crossfade and ResonaDeck bridge.
+
+## 4.0.4 Public Beta Candidate RC3 (private test)
+
+* Stable free-ball Neon Pong physics and no paddle-to-ball strings.
+* Direct imported visualizer scene selection and reactive category refresh.
+* Beat Pinball bumper-hit lifecycle and levels.
+* Chromatic Event Horizon replaces underwhelming Supernova Bloom rendering.
+* Crossfade and existing playlists unchanged.
+
+## 4.0.4 • Visual Worlds Public Beta Candidate (private test)
+
+- **New:** Ten distinct Canvas2D music-reactive scenes, including the original Aincrad-inspired two-sword duel, across four categories.
+- **New:** Validated ZIP-only visualizer pack importer and persisted runtime manifests. Imported packs can be refreshed and removed without rebuilding GTM.
+- **New:** Read-only ResonaDeck visualizer telemetry bridge v1 receiver. Requires a later independent ResonaDeck update to publish spectral data.
+- **New:** Crossfade On/Off toggle; existing max-eight-second buffered automatic overlap remains default On.
+- **New:** Music Reactive color palette is default for new settings; existing custom palettes retained.
+- **Preserved:** Stable 4.0.3 crossfade, audio focus, unlimited playlists, playlist routing, footer theme matching, and controller navigation behavior.
+- **Status:** Private testing candidate only; not yet promoted to a public release.
+
+## 4.0.3 (private test): Buffered next-track media handoff with safe automatic crossfade
+
+- Ambient and unified Store music now warm the *actual HTMLAudioElement* for the upcoming song while current audio is still playing, for GTM loopback/local media.
+- Promotes the prepared media element when Next or natural track completion occurs, rather than restarting an empty audio source and media connection.
+- ResonaDeck-inspired up-to-8-second automatic crossfade on Ambient and unified Store playlists, only when the next audio element has actually buffered; 20%-of-duration limit on short preview songs. Manual skip remains immediate.
+- Only one speculative element exists; obsolete buffers are cancelled on a new upcoming track. No speculative play(), no new timers and no additional visualizer renderer.
+- Retired audio events are ignored, keeping one authoritative playback state. The media capture bridge watches the active audio element and rebinds when it changes.
+- Anonymous nextTrackBuffer status/readyState included in Capture JSON. No media IDs or URLs logged.
+- Existing unlimited playlists, unified Store/Steam routing, visualizers and footer CSS, HUD toggle, and audio focus preserved.
+- This is an experimental compiled-bundle patch: physical Steam Deck latency and visualizer continuity testing still required.
+
+## 4.0.2 PRIVATE PREVIEW (2026-11-01) | Uncapped Playlists + Coalesced Track Handoffs
+
+- Remove the 15-song limits from Ambient, unified Store Music, and per-game soundtrack playlists, including saved-settings normalization, playlist editor selection/commit, library additions, local import queues, game assignments, and playlist counters. Existing ordered entries and unique-track filtering remain intact.
+- Preserve limited *preview URL warmup batch* (15 items per game load) only as a performance safety measure; this is not a playlist-size limit.
+- Coalesce concurrent next-track URL resolution so prefetching and playback share the same in-flight Decky/yt-dlp request. Do not persist provider URLs indefinitely. Allow up to 1.2 seconds to reuse a pending warmup before falling back to the same shared resolver, rather than automatically starting another provider request.
+- Preserve the verified GTM 4.0.1 cached-audio HTTP streaming, separated Ambient/Game/Store contexts, Store route detection, visualizer CSS matching, HUD toggle, CORS, update continuity, and ResonaDeck audio focus.
+- No repeat/shuffle bug was confirmed by the latest user test, so playback order logic is unchanged.
+- Node/Python syntax and simulated regression checks pass. Steam Deck playback gap timing must be measured on actual hardware.
+
+## 4.0.1 PRIVATE PREVIEW (2026-11-01) | Fast Cached Handoffs
+
+- Reset private release numbering from 3.11.0 to 4.0.1 without changing any persistent runtime/playlist settings keys.
+- Play local, downloaded and imported audio through the existing authenticated HTTP Range endpoint instead of waiting for complete browser Blob mirroring. Already-available continuity Blobs may still be reused without a blocking download.
+- Add next-track URL preparation to unified Store Music; keep the existing Ambient preparation, both queues and the Plugin Store ↔ Steam Store handoff behavior.
+- Reject slow stale track resolutions for Store/Ambient after Next/Previous or playlist edits. Keep source validation, CORS-mode selection, and optional footer display unchanged.
+- Add anonymous `storeTransition` diagnostic timings beside existing `ambientTransition` timings in Capture JSON.
+- Simulated regression harness and syntax checks pass. Physical Steam Deck timing is pending; remote CDN buffering is outside GTM's direct control.
+
+## 3.8.0 — Retro Ambient & GTM Signature polish (public stable)
+
+- Upgrade Starlight into colorful, beat-reactive Starlight Nucleus.
+- Add Retro Kaleidoscope and GTM Signature Resonance Crown; twelve visualizer styles total.
+- Improve glow, legibility, layering, motion, and responsive shapes in existing retro/signature modes.
+- Preserve Home-only Canvas2D rendering, settings persistence, CSS Loader palettes, navigation safety, mini HUD independence and passive music telemetry.
+- Remove no known working playback behavior; no standalone 3D showcase or WebGL dependency.
+
+## 3.7.5 Preview — Premium Reactive Live Footer (experimental)
+
+- Single integrated package: thirteen distinct visual signatures including Holographic Dragon; compact card-safe Home footer and menu/Quick Access suppression.
+- Faster 2048-point analyser attack (0.23 smoothing) and adaptive bass-weighted spectral onset detection with 120ms minimum beat spacing; quiet/silent and unavailable audio do not generate invented beats.
+- Media Bridge telemetry capture retries only while subscribed and safely resumes suspended analysis without touching soundtrack playback.
+- Visual motion aims for adaptive 60fps/30fps with WebGL context-loss recovery, reduced draw work when hidden, and distinct art styles.
+- Color palettes, live CSS adaptation, Blend/Dominate, brightness and beat intensity settings retained. GTM 3.7.0 Stable remains unchanged.
+- Browser syntax, 13 visual layouts, and synthetic audio tests passed. Physical Steam Deck validation PENDING.
+
+## 3.7.4 Preview — distinctive Live Footer visualizers (experimental)
+- Replaced duplicated mode aliases with distinct geometry and light treatments for all 13 styles.
+- Added Holographic Dragon visualizer, reactive to real audio bands.
+- Restricted overlay to the safe footer region and suppressed it for visible context menus/dialogs.
+- Improved bass beat onset and frequency normalization; preserved GTM audio transport.
+- Hardware verification pending.
+
+## 3.7.3 PREVIEW (2026-10-29) | GTM Live Footer
+
+- Preserved proven 3.7.2 audio playback, global overlay and eight visuals; adds four new styles: Bass Floor, Pulse Engine, Prism Rail and Arc Reactor.
+- Fixed the 31-pixel gap leaving white CSS Loader footers exposed: Live Footer stage now touches the physical bottom of Gaming Mode and uses a strong, theme-immune dark base.
+- Added Glass Dock, Holographic Trench, Framed Rail and Projected Platform backdrops; Blend and Dominate visibility, and adjustable footer height.
+- Added explicit sensitivity, brightness and bass-impact sliders, independent of track playback and the existing mini-player HUD.
+- Added layered spectrum/accent canvas driven entirely by live telemetry; dynamic normalization and improved onset response; no synthetic beats when capture is unavailable.
+- Extended CSS theme palettes with Prism, Acid, Plasma and Pearl, and Ultra intensity mode. Preserves settings from earlier previews.
+- Maintains pointer-events:none, Home-only activation, QAM hide, and cleanup of audio subscription, canvas resources and RAF on unmount.
+- EXPERIMENTAL: real Steam Deck + CSS Loader verification needed. Stable 3.7.0 untouched.
+
+## 3.7.2 PREVIEW (2026-10-29) — Dimensional Home Music Visualizers
+- Replace flat visualizer with WebGL-based 3D geometry: extruded prisms, perspective rails and animated layered ribbons.
+- Upgrade original three modes and add Tunnel, Aurora, Helix, Skyline and Orbit.
+- Improve frequency response with 2,048-point analyser and log-spaced musical bands.
+- Add automatic CSS Loader/Steam accent plus 7 color palettes and Soft/Normal/Bold intensity.
+- Leave Mini Player HUD, core audio and 3.7.0 stable release untouched.
+- Add unavailable-WebGL fallback; remains OFF by default and Home-only.
+- Physical Steam Deck testing required.
+
+## 3.7.1 PREVIEW (experimental) - Audio-reactive Home bottom visualizers
+
+- Optional persistent Home screen visualizer mode: Off / Spectrum Rail / Wave Ribbon / Sci-Fi Bottom HUD. OFF by default.
+- No track metadata; transparent pointer-events-none overlay above Home footer, intended not to intercept Steam focus or controller actions.
+- Shares read-only Media Bridge telemetry; no new audio engine or additional audio-context graph.
+- Requires active playback on Steam Home. Suppresses effect during Quick Access, desktop, and other Steam surfaces.
+- Original 3.7.0 HUD toggle and playback unchanged; separate preferences.
+- Hardware confirmation still needed before considering stable.
+
+## 3.7.0 — Optional Now Playing HUD
+
+- **Show mini player HUD** switch in Settings → Interface & feedback (ON by default for upgrades).
+- OFF instantly hides the SAO-style Now Playing overlay and suppresses future game, Ambient, Store, track-change, and playback-error ribbon events without stopping or muting music.
+- Cancels queued Quick Access replays, delayed popups, and HUD diagnostics when OFF. Re-enabling waits for a fresh real playback event rather than surprising the user with an old notification.
+- Separate from Theme notifications, mini-player position, and SAO HUD visualizer settings.
+- Existing saved preferences remain intact; 3.6.9 ResonaDeck audio focus and the playback engine are unchanged.
 
 ## 3.6.8
 
@@ -1085,3 +1384,19 @@ No new entertainment/dashboard features were added. 2.0 stays focused on one job
 - Sanitized Decky's stale LD_LIBRARY_PATH.
 - Bundled QuickJS and passed it explicitly to yt-dlp.
 - Added digest verification and safe atomic yt-dlp replacement.
+
+## 4.2.10 Preview · Quick Access organization
+- Promoted Arcade's Default Size, Couch / TV, AI difficulty, and Pong mode to direct controls.
+- Replaced nested Arcade settings/category selectors with four explicit two-row categories.
+- Reorganized Game Music, Ambient, Store and Settings into playback-first inline groups, retaining all original settings and controllers.
+- Retained all eight top-level GTM tabs and LB/RB paging, with no new native Steam popup overlays.
+- Preserved 4.2.9 game mechanics, saved preferences, startup protections and audio-focus safeguards.
+- Added UI navigation and non-loss grouping regression tests; physical Steam Deck verification remains pending.
+
+## 4.3.2 Preview (private)
+- Eliminated needless Pong championship recreation and fresh serve after controller join; preserved the active AI rally and score.
+- Pong AI demonstration stays live during 15-second human readiness; clean switch into active human control.
+- Preserved Player 1's active control while Player 2 joins; retained manual pause/disconnect safeguards.
+- Suppressed phantom morph activation from shoulder buttons already held at takeover.
+- Compact ready-up status message and added actual renderer+controller handoff regression checks.
+- All other games/features and prior renderer protections retained; hardware acceptance remains open.

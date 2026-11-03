@@ -1,0 +1,3 @@
+# Game Theme Music 3.5.7 — Focus Grid + Context + Import Progress
+
+3.5.7 is a controller and reliability polish release. Music Library now behaves like a real D-pad interface instead of a one-dimensional list, selected soundtrack destinations survive LB/RB traversal, Local Import shows visible batch progress, and assigned playback prefers the local cache so imported and downloaded tracks are first-class Store/Ambient/game music. It also fixes an off-screen Quick Access visibility edge case that could suppress Store/Ambient playback while preserving the seamless Decky update transport work from 3.5.6.

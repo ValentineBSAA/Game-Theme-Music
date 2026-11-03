@@ -1,7 +1,7 @@
 {
   "name": "sdh-gamethememusic",
-  "version": "4.1.2",
-  "description": "Game Theme Music 4.1.2: delayed Ambient wake/restart, Sleep Mode controls, smooth ResonaDeck visualizers and protected audio focus.",
+  "version": "4.4.9",
+  "description": "GTM 4.4.9: improve AI-vs-AI Pong scoring with real rally pressure and sharper shots; preserve all 4.4.8 Home, Quick Menu, visualizer and music features.",
   "type": "module",
   "scripts": {
     "build": "rollup -c",

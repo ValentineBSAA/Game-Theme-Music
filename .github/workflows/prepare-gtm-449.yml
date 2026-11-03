@@ -1,0 +1,77 @@
+name: Prepare verified GTM 4.4.9 release
+on:
+  push:
+    branches: [release/gtm-4.4.9]
+    paths: [.github/workflows/prepare-gtm-449.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  reconstruct-and-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install image conversion dependency
+        run: |
+          python -m pip install --disable-pip-version-check -q Pillow
+          command -v zstd
+      - name: Download the immutable 4.4.1 binary package
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --output "$RUNNER_TEMP/gtm441.zip" 'https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.4.1/Game-Theme-Music-4.4.1-PUBLIC-BETA-CHESS-FOCUSED-BOARD.zip'
+          echo "f287d2f85eb5e52ec64b38eb4e6702292139e6db128ea379899db88b956cb537  $RUNNER_TEMP/gtm441.zip" | sha256sum -c -
+      - name: Rebuild and synchronize the EXACT tested 4.4.9 file contents
+        run: |
+          set -euo pipefail
+          python scripts/reconstruct_gtm_449.py \
+            --original "$RUNNER_TEMP/gtm441.zip" \
+            --payload release-payload/gtm449-source-delta.tar.zst.b64 \
+            --output "$RUNNER_TEMP/Game-Theme-Music-4.4.9.zip" \
+            --repo-dir .
+          mkdir -p docs
+          cp RELEASE_NOTES_4.4.9.md docs/RELEASE_NOTES_4.4.9.md
+          sha256sum "$RUNNER_TEMP/Game-Theme-Music-4.4.9.zip"
+      - name: Verify shipped runtime, spectator AI scoring, and settings
+        run: |
+          set -euo pipefail
+          node --check dist/index.js
+          python -m py_compile main.py
+          node GTM_4.4.9_PONG_SCORING_REGRESSION.cjs
+          node GTM_4.4.9_ALL_MODES_REGRESSION.cjs
+          node tests/GTM_4.4.6_SHUFFLE_REGRESSION_TEST.cjs
+          python - <<'PY'
+          import json,hashlib,pathlib,zipfile
+          r=pathlib.Path('.')
+          assert json.loads((r/'package.json').read_text())['version']=='4.4.9'
+          assert json.loads((r/'plugin.json').read_text())['version']=='4.4.9'
+          assert hashlib.sha256((r/'dist/index.js').read_bytes()).hexdigest()=='36eef5688c45c538c2c076173dacfbe449f4505807f3ea14807aa9f73e738fa9'
+          with zipfile.ZipFile(__import__('os').environ['RUNNER_TEMP']+'/Game-Theme-Music-4.4.9.zip') as z:
+              assert z.testzip() is None
+              assert len(z.namelist())==555
+              assert z.read('Game-Theme-Music/dist/index.js')==(r/'dist/index.js').read_bytes()
+          print('PASS 4.4.9 release content, 555 files and consistent metadata')
+          PY
+      - name: Commit synchronized sources and docs to release branch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Already synchronized"
+          else
+            git commit -m "release: synchronize exact GTM 4.4.9 code, visualizer packs, tests, and docs"
+            git push origin HEAD:release/gtm-4.4.9
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GTM-4.4.9-RELEASE-PACKAGE-EXTRACT-ACTIONS-WRAPPER
+          path: ${{ runner.temp }}/Game-Theme-Music-4.4.9.zip
+          retention-days: 30
+          if-no-files-found: error

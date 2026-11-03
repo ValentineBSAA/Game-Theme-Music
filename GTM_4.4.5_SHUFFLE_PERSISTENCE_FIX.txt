@@ -1,0 +1,17 @@
+GTM 4.4.5 Spectator Quick Menu: Shuffle All Update Persistence Fix
+=======================================================================
+Starting point: user-tested Quick Menu Rebuild ZIP; visualizer/AI code preserved.
+Change: fixed full-settings snapshot write races with serialized Decky RPC saves.
+First-launch hydration: reads saved settings before accepting writes; an explicit
+False is not replaced with a truthy or default value.
+Sidecar: get_visualizer_shuffle_preference/set_visualizer_shuffle_preference
+persist a separate boolean in Decky's settings directory (plus SettingsManager).
+When a stale full settings snapshot is loaded after an update, the separately
+saved choice is authoritative. This affects Shuffle All visualizers only, not
+the Ambient or Store playlist shuffle preferences.
+Off means no scene change when starting another song; manual Next/Previous
+scene commands and spectator match-internal styles continue to work normally.
+Previously saved other settings are untouched, and no new Arcade gameplay or
+human-control systems are added.
+Test: tests/GTM_4.4.5_SHUFFLE_SETTINGS_TEST.cjs
+This is a local preview build; real Steam Deck + update and reboot tests remain.

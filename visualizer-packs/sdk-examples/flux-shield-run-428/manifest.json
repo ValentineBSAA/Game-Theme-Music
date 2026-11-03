@@ -1,0 +1,1395 @@
+{
+  "format": 3,
+  "pack_id": "gtm_flux_shield_run",
+  "name": "Flux Shield Run: Independent Community Game",
+  "author": "GTM Community SDK Demonstration",
+  "version": "1.0.0",
+  "description": "A real independent, 2-player survival game. Dodge falling energy; LB creates a 2.5-second shield with a 15-second recharge, RB activates a 2-second dash with a 10-second recharge. AI players dodge automatically. No GTM code changes required.",
+  "scenes": [
+    {
+      "id": "world_flux_shield_run",
+      "title": "Flux Shield Run • Community Game",
+      "category": "arcade",
+      "background": {
+        "style": "stars",
+        "base": "#080e24",
+        "accent": "#6e9ad8",
+        "motion": 0.3,
+        "density": 0.45,
+        "reactivity": 0.3
+      },
+      "interaction": {
+        "kind": "game",
+        "default": "ai_ai",
+        "modes": [
+          "ai_ai",
+          "player_ai",
+          "player_player",
+          "solo"
+        ],
+        "action_label": "Shield and dash"
+      },
+      "options": [
+        {
+          "id": "speed",
+          "label": "Flux hazard speed",
+          "choices": [
+            {
+              "value": 0.6,
+              "label": "Relaxed"
+            },
+            {
+              "value": 1,
+              "label": "Standard"
+            },
+            {
+              "value": 1.5,
+              "label": "Extreme"
+            }
+          ]
+        }
+      ],
+      "program": {
+        "version": 1,
+        "state": {
+          "phase": 0,
+          "hazard": 0.35,
+          "hx": 0.5,
+          "x1": 0.3,
+          "x2": 0.7,
+          "score1": 0,
+          "score2": 0,
+          "hits1": 0,
+          "hits2": 0,
+          "hitlock1": 0,
+          "hitlock2": 0,
+          "scorelock": 0,
+          "shield1": 0,
+          "shield2": 0,
+          "shieldcd1": 0,
+          "shieldcd2": 0,
+          "boost1": 0,
+          "boost2": 0,
+          "boostcd1": 0,
+          "boostcd2": 0,
+          "lb1": 0,
+          "lb2": 0,
+          "rb1": 0,
+          "rb2": 0,
+          "flare": 0
+        },
+        "update": [
+          {
+            "do": "set",
+            "var": "phase",
+            "value": [
+              "add",
+              [
+                "get",
+                "phase"
+              ],
+              [
+                "mul",
+                [
+                  "get",
+                  "dt"
+                ],
+                [
+                  "add",
+                  0.77,
+                  [
+                    "mul",
+                    0.55,
+                    [
+                      "get",
+                      "opt_speed"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "hazard",
+            "value": [
+              "fract",
+              [
+                "mul",
+                [
+                  "get",
+                  "phase"
+                ],
+                0.36
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "hx",
+            "value": [
+              "add",
+              0.5,
+              [
+                "mul",
+                0.34,
+                [
+                  "sin",
+                  [
+                    "mul",
+                    [
+                      "get",
+                      "phase"
+                    ],
+                    1.33
+                  ]
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "flare",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "flare"
+                ],
+                [
+                  "mul",
+                  [
+                    "get",
+                    "dt"
+                  ],
+                  1.8
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "shield1",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "shield1"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "shieldcd1",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "shieldcd1"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "boost1",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "boost1"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "boostcd1",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "boostcd1"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "get",
+                "human1"
+              ],
+              [
+                "gt",
+                [
+                  "abs",
+                  [
+                    "get",
+                    "p1x"
+                  ]
+                ],
+                0.06
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "x1",
+                "value": [
+                  "clamp",
+                  [
+                    "add",
+                    [
+                      "get",
+                      "x1"
+                    ],
+                    [
+                      "mul",
+                      [
+                        "get",
+                        "dt"
+                      ],
+                      [
+                        "mul",
+                        [
+                          "get",
+                          "p1x"
+                        ],
+                        [
+                          "add",
+                          1.2,
+                          [
+                            "mul",
+                            1.3,
+                            [
+                              "gt",
+                              [
+                                "get",
+                                "boost1"
+                              ],
+                              0
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ],
+                  0.06,
+                  0.94
+                ]
+              }
+            ],
+            "else": [
+              {
+                "do": "set",
+                "var": "x1",
+                "value": [
+                  "clamp",
+                  [
+                    "add",
+                    [
+                      "get",
+                      "x1"
+                    ],
+                    [
+                      "mul",
+                      [
+                        "get",
+                        "dt"
+                      ],
+                      [
+                        "mul",
+                        [
+                          "sub",
+                          [
+                            "get",
+                            "x1"
+                          ],
+                          [
+                            "get",
+                            "hx"
+                          ]
+                        ],
+                        1.8
+                      ]
+                    ]
+                  ],
+                  0.07,
+                  0.93
+                ]
+              }
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "and",
+                [
+                  "get",
+                  "p1lb"
+                ],
+                [
+                  "lt",
+                  [
+                    "get",
+                    "lb1"
+                  ],
+                  0.5
+                ]
+              ],
+              [
+                "lt",
+                [
+                  "get",
+                  "shieldcd1"
+                ],
+                0.01
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "shield1",
+                "value": 2.5
+              },
+              {
+                "do": "set",
+                "var": "shieldcd1",
+                "value": 15
+              },
+              {
+                "do": "set",
+                "var": "flare",
+                "value": 0.65
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "set",
+            "var": "lb1",
+            "value": [
+              "get",
+              "p1lb"
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "and",
+                [
+                  "get",
+                  "p1rb"
+                ],
+                [
+                  "lt",
+                  [
+                    "get",
+                    "rb1"
+                  ],
+                  0.5
+                ]
+              ],
+              [
+                "lt",
+                [
+                  "get",
+                  "boostcd1"
+                ],
+                0.01
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "boost1",
+                "value": 2.0
+              },
+              {
+                "do": "set",
+                "var": "boostcd1",
+                "value": 10
+              },
+              {
+                "do": "set",
+                "var": "flare",
+                "value": 0.8
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "set",
+            "var": "rb1",
+            "value": [
+              "get",
+              "p1rb"
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "and",
+                [
+                  "gt",
+                  [
+                    "get",
+                    "hazard"
+                  ],
+                  0.68
+                ],
+                [
+                  "lt",
+                  [
+                    "get",
+                    "hazard"
+                  ],
+                  0.89
+                ]
+              ],
+              [
+                "and",
+                [
+                  "lt",
+                  [
+                    "abs",
+                    [
+                      "sub",
+                      [
+                        "get",
+                        "x1"
+                      ],
+                      [
+                        "get",
+                        "hx"
+                      ]
+                    ]
+                  ],
+                  0.085
+                ],
+                [
+                  "and",
+                  [
+                    "lt",
+                    [
+                      "get",
+                      "shield1"
+                    ],
+                    0.01
+                  ],
+                  [
+                    "lt",
+                    [
+                      "get",
+                      "hitlock1"
+                    ],
+                    0.5
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "hits1",
+                "value": [
+                  "add",
+                  [
+                    "get",
+                    "hits1"
+                  ],
+                  1
+                ]
+              },
+              {
+                "do": "set",
+                "var": "hitlock1",
+                "value": 1
+              },
+              {
+                "do": "set",
+                "var": "flare",
+                "value": 0.8
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "if",
+            "test": [
+              "lt",
+              [
+                "get",
+                "hazard"
+              ],
+              0.12
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "hitlock1",
+                "value": 0
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "set",
+            "var": "shield2",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "shield2"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "shieldcd2",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "shieldcd2"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "boost2",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "boost2"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "set",
+            "var": "boostcd2",
+            "value": [
+              "max",
+              0,
+              [
+                "sub",
+                [
+                  "get",
+                  "boostcd2"
+                ],
+                [
+                  "get",
+                  "dt"
+                ]
+              ]
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "get",
+                "human2"
+              ],
+              [
+                "gt",
+                [
+                  "abs",
+                  [
+                    "get",
+                    "p2x"
+                  ]
+                ],
+                0.06
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "x2",
+                "value": [
+                  "clamp",
+                  [
+                    "add",
+                    [
+                      "get",
+                      "x2"
+                    ],
+                    [
+                      "mul",
+                      [
+                        "get",
+                        "dt"
+                      ],
+                      [
+                        "mul",
+                        [
+                          "get",
+                          "p2x"
+                        ],
+                        [
+                          "add",
+                          1.2,
+                          [
+                            "mul",
+                            1.3,
+                            [
+                              "gt",
+                              [
+                                "get",
+                                "boost2"
+                              ],
+                              0
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                  ],
+                  0.06,
+                  0.94
+                ]
+              }
+            ],
+            "else": [
+              {
+                "do": "set",
+                "var": "x2",
+                "value": [
+                  "clamp",
+                  [
+                    "add",
+                    [
+                      "get",
+                      "x2"
+                    ],
+                    [
+                      "mul",
+                      [
+                        "get",
+                        "dt"
+                      ],
+                      [
+                        "mul",
+                        [
+                          "sub",
+                          [
+                            "get",
+                            "x2"
+                          ],
+                          [
+                            "get",
+                            "hx"
+                          ]
+                        ],
+                        1.8
+                      ]
+                    ]
+                  ],
+                  0.07,
+                  0.93
+                ]
+              }
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "and",
+                [
+                  "get",
+                  "p2lb"
+                ],
+                [
+                  "lt",
+                  [
+                    "get",
+                    "lb2"
+                  ],
+                  0.5
+                ]
+              ],
+              [
+                "lt",
+                [
+                  "get",
+                  "shieldcd2"
+                ],
+                0.01
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "shield2",
+                "value": 2.5
+              },
+              {
+                "do": "set",
+                "var": "shieldcd2",
+                "value": 15
+              },
+              {
+                "do": "set",
+                "var": "flare",
+                "value": 0.65
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "set",
+            "var": "lb2",
+            "value": [
+              "get",
+              "p2lb"
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "and",
+                [
+                  "get",
+                  "p2rb"
+                ],
+                [
+                  "lt",
+                  [
+                    "get",
+                    "rb2"
+                  ],
+                  0.5
+                ]
+              ],
+              [
+                "lt",
+                [
+                  "get",
+                  "boostcd2"
+                ],
+                0.01
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "boost2",
+                "value": 2.0
+              },
+              {
+                "do": "set",
+                "var": "boostcd2",
+                "value": 10
+              },
+              {
+                "do": "set",
+                "var": "flare",
+                "value": 0.8
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "set",
+            "var": "rb2",
+            "value": [
+              "get",
+              "p2rb"
+            ]
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "and",
+                [
+                  "gt",
+                  [
+                    "get",
+                    "hazard"
+                  ],
+                  0.68
+                ],
+                [
+                  "lt",
+                  [
+                    "get",
+                    "hazard"
+                  ],
+                  0.89
+                ]
+              ],
+              [
+                "and",
+                [
+                  "lt",
+                  [
+                    "abs",
+                    [
+                      "sub",
+                      [
+                        "get",
+                        "x2"
+                      ],
+                      [
+                        "get",
+                        "hx"
+                      ]
+                    ]
+                  ],
+                  0.085
+                ],
+                [
+                  "and",
+                  [
+                    "lt",
+                    [
+                      "get",
+                      "shield2"
+                    ],
+                    0.01
+                  ],
+                  [
+                    "lt",
+                    [
+                      "get",
+                      "hitlock2"
+                    ],
+                    0.5
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "hits2",
+                "value": [
+                  "add",
+                  [
+                    "get",
+                    "hits2"
+                  ],
+                  1
+                ]
+              },
+              {
+                "do": "set",
+                "var": "hitlock2",
+                "value": 1
+              },
+              {
+                "do": "set",
+                "var": "flare",
+                "value": 0.8
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "if",
+            "test": [
+              "lt",
+              [
+                "get",
+                "hazard"
+              ],
+              0.12
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "hitlock2",
+                "value": 0
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "if",
+            "test": [
+              "and",
+              [
+                "gt",
+                [
+                  "get",
+                  "hazard"
+                ],
+                0.91
+              ],
+              [
+                "lt",
+                [
+                  "get",
+                  "scorelock"
+                ],
+                0.5
+              ]
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "score1",
+                "value": [
+                  "add",
+                  [
+                    "get",
+                    "score1"
+                  ],
+                  [
+                    "sub",
+                    1,
+                    [
+                      "get",
+                      "hitlock1"
+                    ]
+                  ]
+                ]
+              },
+              {
+                "do": "set",
+                "var": "score2",
+                "value": [
+                  "add",
+                  [
+                    "get",
+                    "score2"
+                  ],
+                  [
+                    "sub",
+                    1,
+                    [
+                      "get",
+                      "hitlock2"
+                    ]
+                  ]
+                ]
+              },
+              {
+                "do": "set",
+                "var": "scorelock",
+                "value": 1
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "if",
+            "test": [
+              "lt",
+              [
+                "get",
+                "hazard"
+              ],
+              0.12
+            ],
+            "then": [
+              {
+                "do": "set",
+                "var": "scorelock",
+                "value": 0
+              }
+            ],
+            "else": []
+          }
+        ],
+        "draw": [
+          {
+            "do": "rect",
+            "x": 0,
+            "y": 0.28,
+            "w": 1,
+            "h": 0.7,
+            "color": "#071025",
+            "alpha": 0.85
+          },
+          {
+            "do": "repeat",
+            "count": 8,
+            "index": "i",
+            "body": [
+              {
+                "do": "line",
+                "x": 0,
+                "y": [
+                  "add",
+                  0.3,
+                  [
+                    "mul",
+                    [
+                      "get",
+                      "i"
+                    ],
+                    0.075
+                  ]
+                ],
+                "x2": 1,
+                "y2": [
+                  "add",
+                  0.3,
+                  [
+                    "mul",
+                    [
+                      "get",
+                      "i"
+                    ],
+                    0.075
+                  ]
+                ],
+                "color": "#274e8d",
+                "alpha": 0.34,
+                "size": 0.006
+              }
+            ]
+          },
+          {
+            "do": "text",
+            "x": 0.03,
+            "y": 0.16,
+            "text": "FLUX SHIELD RUN",
+            "size": 0.17,
+            "color": "#e1efff"
+          },
+          {
+            "do": "text",
+            "x": 0.6,
+            "y": 0.17,
+            "text": "P1 ",
+            "size": 0.12,
+            "color": "#feac85",
+            "value": [
+              "get",
+              "score1"
+            ]
+          },
+          {
+            "do": "text",
+            "x": 0.77,
+            "y": 0.17,
+            "text": "P2 ",
+            "size": 0.12,
+            "color": "#73e5ff",
+            "value": [
+              "get",
+              "score2"
+            ]
+          },
+          {
+            "do": "circle",
+            "x": [
+              "get",
+              "hx"
+            ],
+            "y": [
+              "add",
+              0.26,
+              [
+                "mul",
+                0.57,
+                [
+                  "get",
+                  "hazard"
+                ]
+              ]
+            ],
+            "r": 0.05,
+            "color": "#fff0a5",
+            "alpha": 0.92
+          },
+          {
+            "do": "circle",
+            "x": [
+              "get",
+              "hx"
+            ],
+            "y": [
+              "add",
+              0.26,
+              [
+                "mul",
+                0.57,
+                [
+                  "get",
+                  "hazard"
+                ]
+              ]
+            ],
+            "r": 0.084,
+            "color": "#e9a5ff",
+            "alpha": 0.15
+          },
+          {
+            "do": "rect",
+            "x": [
+              "sub",
+              [
+                "get",
+                "x1"
+              ],
+              0.024
+            ],
+            "y": 0.76,
+            "w": 0.048,
+            "h": 0.15,
+            "color": "#ff8b7f",
+            "alpha": 1
+          },
+          {
+            "do": "rect",
+            "x": [
+              "sub",
+              [
+                "get",
+                "x2"
+              ],
+              0.024
+            ],
+            "y": 0.76,
+            "w": 0.048,
+            "h": 0.15,
+            "color": "#6adffc",
+            "alpha": 1
+          },
+          {
+            "do": "if",
+            "test": [
+              "gt",
+              [
+                "get",
+                "shield1"
+              ],
+              0
+            ],
+            "then": [
+              {
+                "do": "circle",
+                "x": [
+                  "get",
+                  "x1"
+                ],
+                "y": 0.82,
+                "r": 0.12,
+                "color": "#8bdbff",
+                "alpha": 0.23
+              },
+              {
+                "do": "circle",
+                "x": [
+                  "get",
+                  "x1"
+                ],
+                "y": 0.82,
+                "r": 0.11,
+                "color": "#a5f2ff",
+                "alpha": 0.78
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "if",
+            "test": [
+              "gt",
+              [
+                "get",
+                "shield2"
+              ],
+              0
+            ],
+            "then": [
+              {
+                "do": "circle",
+                "x": [
+                  "get",
+                  "x2"
+                ],
+                "y": 0.82,
+                "r": 0.12,
+                "color": "#8bdbff",
+                "alpha": 0.23
+              },
+              {
+                "do": "circle",
+                "x": [
+                  "get",
+                  "x2"
+                ],
+                "y": 0.82,
+                "r": 0.11,
+                "color": "#a5f2ff",
+                "alpha": 0.78
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "if",
+            "test": [
+              "gt",
+              [
+                "get",
+                "boost1"
+              ],
+              0
+            ],
+            "then": [
+              {
+                "do": "rect",
+                "x": [
+                  "sub",
+                  [
+                    "get",
+                    "x1"
+                  ],
+                  0.047
+                ],
+                "y": 0.91,
+                "w": 0.094,
+                "h": 0.02,
+                "color": "#ffba68",
+                "alpha": 0.8
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "if",
+            "test": [
+              "gt",
+              [
+                "get",
+                "boost2"
+              ],
+              0
+            ],
+            "then": [
+              {
+                "do": "rect",
+                "x": [
+                  "sub",
+                  [
+                    "get",
+                    "x2"
+                  ],
+                  0.047
+                ],
+                "y": 0.91,
+                "w": 0.094,
+                "h": 0.02,
+                "color": "#91f5ff",
+                "alpha": 0.8
+              }
+            ],
+            "else": []
+          },
+          {
+            "do": "text",
+            "x": 0.03,
+            "y": 0.37,
+            "text": "LB SHIELD: 15S  |  RB DASH: 10S",
+            "size": 0.1,
+            "color": "#dae9ff"
+          },
+          {
+            "do": "text",
+            "x": 0.03,
+            "y": 0.49,
+            "text": "P1 HITS ",
+            "size": 0.1,
+            "color": "#ffbba1",
+            "value": [
+              "get",
+              "hits1"
+            ]
+          },
+          {
+            "do": "text",
+            "x": 0.22,
+            "y": 0.49,
+            "text": "P2 HITS ",
+            "size": 0.1,
+            "color": "#a8f4ff",
+            "value": [
+              "get",
+              "hits2"
+            ]
+          }
+        ]
+      },
+      "layers": []
+    }
+  ]
+}

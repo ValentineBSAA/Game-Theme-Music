@@ -1,0 +1,35 @@
+'use strict';
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
+const root=path.join(__dirname,'..');
+const chess=fs.readFileSync(path.join(root,'src/visualizer-behaviors/chess-440.js'),'utf8');
+const arcade=fs.readFileSync(path.join(root,'src/visualizer-behaviors/arcade-421.js'),'utf8');
+const bundle=fs.readFileSync(path.join(root,'dist/index.js'),'utf8');
+assert(arcade.includes(chess),'Chess editable source must match standalone engine');
+assert(bundle.includes(chess),'Shipped frontend must contain identical Chess engine');
+assert(bundle.includes("const focusedChess=couchEnabled&&currentScene?.id==='world_arcade_neon_chess'"),'Focused stage must activate ONLY for Chess in Couch / TV');
+assert(bundle.includes("maxHeight:focusedChess?'48vh':pongCouch?'28vh':'12vh'"),'Stage remains non-fullscreen and other Arcade games retain 4.4.0 maximum');
+assert(bundle.includes('const h=focusedChess?Math.min(410,Math.max(292,Math.round((window.innerHeight||800)*.46)))'),'Chess stage should have independent couch height');
+const ctx=vm.createContext({Math,Date,g421Base:()=>({seed:5,elapsed:0})});
+vm.runInContext(chess+'\nthis.engine=GTM440_CHESS;',ctx);
+const engine=ctx.engine;
+const I={human1:false,human2:false,p1:{x:0,y:0,rt:0,lt:0,lb:0,rb:0},p2:{x:0,y:0,rt:0,lt:0,lb:0,rb:0}};
+for(const [w,h] of [[1280,368],[1280,331],[800,360],[640,320],[1280,208]]){
+ const squares=[],texts=[],lines=[],circles=[];
+ const draw={w,h,r:(x,y,wide,tall,color,alpha=1)=>{if(Math.abs(wide*w-tall*h)<.005&&wide*w>=13&&wide*w<=50)squares.push({x,y,wide,tall,color});},l:(...v)=>lines.push(v),t:(label,x,y,color,size,align)=>texts.push({label,x,y,color,size,align}),c:(...v)=>circles.push(v)};
+ const state=engine.create();engine.draw(state,draw,I,{},{});
+ assert(squares.length>=64,`Expected 64 square board cells at ${w}x${h}, got ${squares.length}`);
+ const actual=squares.slice(0,64),tile=actual[0];
+ const edgeRight=Math.max(...actual.map(x=>x.x+x.wide));
+ const edgeBottom=Math.max(...actual.map(x=>x.y+x.tall));
+ assert(Math.abs(tile.wide*w-tile.tall*h)<.01,'Physically square board cells');
+ assert(edgeRight<.66&&edgeBottom<.99,'Chessboard must not be clipped or overlap side controls');
+ assert(texts.some(x=>x.label==='WHITE TO MOVE'&&x.x>edgeRight),'Turn must be in side panel');
+ assert(texts.some(x=>x.label==='RT SELECT  ·  LT CANCEL'&&x.x>edgeRight),'RT / LT control hint must be outside chessboard');
+ assert(texts.some(x=>x.label==='NEON CHESS CHAMPIONSHIP'),'Header visible');
+ assert(circles.length>=32,'Both sides have rendered pieces');
+ if(w===1280&&h===368)assert(tile.wide*w*8>285,'Chess board should be roughly twice as large as 4.4.0 in couch view');
+ console.log(`PASS Chess ${w}x${h}: square board ${(tile.wide*w*8).toFixed(0)}px; status/control panel separate`);
+}
+const start=engine.create();const before=start.board.join('');engine.step(start,1/60,I,{},{});
+assert.equal(start.board.join(''),before,'Board state unaffected by layout only update');
+console.log('PASS 4.4.1 geometry, source/bundle parity, focused stage, non-fullscreen safe limits, board-state preservation');

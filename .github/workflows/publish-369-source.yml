@@ -1,49 +1,62 @@
-# Historical filename retained for continuity. The old 3.6.9 source-publishing
-# workflow was retired: running it would overwrite the newer verified runtime.
-name: GTM 4.1.2 source and regression checks
-
+# The former source-publish workflow is retained as a read-only, version-aware gate.
+name: GTM version-aware source and regression checks
 on:
   push:
     branches: [main]
   pull_request:
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Confirm source snapshot and version consistency
-        shell: bash
+      - name: Check version, author and compiled runtime
         run: |
           set -euo pipefail
           python3 - <<'PY'
-          import pathlib,json,re,hashlib
-          root=pathlib.Path(".")
-          pkg=json.loads((root/"package.json").read_text())
-          plugin=json.loads((root/"plugin.json").read_text())
-          version=pkg["version"]
-          assert pkg["name"]=="sdh-gamethememusic"
-          assert plugin["version"]==version
-          assert re.fullmatch(r"\d+\.\d+\.\d+",version)
-          assert f'const GTM_VERSION = "{version}";'.encode() in (root/"dist/index.js").read_bytes()
-          assert version in (root/"README.md").read_text()
-          assert (root/f"docs/RELEASE_NOTES_{version}.md").is_file()
-          if version=="4.1.2":
-            assert hashlib.sha256((root/"dist/index.js").read_bytes()).hexdigest()=="07974e20eb93e5bd314cc9fa0f74ec9f77acd776204d292ffb102655399c18b9"
-            assert hashlib.sha256((root/"main.py").read_bytes()).hexdigest()=="2ade7634d757afe6f9d1ec807a455103883848da684a1038c86a6808b9273569"
-          print("PASS GTM",version)
+          import json,hashlib,pathlib
+          p=pathlib.Path('.')
+          plug=json.loads((p/'plugin.json').read_text())
+          pkg=json.loads((p/'package.json').read_text())
+          v=plug['version']
+          assert pkg['version']==v
+          assert plug['author']=='Valentine'
+          js=(p/'dist/index.js').read_text()
+          assert f'const GTM_VERSION = "{v}";' in js
+          assert v in (p/'README.md').read_text()
+          if v=='4.1.2':
+              assert hashlib.sha256((p/'dist/index.js').read_bytes()).hexdigest()=='07974e20eb93e5bd314cc9fa0f74ec9f77acd776204d292ffb102655399c18b9'
+          elif v=='4.4.9':
+              assert (p/'docs/RELEASE_NOTES_4.4.9.md').exists()
+              assert hashlib.sha256((p/'dist/index.js').read_bytes()).hexdigest()=='36eef5688c45c538c2c076173dacfbe449f4505807f3ea14807aa9f73e738fa9'
+              assert (p/'GTM_4.4.9_PONG_SCORING_REGRESSION.cjs').exists()
+              assert (p/'GTM_4.4.9_ALL_MODES_REGRESSION.cjs').exists()
+              assert 'GTM444_SPECTATOR_ONLY' in js
+              assert 'function gtm444PongNewMatch' in js
+              assert 'class AmbientController' in js
+              assert 'class StoreController' in js
+              scenes=json.loads((p/'visualizer-packs/arcade/manifest.json').read_text())
+              assert scenes['version']=='4.4.9'
+          else:
+              raise AssertionError(f'Unsupported source version {v}')
+          print('PASS GTM source',v)
           PY
-          python3 -m py_compile main.py
           node --check dist/index.js
-      - name: Run 4.1.2 offline regression suites
+          python3 -m py_compile main.py
+      - name: Run offline physics and music regressions
         run: |
           set -euo pipefail
-          for script in tests/*-412.cjs tests/GTM_4.1.2_*.cjs; do
-            node "$script"
-          done
-          python3 tests/GTM_4.1.2_BACKEND_POWER_TESTS.py
+          VERSION="$(python3 -c "import json;print(json.load(open('package.json'))['version'])")"
+          if [[ "$VERSION" == "4.4.9" ]]; then
+            node GTM_4.4.9_PONG_SCORING_REGRESSION.cjs
+            node GTM_4.4.9_ALL_MODES_REGRESSION.cjs
+            node tests/GTM_4.4.6_SHUFFLE_REGRESSION_TEST.cjs
+          else
+            for script in tests/*-412.cjs tests/GTM_4.1.2_*.cjs; do
+              node "$script"
+            done
+            python3 tests/GTM_4.1.2_BACKEND_POWER_TESTS.py
+          fi

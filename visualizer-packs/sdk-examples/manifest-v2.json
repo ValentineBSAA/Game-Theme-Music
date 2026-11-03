@@ -1,0 +1,125 @@
+{
+  "format": 2,
+  "pack_id": "gtm_community_effects_starter",
+  "name": "GTM Community Effects Starter",
+  "author": "GTM Developer SDK",
+  "version": "1.0.0",
+  "description": "Example audio-driven scenes: no scripts, just trusted engine effects and bounded overlays.",
+  "scenes": [
+    {
+      "id": "world_sparkfield_sample",
+      "title": "Sparkfield • Beat Reactor",
+      "category": "signature",
+      "layers": [
+        {
+          "effect": "supernova_bloom",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 0.85,
+          "hueShift": 0,
+          "audio": {
+            "intensity": {
+              "source": "low",
+              "amount": 0.65
+            },
+            "speed": {
+              "source": "beat",
+              "amount": 0.3
+            }
+          }
+        }
+      ],
+      "overlays": [
+        {
+          "effect": "sparks",
+          "trigger": "beat",
+          "color": "auto",
+          "density": 1.2,
+          "speed": 1,
+          "intensity": 0.9
+        },
+        {
+          "effect": "lightning",
+          "trigger": "bass",
+          "color": "#c6afff",
+          "density": 0.55,
+          "speed": 1.3,
+          "intensity": 0.7
+        }
+      ]
+    },
+    {
+      "id": "world_retro_starfall",
+      "title": "Retro Starfall",
+      "category": "retro",
+      "layers": [
+        {
+          "effect": "crt_pulse",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 0.75,
+          "hueShift": 0,
+          "audio": {
+            "scale": {
+              "source": "mid",
+              "amount": 0.2
+            }
+          }
+        }
+      ],
+      "overlays": [
+        {
+          "effect": "stardust",
+          "trigger": "always",
+          "color": "auto",
+          "density": 1.5,
+          "speed": 0.7,
+          "intensity": 0.6
+        },
+        {
+          "effect": "scanlines",
+          "trigger": "treble",
+          "color": "auto",
+          "density": 0.8,
+          "speed": 1,
+          "intensity": 0.15
+        }
+      ]
+    },
+    {
+      "id": "world_rival_arena",
+      "title": "Rival Arena • Championship",
+      "category": "signature",
+      "layers": [
+        {
+          "effect": "neon_pong",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0
+        }
+      ],
+      "overlays": [
+        {
+          "effect": "confetti",
+          "trigger": "beat",
+          "color": "#ffd278",
+          "density": 0.6,
+          "speed": 1.3,
+          "intensity": 0.55
+        }
+      ],
+      "background": {
+        "style": "sunset",
+        "base": "#24102e",
+        "accent": "#ffbb75",
+        "motion": 0.6,
+        "density": 0.8,
+        "reactivity": 1.0
+      }
+    }
+  ]
+}
