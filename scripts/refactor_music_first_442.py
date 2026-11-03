@@ -171,6 +171,9 @@ swap("maxHeight:focusedChess?'48vh':pongCouch?'28vh':'12vh'",
 swap("const arcadeScene=!!selectedScene&&(selectedScene.layers?.some(layer=>layer.effect==='neon_pong')||!!selectedScene.interaction);",
      "const complexScene=!!selectedScene&&(selectedScene.category==='experiments'||selectedScene.layers?.some(layer=>layer.effect==='neon_pong'));",
      "visualizer performance budget scene selector")
+swap("            arcade:arcadeScene,status:renderSafety.latched?'suspended':'running',",
+     "            complexVisual:complexScene,status:renderSafety.latched?'suspended':'running',",
+     "restore safety diagnostics after game engine removal")
 swap("if(arcadeScene)frameInterval=Math.max(frameInterval,1000/30)",
      "if(complexScene)frameInterval=Math.max(frameInterval,1000/30)",
      "cap complex visuals at 30fps")
