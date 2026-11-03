@@ -5,6 +5,7 @@ on:
       - refactor/gtm-441-music-first
     paths:
       - .github/workflows/music-first-442-refactor.yml
+      - scripts/refactor_music_first_442.py
   workflow_dispatch:
 permissions:
   contents: write
