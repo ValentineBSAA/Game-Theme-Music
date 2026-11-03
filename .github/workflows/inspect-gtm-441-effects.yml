@@ -1,0 +1,47 @@
+name: Inspect original GTM 4.4.1 visual effects (read-only source extraction)
+on:
+  push:
+    branches: [refactor/gtm-441-music-first]
+    paths: [.github/workflows/inspect-gtm-441-effects.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with: {persist-credentials: true}
+      - name: Download verified original 4.4.1 release and extract visual data
+        run: |
+          set -euo pipefail
+          curl -fLsS --retry 3 -o "$RUNNER_TEMP/gtm441.zip" 'https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.4.1/Game-Theme-Music-4.4.1-PUBLIC-BETA-CHESS-FOCUSED-BOARD.zip'
+          echo "f287d2f85eb5e52ec64b38eb4e6702292139e6db128ea379899db88b956cb537  $RUNNER_TEMP/gtm441.zip" | sha256sum -c -
+          python3 - "$RUNNER_TEMP/gtm441.zip" <<'PY'
+          import zipfile,sys,re,collections,pathlib,json
+          z=zipfile.ZipFile(sys.argv[1]); names=z.namelist()
+          arcade=[p for p in names if p.endswith('/visualizer-packs/arcade/manifest.json')];assert len(arcade)==1
+          pack=json.loads(z.read(arcade[0]))
+          pathlib.Path('tests/fixtures').mkdir(parents=True,exist_ok=True)
+          pathlib.Path('tests/fixtures/gtm_441_original_arcade_pack.json').write_text(json.dumps(pack,indent=2,ensure_ascii=False)+'\n')
+          code=z.read([p for p in names if p.endswith('/dist/index.js')][0]).decode()
+          markers=['const GTM413_EFFECTS','const GTM413_BEHAVIORS','function gtm413RunBehavior','function gtm413PongRandom','function gtm421DrawArcade','function gtm418DrawProgram','const GTM422_EMBEDDED_BUILTINS','function Gtm419ArcadePage','const GTM420_ARCADE_GAMES','function gtm404DrawLayer']
+          info={'original_code_chars':len(code),'original_pack':{'format':pack.get('format'),'version':pack.get('version'),'name':pack.get('name'),'scenes':[]},'sections':{}}
+          for scene in pack.get('scenes',[]):
+              info['original_pack']['scenes'].append({'id':scene.get('id'),'title':scene.get('title'),'category':scene.get('category'),'layers':scene.get('layers'),'program_keys':list((scene.get('program') or {}).keys()),'program_length':len(json.dumps(scene.get('program',{}))),'interaction':scene.get('interaction'),'options':scene.get('options'),'overlays':scene.get('overlays')})
+          for name in markers:
+              pos=code.find(name)
+              info['sections'][name]={'pos':pos,'snippet':code[pos:pos+1400] if pos!=-1 else ''}
+          pathlib.Path('docs/gtm_441_original_effects_inventory.json').write_text(json.dumps(info,indent=2,ensure_ascii=False)+'\n')
+          print('Original effect inventory:',json.dumps(info['original_pack'])[:2500])
+          PY
+      - name: Commit original visual scene fixture and inventory to preview branch only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/fixtures/gtm_441_original_arcade_pack.json docs/gtm_441_original_effects_inventory.json
+          if ! git diff --cached --quiet; then
+            git commit -m "test: inventory original 4.4.1 Arcade visual art and effect pipelines"
+            git push origin HEAD:refactor/gtm-441-music-first
+          fi
