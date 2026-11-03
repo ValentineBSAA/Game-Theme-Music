@@ -49,7 +49,7 @@ jobs:
               node "$script"
             done
             python3 tests/GTM_4.1.2_BACKEND_POWER_TESTS.py
-          elif [[ "$VERSION" == "4.4.2" ]]; then
+          elif [[ "$VERSION" == "4.4.2" || "$VERSION" == "4.4.3" ]]; then
             mkdir -p tests/dist
             ln -s ../../dist/index.js tests/dist/index.js
             ln -s ../main.py tests/main.py
@@ -66,7 +66,7 @@ jobs:
           assert len(v["scenes"])==12 and len(e["scenes"])==5
           assert all(not s.get("program") and not s.get("interaction") for s in e["scenes"])
           assert not Path("visualizer-packs/arcade/manifest.json").exists()
-          print("PASS GTM 4.4.2 music-first visual world boundaries")
+          print("PASS GTM", "music-first visual world boundaries")
           PY
           else
             echo "Unsupported source version $VERSION";exit 1
