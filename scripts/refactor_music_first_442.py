@@ -272,4 +272,11 @@ for f in Path("tests").glob("*"):
       ("ARCADE_LIFECYCLE","BUILTIN_GAMES","BUILTIN_BACKEND","CONTROLLER_GOAL","GOAL_AND_POWERS",
        "AI_TOURNAMENT","AI_BALANCE","UNIVERSAL_ENGINE","_4.4.1_VERSION_CONSISTENCY")):
         f.unlink()
+# Version consistency assertions in the retained historical audio regressions
+# now check the candidate version, without weakening their functional checks.
+for regression in Path("tests").glob("GTM_4.3.0_*"):
+    if regression.suffix==".cjs":
+        contents=regression.read_text()
+        if "4.4.1" in contents:
+            regression.write_text(contents.replace("4.4.1","4.4.2"))
 print("MUSIC-FIRST TRANSFORM COMPLETE",len(source),"frontend characters; 17 built-in scenes retained")
