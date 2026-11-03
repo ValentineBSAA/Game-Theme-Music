@@ -1,3 +1,7 @@
+### 4.4.9 · Spectator AI scoring, Valentine welcome and Quick Menu foundation (2026-11-03)
+
+Published-source synchronization to a 4.4.9 Game Theme Music release includes the 4.4.8 full-screen Home welcome and Quick Menu/visualizer collection improvements. Long learned-AI Pong rallies now receive gradual competitive pressure so scoring opportunities remain realistic; points are never granted without a genuine goal. Keeps 32 effects, saved AI learning, menu preferences, visualizer packs, and music/ResonaDeck features. Maintainer confirmed Home welcome and a scored point on Steam Deck; additional device checks remain appropriate. See `RELEASE_NOTES_4.4.9.md`.
+
 ### 3.7.5 Preview — Integrated premium reactive footer (2026-10-29)
 
 Consolidates compact Home footer, distinct visualizer geometry, context-menu suspension, adaptive render pacing, better true-audio transient analysis, and the Dragon style into a single numbered Decky preview ZIP. Audio transport and ResonaDeck focus are preserved. Static/browser tests do not replace physical Steam Deck validation. GTM 3.7.0 remains the stable public release.
