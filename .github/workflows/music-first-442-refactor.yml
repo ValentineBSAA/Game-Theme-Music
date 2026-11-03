@@ -1,0 +1,68 @@
+name: GTM 4.4.2 music-first refactor and regression checks
+on:
+  push:
+    branches:
+      - refactor/gtm-441-music-first
+    paths:
+      - .github/workflows/music-first-442-refactor.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  refactor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Convert exact GTM 4.4.1 beta runtime to music-first preview
+        run: |
+          set -euo pipefail
+          python3 scripts/refactor_music_first_442.py
+      - name: JS, Python and visualizer integrity checks
+        run: |
+          set -euo pipefail
+          node --check dist/index.js
+          python3 -m py_compile main.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          v=json.loads(Path('visualizer-packs/volume1/manifest.json').read_text())
+          e=json.loads(Path('visualizer-packs/experiments/manifest.json').read_text())
+          assert len(v['scenes'])==12 and len(e['scenes'])==5
+          assert e['format']==2
+          assert {s['id'] for s in e['scenes']}=={
+            'world_arcade_beat_catcher','world_arcade_orbital_duel',
+            'world_arcade_orbit_defenders','world_arcade_neon_strike_gallery',
+            'world_arcade_neon_chess'
+          }
+          assert all(s['layers'] and not s.get('interaction') and not s.get('program') for s in e['scenes'])
+          assert all(json.load(open(p))['version']=='4.4.2' for p in ('package.json','plugin.json'))
+          assert not Path('visualizer-packs/arcade/manifest.json').exists()
+          print('PASS 17 built-in music visualizers; zero playable scenes; 4.4.2 metadata')
+          PY
+      - name: Preserve music, ResonaDeck, rendering, sleep regression coverage
+        shell: bash
+        run: |
+          set -euo pipefail
+          for file in \
+            tests/GTM_4.3.0_CROSSFADE_REGRESSION_TESTS.cjs \
+            tests/GTM_4.3.0_FOCUS_INTEGRATION.cjs \
+            tests/GTM_4.3.0_RENDER_PERFORMANCE_TESTS.cjs \
+            tests/GTM_4.3.0_SLEEP_MODE_TESTS.cjs; do
+            echo "::group::$file"
+            node "$file"
+            echo "::endgroup::"
+          done
+          python3 tests/GTM_4.1.3_BACKEND_POWER_TESTS.py
+      - name: Commit validated preview to refactor branch only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A dist/index.js main.py plugin.json package.json visualizer-packs tests
+          if git diff --cached --quiet; then echo "No runtime change"; exit 0; fi
+          git commit -m "refactor: remove Arcade engines, retain 17 passive Visual Worlds (4.4.2 preview)"
+          git push origin HEAD:refactor/gtm-441-music-first
