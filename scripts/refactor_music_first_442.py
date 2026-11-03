@@ -37,7 +37,7 @@ cut("// 4.1.9: one discoverable Arcade page.","function GtmV3SettingsCenter() {"
     "Arcade Quick Menu, score and controller settings")
 swap("    { id: 'arcade', label: 'Arcade', short: 'Arcade', icon: 'game' },\n","",
      "Arcade navigation tab")
-swap("     else if (activePage === 'arcade') content = window.SP_REACT.createElement(Gtm419ArcadePage, null);\n","",
+swap("    else if (activePage === 'arcade') content = window.SP_REACT.createElement(Gtm419ArcadePage, null);\n","",
      "Arcade tab renderer")
 swap("Music + Six-Game Arcade · Preview","Music & Visual Worlds · Preview",
      "music-first masthead")
@@ -254,7 +254,7 @@ py=py.replace('for path in [builtin, arcade_builtin, *sorted(custom.glob("*.json
 needle='        if isinstance(payload, dict) and type(payload.get("format")) is int and payload["format"] == 3:\n'
 assert py.count(needle)==1
 py=py.replace(needle,needle+
-              '            if any(isinstance(s, dict) and isinstance(s.get("interaction"), dict) and s["interaction"].get("kind") == "game" for s in payload.get("scenes", []) if isinstance(payload.get("scenes"), list)):\n'
+              '            if isinstance(payload.get("scenes"), list) and any(isinstance(s, dict) and isinstance(s.get("interaction"), dict) and s["interaction"].get("kind") == "game" for s in payload["scenes"]):\n'
               '                raise ValueError("Interactive Arcade packs are not supported in this music-first edition")\n',1)
 py=py.replace('("gtm_visual_worlds_vol1", "gtm_arcade_builtin_420")',
               '("gtm_visual_worlds_vol1", "gtm_arcade_builtin_420", "gtm_visual_experiments_442")')
