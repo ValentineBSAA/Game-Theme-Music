@@ -127,8 +127,8 @@ swap("        for(const scene of pack.scenes.slice(0,96)){\n",
 old="""valid.set(scene.id,{...scene,program,interaction:pack.format===3?scene.interaction:null,options:pack.format===3?scene.options||[]:[],background,overlays,category:(['world_neon_pong','world_pong_thunder','world_pong_starlight'].includes(scene.id)||scene.category==='arcade'||(scene.interaction&&!scene.category))?'arcade':(['retro','rhythm','signature','anime','arcade'].includes(scene.category)?scene.category:'signature'),layers});"""
 new="""valid.set(scene.id,{...scene,program,interaction:null,options:pack.format===3?scene.options||[]:[],background,overlays,category:scene.category==='arcade'?'experiments':(['retro','rhythm','signature','anime','experiments'].includes(scene.category)?scene.category:'signature'),layers});"""
 swap(old,new,"music-only scene categorization and program input isolation")
-swap("  {id:'arcade',label:'GTM Arcade',modes:[]}",
-     "  {id:'experiments',label:'Visual Experiments',modes:[]}",
+swap(" {id:'arcade',label:'GTM Arcade',modes:[]}",
+     " {id:'experiments',label:'Visual Experiments',modes:[]}",
      "replace Arcade group with Visual Experiments")
 swap("['arcade','GTM Arcade']", "['experiments','Visual Experiments']",
      "remove Arcade category")
