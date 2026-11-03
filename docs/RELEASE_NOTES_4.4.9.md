@@ -2,7 +2,7 @@
 
 **Developer:** Valentine  
 **Version:** 4.4.9  
-**Status:** hardware-validation candidate (no beta suffix in plugin UI)
+**Status:** regular numbered release (no Beta suffix). Initial hardware checks passed; wider compatibility QA is ongoing.
 
 ## Fixed
 
@@ -31,11 +31,11 @@ A five-minute spectator match could remain 0–0 after two AI paddle agents had 
 - Frontend `node --check`, backend `python -m py_compile`, JSON, original archive preservation, embedded fallback-manifest version and ZIP integrity checked.
 - Home welcome, nested category controls and shuffle persistence regression checks remain required in the final packaged candidate.
 
-## Check on actual Steam Deck
+## Initial Steam Deck verification and follow-up QA
 
 1. Install GTM 4.4.9 over 4.4.8, leave your existing saved settings intact and confirm the version is **4.4.9**.
 2. Start Neon Paddle AI-vs-AI on Home, including with a previously trained high-skill AI profile. Watch for real return-to-goal action and legitimate scoring. The change **reduces the risk of five-minute 0–0 matches** but is not an enforced score timer.
 3. Switch between Classic, Thunder, and Starlight courts, and through Gravity/Zen/Chaos when available.
 4. Confirm the full Home welcome, Visualizers categories, colors, footer, Shuffle All OFF, ambient music, and ResonaDeck still behave as in 4.4.8.
 
-**Not yet tested on the actual Steam Deck.** Do not call it a hardware-verified stable release until the above checks pass.
+**Physical hardware verified so far:** Valentine confirmed that the 4.4.9 full-screen Home welcome appears correctly and that Pong AI-vs-AI scored a genuine goal. The remaining scenarios above are follow-up regression checks, not completed hardware certifications.
