@@ -12,7 +12,17 @@ PY=Path("main.py")
 VERSION="4.4.2"
 source=JS.read_text(encoding="utf-8")
 if 'const GTM_VERSION = "4.4.2";' in source:
-    print("Already refactored. No changes.")
+    # Follow-up safety fix on the previously validated preview, without
+    # replaying the destructive 4.4.1-only transformation.
+    previous="            arcade:arcadeScene,status:renderSafety.latched?'suspended':'running',"
+    corrected="            complexVisual:complexScene,status:renderSafety.latched?'suspended':'running',"
+    if previous in source:
+        assert source.count(previous)==1
+        JS.write_text(source.replace(previous,corrected,1),encoding="utf-8")
+        print("PATCHED stale Arcade safety diagnostic in existing preview")
+    else:
+        assert corrected in source,"Safety diagnostics regression"
+        print("Already refactored. No changes.")
     raise SystemExit(0)
 assert 'const GTM_VERSION = "4.4.1";' in source, "Wrong baseline"
 
