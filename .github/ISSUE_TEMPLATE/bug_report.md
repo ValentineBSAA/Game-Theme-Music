@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Tell us what broke on your Steam Deck
+about: Report something that isn't working in Game Theme Music on Steam Deck
 title: "[Bug] "
 labels: ""
 assignees: ""
@@ -8,11 +8,11 @@ assignees: ""
 
 ## What happened?
 
-Describe the problem in plain language.
+Describe the behavior in plain language.
 
 ## What did you expect?
 
-What should Game Theme Music have done instead?
+What should Game Theme Music do instead?
 
 ## Steps to reproduce
 
@@ -20,29 +20,30 @@ What should Game Theme Music have done instead?
 2.
 3.
 
-## Affected GTM area
+## GTM area and settings
 
-- Music / Ambient / Store / original Visual Worlds / experimental Arcade / other:
-- If Arcade: game name and mode (e.g. Neon Paddle, Orbital Duel, Orbit Defenders, Neon Strike, Beat Catcher, or early-alpha Chess):
-- AI vs AI, single-player, or local multiplayer? Controller type / number of players:
-- Couch / TV or Default sizing:
+- **Version:** 4.4.9 or specify another installed version.
+- **Area:** Game Music / Ambient / Store / regular Visual Worlds / Arcade Spectator (AI-only) / packs / Quick Menu / ResonaDeck / other:
+- **Visualizer or scene:** e.g. Neon Paddle Classic/Thunder/Starlight, or another scene:
+- **If AI spectator:** physics mode, AI learning level if known, approximate time without scoring, powers, or other visible behavior:
+- **Layout:** Default or Couch/TV:
+- **Colors, CSS Loader theme, and Shuffle All setting:**
+- **What still works correctly?**
 
-**Chess is currently very early alpha**, so missing depth and polish should be discussed in the [beta feedback thread](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4); actual crashes, wrong moves and broken controls are still welcome as bug reports.
+**GTM 4.4.9 does not include player-controlled or multiplayer Arcade gameplay.** For historical 4.4.1 discussions see the development history; do not assume old controller options are present.
 
-## Steam Deck details
+## Steam Deck configuration
 
-- Steam Deck model:
-- SteamOS version:
+- Steam Deck model (OLED/LCD):
+- SteamOS version/channel:
 - Decky Loader version:
-- Game Theme Music version:
-- Steam game or non-Steam game:
+- Connected display or controller, if relevant:
+- Steam / non-Steam game, if related:
 
 ## Other related plugins
 
-List ThemeDeck, ResonaDeck, CSS Loader themes, or other audio/UI plugins that may be relevant.
+ResonaDeck, CSS Loader, ThemeDeck or other audio/UI tools that may matter.
 
-## Screenshots or logs
+## Screenshot or log (optional)
 
-Add them here if available.
-
-Please remove account tokens, cookies, personal information, or other private data before posting logs or screenshots.
+Screenshots, clips, and logs help but are **not required**. Remove personal information, tokens and private account data before sharing.
