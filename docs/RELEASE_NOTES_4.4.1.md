@@ -1,3 +1,5 @@
+> **Historical 4.4.1 development document.** This is **not the current GTM release**. Version 4.4.9 is music-first with AI spectator visuals, and its complete installer is available at [V4.4.9](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9). The old V4.4.1 Git tag is preserved for history, but **its prerelease installer is not currently published and must not be restored or advertised as available**. Statements below describe the earlier development period only.
+
 # GTM 4.4.1 | Public Beta release notes 🎵🎮
 
 **Status:** Public Beta candidate; obtain the installable ZIP from Releases after the maintainer publishes it. **Version:** 4.4.1. **Previous candidate:** 4.4.0. **Primary product:** music playback + music-reactive visualizers. **Arcade:** optional experimental feature.
