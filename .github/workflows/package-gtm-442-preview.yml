@@ -1,0 +1,101 @@
+name: Package GTM 4.4.2 music-first preview
+on:
+  push:
+    branches:
+      - refactor/gtm-441-music-first
+    paths:
+      - .github/workflows/package-gtm-442-preview.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify candidate runtime and manifest metadata
+        run: |
+          set -euo pipefail
+          node --check dist/index.js
+          python3 -m py_compile main.py
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          js=Path('dist/index.js').read_text()
+          assert 'const GTM_VERSION = "4.4.2";' in js
+          assert 'arcade:arcadeScene' not in js
+          assert 'function gtm421DrawArcade' not in js
+          assert all(json.loads(Path(p).read_text())['version']=='4.4.2'
+                     for p in ('plugin.json','package.json'))
+          assert len(json.loads(Path('visualizer-packs/experiments/manifest.json').read_text())['scenes'])==5
+          PY
+      - name: Acquire exact public 4.4.1 binary, verify provenance
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --output "$RUNNER_TEMP/gtm-4.4.1.zip" 'https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.4.1/Game-Theme-Music-4.4.1-PUBLIC-BETA-CHESS-FOCUSED-BOARD.zip'
+          echo "f287d2f85eb5e52ec64b38eb4e6702292139e6db128ea379899db88b956cb537  $RUNNER_TEMP/gtm-4.4.1.zip" | sha256sum -c -
+      - name: Overlay validated music-first runtime onto complete beta installation
+        env:
+          INPUT_ZIP: ${{ runner.temp }}/gtm-4.4.1.zip
+          OUTPUT_ZIP: ${{ runner.temp }}/Game-Theme-Music-4.4.2-MUSIC-FIRST-PREVIEW.zip
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json,os,zipfile
+          from pathlib import Path
+          with zipfile.ZipFile(os.environ['INPUT_ZIP']) as old:
+              assert old.testzip() is None
+              names=old.namelist()
+              roots={n[:-len('dist/index.js')] for n in names if n.endswith('dist/index.js')}
+              assert len(roots)==1,roots
+              root=roots.pop()
+              replacements={
+                'dist/index.js':'dist/index.js',
+                'main.py':'main.py',
+                'package.json':'package.json',
+                'plugin.json':'plugin.json',
+                'visualizer-packs/volume1/manifest.json':'visualizer-packs/volume1/manifest.json',
+                'visualizer-packs/experiments/manifest.json':'visualizer-packs/experiments/manifest.json',
+              }
+              ignored=(
+                'visualizer-packs/arcade/',
+                'visualizer-packs/sdk-examples/Neon_Dodger_Community/',
+                'visualizer-packs/sdk-examples/flux-shield-run-428/',
+                'visualizer-packs/sdk-examples/GTM_4.2.8_NEON_DODGER_COMMUNITY_GAME.zip',
+              )
+              added=set()
+              with zipfile.ZipFile(os.environ['OUTPUT_ZIP'],'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as result:
+                  for info in old.infolist():
+                      n=info.filename
+                      assert '..' not in Path(n).parts, n
+                      relative=n[len(root):] if n.startswith(root) else n
+                      if any(relative.startswith(p) for p in ignored):
+                          continue
+                      if relative in replacements:
+                          content=Path(replacements[relative]).read_bytes()
+                          added.add(relative)
+                      else:
+                          content=old.read(info)
+                      result.writestr(info,content)
+                  for name,path in replacements.items():
+                      if name not in added:
+                          result.write(path,arcname=root+name)
+              with zipfile.ZipFile(os.environ['OUTPUT_ZIP']) as result:
+                  assert result.testzip() is None
+                  paths=set(result.namelist())
+                  assert root+'dist/index.js' in paths
+                  assert root+'visualizer-packs/experiments/manifest.json' in paths
+                  assert not any(p.startswith(root+'visualizer-packs/arcade/') for p in paths)
+                  for rel in ('package.json','plugin.json'):
+                      assert json.loads(result.read(root+rel))['version']=='4.4.2'
+                  print('SAFE PREVIEW ZIP:',os.environ['OUTPUT_ZIP'])
+                  print('ARCHIVE ENTRIES:',len(paths))
+                  print('ORIGINAL RUNTIME RESOURCES PRESERVED; ARCADE GAME PACK REMOVED')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Game-Theme-Music-4.4.2-MUSIC-FIRST-PREVIEW
+          path: ${{ runner.temp }}/Game-Theme-Music-4.4.2-MUSIC-FIRST-PREVIEW.zip
+          retention-days: 30
+          if-no-files-found: error
