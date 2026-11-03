@@ -1,0 +1,29 @@
+name: Update GTM 4.4.9 existing release gallery description
+on:
+  push:
+    branches: [docs/gtm-449-screenshot-gallery]
+    paths: [.github/workflows/sync-gtm-449-gallery-description.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update-description-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Keep public download intact, only update existing release text
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          gh release view V4.4.9 --json tagName,isPrerelease,assets --jq '.tagName,.isPrerelease,.assets[].name'
+          names="$(gh release view V4.4.9 --json assets --jq '.assets[].name' | sort)"
+          expected="$(printf 'Game-Theme-Music-4.4.9.zip\nGTM.4.4.9.screenshots.zip\nSHA256SUMS.txt' | sort)"
+          if [ "$names" != "$expected" ]; then
+            echo "::error::Unexpected release assets. Refusing to modify."
+            exit 1
+          fi
+          gh release edit V4.4.9 --notes-file RELEASE_NOTES_4.4.9.md
+          gh release view V4.4.9 --json tagName,isPrerelease,assets --jq '.tagName,.isPrerelease,.assets[].name'
