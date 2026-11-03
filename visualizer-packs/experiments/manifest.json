@@ -3,7 +3,7 @@
   "pack_id": "gtm_visual_experiments_442",
   "name": "GTM Visual Experiments",
   "author": "Valentine / Game Theme Music",
-  "version": "4.4.2",
+  "version": "4.4.3",
   "description": "Five music-reactive visual worlds preserved from the 4.4.1 Arcade art experiments. No playable games or controller input.",
   "scenes": [
     {
