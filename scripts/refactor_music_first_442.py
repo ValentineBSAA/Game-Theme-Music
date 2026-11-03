@@ -298,5 +298,11 @@ for regression in Path("tests").glob("GTM_4.3.0_*"):
     if regression.suffix==".cjs":
         contents=regression.read_text()
         if "4.4.1" in contents:
-            regression.write_text(contents.replace("4.4.1","4.4.2"))
+            contents=contents.replace("4.4.1","4.4.2")
+        if regression.name=="GTM_4.3.0_RENDER_PERFORMANCE_TESTS.cjs":
+            contents=contents.replace("const maxWidth=arcade?1000:1200,maxPixels=arcade?550000:1400000",
+                                      "const maxWidth=heavy?1000:1200,maxPixels=heavy?550000:1400000")
+            contents=contents.replace("if(arcadeScene)frameInterval=Math.max(frameInterval,1000/30)",
+                                      "if(complexScene)frameInterval=Math.max(frameInterval,1000/30)")
+        regression.write_text(contents)
 print("MUSIC-FIRST TRANSFORM COMPLETE",len(source),"frontend characters; 17 built-in scenes retained")
