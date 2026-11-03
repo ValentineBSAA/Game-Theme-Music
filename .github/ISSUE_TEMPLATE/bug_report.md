@@ -20,6 +20,15 @@ What should Game Theme Music have done instead?
 2.
 3.
 
+## Affected GTM area
+
+- Music / Ambient / Store / original Visual Worlds / experimental Arcade / other:
+- If Arcade: game name and mode (e.g. Neon Paddle, Orbital Duel, Orbit Defenders, Neon Strike, Beat Catcher, or early-alpha Chess):
+- AI vs AI, single-player, or local multiplayer? Controller type / number of players:
+- Couch / TV or Default sizing:
+
+**Chess is currently very early alpha**, so missing depth and polish should be discussed in the [beta feedback thread](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4); actual crashes, wrong moves and broken controls are still welcome as bug reports.
+
 ## Steam Deck details
 
 - Steam Deck model:

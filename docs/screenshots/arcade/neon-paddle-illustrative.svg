@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 540" role="img" aria-label="Illustrative Neon Paddle Championship visual with two glowing paddles, ball and score, not an actual gameplay screenshot">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#070b22"/><stop offset=".55" stop-color="#131342"/><stop offset="1" stop-color="#080c22"/></linearGradient>
+ <radialGradient id="gl" cx=".5" cy=".45" r=".7"><stop offset="0" stop-color="#393485" stop-opacity=".6"/><stop offset="1" stop-color="#090d24" stop-opacity="0"/></radialGradient>
+ <linearGradient id="court" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0fffc9" stop-opacity=".65"/><stop offset=".48" stop-color="#d5d7ff" stop-opacity=".34"/><stop offset="1" stop-color="#ff608b" stop-opacity=".65"/></linearGradient>
+ <filter id="bloom" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="12"/></filter>
+ <pattern id="dots" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="15" cy="15" r="1.3" fill="#87a1e5" opacity=".25"/></pattern>
+</defs>
+<rect width="1280" height="540" fill="url(#bg)"/><rect width="1280" height="540" fill="url(#gl)"/><rect width="1280" height="540" fill="url(#dots)"/>
+<text x="66" y="64" fill="#aabbeb" font-family="Arial,sans-serif" font-size="17" letter-spacing="4">GAME THEME MUSIC · EXPERIMENTAL ARCADE</text>
+<text x="66" y="109" fill="#ffffff" font-family="Arial,sans-serif" font-size="36" font-weight="bold" letter-spacing="1.5">NEON PADDLE CHAMPIONSHIP</text>
+<rect x="66" y="139" width="1148" height="320" rx="23" fill="#0a102c" stroke="#5867b3" stroke-width="2"/>
+<rect x="66" y="139" width="1148" height="320" rx="23" fill="none" stroke="#6584d3" opacity=".55" stroke-width="8" filter="url(#bloom)"/>
+<line x1="640" y1="154" x2="640" y2="446" stroke="#c1c7ff" stroke-width="3" opacity=".32" stroke-dasharray="14 14"/>
+<rect x="114" y="237" width="17" height="93" rx="8" fill="#19ffbd" opacity=".85" filter="url(#bloom)"/>
+<rect x="114" y="237" width="17" height="93" rx="8" fill="#67ffdf"/>
+<rect x="1149" y="296" width="17" height="93" rx="8" fill="#ff567e" opacity=".9" filter="url(#bloom)"/>
+<rect x="1149" y="296" width="17" height="93" rx="8" fill="#ff87aa"/>
+<path d="M318 344 Q488 279 596 266" stroke="#ffe781" stroke-width="22" opacity=".4" filter="url(#bloom)" fill="none"/>
+<path d="M318 344 Q488 279 596 266" stroke="#e8e7b6" stroke-width="5" opacity=".55" fill="none" stroke-dasharray="19 15"/>
+<circle cx="612" cy="260" r="28" fill="#ffe45b" opacity=".9" filter="url(#bloom)"/>
+<circle cx="612" cy="260" r="11" fill="#ffef92"/><circle cx="608" cy="255" r="3" fill="white"/>
+<text x="450" y="210" fill="#6ffff0" font-size="42" text-anchor="middle" font-weight="bold" font-family="Arial,sans-serif">08</text>
+<text x="834" y="210" fill="#ff8daf" font-size="42" text-anchor="middle" font-weight="bold" font-family="Arial,sans-serif">07</text>
+<text x="450" y="231" fill="#a9ffef" font-size="12" text-anchor="middle" font-family="Arial,sans-serif" letter-spacing="2">PLAYER ONE</text>
+<text x="834" y="231" fill="#ffc8d8" font-size="12" text-anchor="middle" font-family="Arial,sans-serif" letter-spacing="2">PLAYER TWO</text>
+<g font-family="Arial,sans-serif" font-weight="bold" font-size="15"><rect x="442" y="386" rx="15" width="110" height="32" fill="#183954" stroke="#3fe0e8"/><text x="497" y="408" text-anchor="middle" fill="#a4fcff">MORPH</text><rect x="564" y="386" rx="15" width="124" height="32" fill="#43332a" stroke="#f7d65e"/><text x="626" y="408" text-anchor="middle" fill="#ffe77a">MINDBALL</text><rect x="700" y="386" rx="15" width="130" height="32" fill="#3b2144" stroke="#eaa4f8"/><text x="765" y="408" text-anchor="middle" fill="#f9cbff">CHAOS</text></g>
+<text x="66" y="507" fill="#a0afd6" font-family="Arial,sans-serif" font-size="15">MUSIC FIRST. ARCADE FOR FUN. YOUR FEEDBACK SHAPES WHAT STAYS.</text>
+<text x="1210" y="507" text-anchor="end" fill="#bac2de" font-family="Arial,sans-serif" font-size="12">ILLUSTRATIVE RENDER · NOT A STEAM DECK SCREENSHOT</text>
+</svg>

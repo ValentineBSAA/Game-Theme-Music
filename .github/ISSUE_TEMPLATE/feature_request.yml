@@ -6,6 +6,7 @@ body:
     attributes:
       value: |
         ## Thanks for sharing an idea with GTM! 🎵
+        GTM is still **music-first**. Arcade games are optional experiments, not a commitment to a permanent gaming platform. For beta gameplay feedback, [join the Arcade thread](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4). Chess is currently **very early alpha**.
         Tell us what you would like to do and why it would improve your Steam Deck experience.
 
         We consider community ideas alongside feasibility, performance, compatibility and development priorities. Some ideas make their way into GTM; others may stay on the wishlist or help inspire a different solution. **Votes and requests are not a confirmed roadmap.**
@@ -17,6 +18,7 @@ body:
       label: "Which part of GTM would this improve?"
       options:
         - "Visualizers and animations"
+        - "Experimental Arcade (Pong, Orbital Duel, Chess, etc.)"
         - "Interface and customization"
         - "Game soundtrack playback"
         - "Ambient / Home music"

@@ -1,12 +1,25 @@
-# GTM / SteamOS compatibility notes
+# GTM / SteamOS compatibility and known limitations
 
-**4.1.2 (creator-tested beta candidate):** on an actual Steam Deck, Ambient started correctly after the configured wake delay and also after a full restart. The new visualizer frame pacing was reported smooth in use. The creator also confirmed GTM + ResonaDeck integration during the development cycle.
+## Latest maintainer observations: 4.4.1 Public Beta candidate
 
-The test record does **not** include precise SteamOS/Decky build IDs, measured per-scene FPS statistics or certified coverage of every CSS theme. Offline tests cover GTM's 60/90 Hz frame pacing logic, but that is not a promise of constant hardware FPS.
+The maintainer reports on a **real Steam Deck**:
+- **Original visualizers:** function and are navigable.
+- **Neon Paddle Championship:** working, including local multiplayer; occasional brief controller ↔ AI handoff stutter remains.
+- **Orbital Duel and Orbit Defenders:** working, including multiplayer.
+- **Neon Strike Gallery:** working in basic use; multiplayer not confidently confirmed.
+- **Chess:** enlarged board now displays and functions visually in Couch / TV; **game remains very early alpha**, not a completed chess experience.
+- **Beat Catcher:** included but no complete, game-by-game physical acceptance reported.
 
-**[4.0.4 published beta](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.0.4):** 22 scenes, custom packs, crossfade, large playlists, shuffle and gameplay/Store/Ambient improvements had earlier physical Deck acceptance.
-**[3.7.0 previous stable](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0):** optional mini-player HUD verified in October 2026.
+These are qualitative observations, not calibrated performance or cross-hardware coverage. A beta candidate build and its docs are available, while publication of the 4.4.1 GitHub installer is pending.
 
-For a bug report, record the Steam Deck model, SteamOS release/channel, Decky version, selected scene, CSS Loader/theme, GTM version, ResonaDeck version and exact action sequence. **GTM 4.1.2** verified Ambient restart behavior; **ResonaDeck 1.4.1** separately verified Plex resume after sleep/wake, **not** autoplay after reboot.
+## Earlier 4.1.2 hardware checks
 
-[Beta test results](../TESTING.md) · [Compatibility issue](https://github.com/ValentineBSAA/Game-Theme-Music/issues/1)
+Ambient recovery after sleep/wake and a full Steam Deck restart were physically confirmed with the configurable delay. The maintainer also accepted visualizer pacing and ResonaDeck integration. This does not prove that ResonaDeck resumes playback automatically after a full reboot.
+
+## Reporting a compatibility problem
+
+Include GTM version, Steam Deck OLED/LCD, SteamOS channel/version, Decky version, whether you use an external controller, visualizer/game and mode, Couch / TV setting and exact steps. Screenshots/logs are helpful **but optional**. Remove passwords, tokens and private account data.
+
+**A passing offline test does not establish stable frame rates on every SteamOS build.** Major AI and renderer work may still be experimental.
+
+[Testing matrix](../TESTING.md) · [Release notes](RELEASE_NOTES_4.4.1.md) · [Beta feedback](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4)

@@ -2,6 +2,8 @@
 
 Game Theme Music is built with hands-on Steam Deck testing and community feedback. Whether your idea is a small quality-of-life change or an ambitious new direction, this is where you can share it and help us see what matters to GTM users.
 
+> **4.4.1 Public Beta focus:** GTM is still a music and visualizer plugin. The optional Arcade is a community-feedback experiment, not a permanent change in direction. **[Discuss which Arcade visualizers are worth keeping](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4)**. Chess is very early alpha and may change or be removed. The maintainer has verified Pong, Orbital Duel and Orbit Defenders multiplayer on a Steam Deck, while other modes have varying test coverage.
+
 ## Join in
 
 | I'd like to... | Where to go |
@@ -10,6 +12,7 @@ Game Theme Music is built with hands-on Steam Deck testing and community feedbac
 | 🔎 See and support existing requests | [Browse open GTM issues](https://github.com/ValentineBSAA/Game-Theme-Music/issues?q=is%3Aissue+is%3Aopen) and react 👍 to a request |
 | 🗳️ Vote on a larger direction | [GTM Community Vote #1](https://github.com/ValentineBSAA/Game-Theme-Music/issues/3) |
 | 🎵 Start at the community hub | [Community Ideas & Feature Voting Hub](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2) |
+| 🎮 Discuss the Arcade experiment | [4.4.1 Public Beta feedback thread](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4) |
 | 🐛 Report something that isn't working | [Open the bug report form](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) |
 
 You will need a GitHub account to submit an issue or leave a reaction.
@@ -54,7 +57,7 @@ These statuses describe **decisions or real progress**, not automatic transition
 A good request explains **the problem**, not only a preferred implementation. For example, rather than just writing "add an option," describe the menu or playback situation and what you need it to do. Feel free to suggest an exact interface, animation, or behavior, but it's okay if you don't know how it could be built.
 
 Possible areas include:
-- Music-reactive visualizers and immersive effects
+- Music-reactive visualizers, optional experimental Arcade modes, and immersive effects
 - Interface themes, accessibility and customization
 - Games, Ambient/Home, and Steam/Decky Store playback
 - Soundtrack Manager, navigation and controller controls
