@@ -1,45 +1,14 @@
-# Game Theme Music: Hardware testing and automated regressions
+# GTM 4.4.9: testing and verification
 
-## 4.4.1 Public Beta: what was actually checked
+## Steam Deck observations (maintainer, November 3, 2026)
 
-The following is **maintainer-reported testing on a physical Steam Deck**, not independent laboratory certification. "Verified" means a reported working experience in the specific tested setup, not every mode, timing scenario, controller type or SteamOS build.
+- **PASS (reported):** the version 4.4.9 welcome appears full-screen on Steam Home, with Valentine's message and a Continue to Home action.
+- **PASS (reported):** AI-versus-AI Neon Paddle produced a genuine goal on physical hardware after the 4.4.9 scoring update.
+- **Still to verify:** long-term spectator variety and learning progression; persistence after full reinstall and multiple restarts; all Quick Menu nested sections, TV/Couch styles, SteamOS themes, ResonaDeck and Ambient/Store playback on each supported configuration.
 
-| Component | Hardware acceptance | Notes |
-| --- | --- | --- |
-| Original GTM visualizer collections | **Reported working** | Navigation and scene selection accepted; older physical screenshot gallery remains valid as historical evidence. |
-| Neon Paddle Championship | **Verified** | Single-player/AI and local multiplayer work. Minor AI ↔ controller transition stutter is still known. |
-| Orbital Duel | **Verified** | Local multiplayer works in the maintainer's test. |
-| Orbit Defenders | **Verified** | Local multiplayer works. Space-invaders-inspired survival/defense game. |
-| Neon Strike Gallery | **Reported working** | Multiplayer *believed* to work, but not explicitly verified in this report. |
-| Beat Catcher | **Not fully hardware-verified** | Classic and Piano Lanes included; automated tests passed, no comprehensive Deck acceptance for each mode. |
-| Neon Chess Championship | **Very early alpha** | Larger focused board displays and functions visually on physical hardware. **Gameplay is bare-bones and not accepted as complete/verified**. It may change or be removed. |
-| Home/Ambient and soundtracks | **Previously verified (4.1.2)** | Prior hardware confirmation of sleep/wake, music and ResonaDeck interaction. Does not certify every new 4.4.1 combination. |
+## Automated release checks
 
-### Known issues and unverified claims
+The release preparation workflow reconstructs the ZIP from the checksum-verified V4.4.1 binary plus the immutable GTM 4.4.9 delta and verifies individual modified file hashes against the tested ZIP. It then runs `node --check dist/index.js`, `python -m py_compile main.py`, `GTM_4.4.9_PONG_SCORING_REGRESSION.cjs`, `GTM_4.4.9_ALL_MODES_REGRESSION.cjs`, and `tests/GTM_4.4.6_SHUFFLE_REGRESSION_TEST.cjs`. The package must contain 555 direct-installable plugin files, with aligned 4.4.9 metadata.
 
-- **Pong:** a short stutter remains possible when humans join or return control to AI; this is not a Steam Deck operating-system crash.
-- **Chess:** early-alpha status is deliberate. The board resize solved a visual problem, **not** all chess UX, difficulty, or gameplay quality.
-- **Arcade experiment:** developer estimates that the majority of features work, but no formal test coverage percentage is claimed.
-- **Frames per second:** no guarantee of 60/90 FPS for every scene or game. No exhaustive tests on every SteamOS/Decky build.
-- **Arcade future:** inclusion in a beta is not a commitment to retain every minigame or to build future titles.
+**Hardware confirmation is scoped to the specific observations above.** Do not represent automated results as comprehensive Deck hardware acceptance.
 
-## 4.4.1 offline testing
-
-The provided 4.4.1 candidate passed its integrated regression suite: Chess legal-move and controller checks, board layout geometry, Arcade startup, Pong/controller handoffs, audio/crossfade/focus, visualizer navigation and sleep/wake. These are simulated/offline checks, **not evidence of physical Steam Deck testing of every Arcade title**.
-
-To test a downloaded candidate, extract the maintainer-uploaded ZIP and run the version-matched tests included in that package, rather than the older 4.1.2 scripts on main.
-
-## Main-branch regression suite (4.1.2 snapshot)
-
-The main branch remains at 4.1.2 for runtime code; its existing tests are not direct 4.4.1 validation. Typical checks from the repository root:
-
-```bash
-node --check dist/index.js
-python3 -m py_compile main.py
-for t in tests/*-412.cjs tests/GTM_4.1.2_*.cjs; do node "$t"; done
-python3 tests/GTM_4.1.2_BACKEND_POWER_TESTS.py
-```
-
-**Past verified 4.1.2 hardware behavior:** Ambient delayed recovery after sleep/wake and restart; maintainer-reported smooth visualizer pacing and ResonaDeck audio-focus cooperation. Do not interpret this as verification of ResonaDeck autoplay after reboot.
-
-[4.4.1 release notes](docs/RELEASE_NOTES_4.4.1.md) · [Source integrity](SOURCE.md) · [Submit beta feedback](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4)
