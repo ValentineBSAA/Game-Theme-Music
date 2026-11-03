@@ -1,6 +1,6 @@
 # Historical filename retained for continuity. The old 3.6.9 source-publishing
 # workflow was retired: running it would overwrite the newer verified runtime.
-name: GTM 4.1.2 source and regression checks
+name: GTM version-aware source and regression checks
 
 on:
   push:
@@ -40,10 +40,34 @@ jobs:
           PY
           python3 -m py_compile main.py
           node --check dist/index.js
-      - name: Run 4.1.2 offline regression suites
+      - name: Run version-appropriate offline regression suites
         run: |
           set -euo pipefail
-          for script in tests/*-412.cjs tests/GTM_4.1.2_*.cjs; do
-            node "$script"
-          done
-          python3 tests/GTM_4.1.2_BACKEND_POWER_TESTS.py
+          VERSION="$(python3 -c "import json;print(json.load(open('package.json'))['version'])")"
+          if [[ "$VERSION" == "4.1.2" ]]; then
+            for script in tests/*-412.cjs tests/GTM_4.1.2_*.cjs; do
+              node "$script"
+            done
+            python3 tests/GTM_4.1.2_BACKEND_POWER_TESTS.py
+          elif [[ "$VERSION" == "4.4.2" ]]; then
+            mkdir -p tests/dist
+            ln -s ../../dist/index.js tests/dist/index.js
+            ln -s ../main.py tests/main.py
+            trap 'rm -f tests/dist/index.js tests/main.py; rmdir tests/dist 2>/dev/null || true' EXIT
+            for script in tests/GTM_4.3.0_CROSSFADE_REGRESSION_TESTS.cjs tests/GTM_4.3.0_FOCUS_INTEGRATION.cjs tests/GTM_4.3.0_RENDER_PERFORMANCE_TESTS.cjs tests/GTM_4.3.0_SLEEP_MODE_TESTS.cjs; do
+              node "$script"
+            done
+            python3 tests/GTM_4.1.3_BACKEND_POWER_TESTS.py
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+          v=json.loads(Path("visualizer-packs/volume1/manifest.json").read_text())
+          e=json.loads(Path("visualizer-packs/experiments/manifest.json").read_text())
+          assert len(v["scenes"])==12 and len(e["scenes"])==5
+          assert all(not s.get("program") and not s.get("interaction") for s in e["scenes"])
+          assert not Path("visualizer-packs/arcade/manifest.json").exists()
+          print("PASS GTM 4.4.2 music-first visual world boundaries")
+          PY
+          else
+            echo "Unsupported source version $VERSION";exit 1
+          fi
