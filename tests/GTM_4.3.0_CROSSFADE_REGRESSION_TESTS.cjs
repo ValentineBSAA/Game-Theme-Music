@@ -94,6 +94,6 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
  assert(src.includes('existing.crossfadeCompatible = false'),'upgraded singleton must avoid stale listeners');
  assert(src.includes('settings.crossfadeEnabled !== false && playlist.length > 1 ? 8000 : 0'),'Store playlist option must exist');
  assert(src.includes('settings.crossfadeEnabled !== false && ambientMultiple ? 8000 : 0'),'Ambient playlist option must exist');
- assert(src.includes("const GTM_VERSION = \"4.4.2\""),'version must be 4.4.2');
+ assert(src.includes("const GTM_VERSION = \"4.4.3\""),'version must be 4.4.3');
  console.log('PASS GTM 4.0.4: prebuffer, true overlap, retired callbacks, focus clean-up, nonbuffered fallback, distinct playlist owners, compatibility, version');
 })().catch(err=>{console.error(err);process.exit(1)});
