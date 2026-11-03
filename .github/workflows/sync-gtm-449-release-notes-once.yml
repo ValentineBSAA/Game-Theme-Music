@@ -1,0 +1,24 @@
+name: Update GTM 4.4.9 release description only
+on:
+  push:
+    branches: [docs/gtm-449-repository-cleanup]
+    paths: [.github/workflows/sync-gtm-449-release-notes-once.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update-existing-description:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Change description only; leave release package, tag, assets and versions unchanged
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          gh release view V4.4.9 --json tagName,isPrerelease,assets --jq '.tagName,.isPrerelease,.assets[].name'
+          test "$(gh release view V4.4.9 --json assets --jq '.assets[].name' | sort)" = "$(printf 'Game-Theme-Music-4.4.9.zip\nSHA256SUMS.txt' | sort)"
+          gh release edit V4.4.9 --notes-file RELEASE_NOTES_4.4.9.md
+          gh release view V4.4.9 --json tagName,isPrerelease,assets --jq '.tagName,.isPrerelease,.assets[].name'
