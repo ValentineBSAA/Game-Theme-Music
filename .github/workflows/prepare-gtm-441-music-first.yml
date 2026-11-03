@@ -1,0 +1,78 @@
+name: Prepare verified GTM 4.4.1 runtime for music-first refactor
+on:
+  push:
+    branches:
+      - refactor/gtm-441-music-first
+    paths:
+      - .github/workflows/prepare-gtm-441-music-first.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Download exact public beta and verify SHA-256
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --output "$RUNNER_TEMP/gtm-4.4.1.zip" 'https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.4.1/Game-Theme-Music-4.4.1-PUBLIC-BETA-CHESS-FOCUSED-BOARD.zip'
+          echo "f287d2f85eb5e52ec64b38eb4e6702292139e6db128ea379899db88b956cb537  $RUNNER_TEMP/gtm-4.4.1.zip" | sha256sum -c -
+      - name: Import matching release runtime, visualizer assets, and regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          export GTM_RELEASE_ZIP="$RUNNER_TEMP/gtm-4.4.1.zip"
+          python3 - <<'PY'
+          import zipfile,os,json,ast
+          from pathlib import Path
+          with zipfile.ZipFile(os.environ["GTM_RELEASE_ZIP"]) as z:
+              assert z.testzip() is None, "Corrupt ZIP"
+              names=z.namelist()
+              roots=[n[:-len("dist/index.js")] for n in names if n.endswith("dist/index.js")]
+              assert len(roots)==1, f"Unexpected frontend roots: {roots}"
+              root=roots[0]
+              def copy(rel,target=None):
+                  name=root+rel
+                  if name not in names:return False
+                  dest=Path(target or rel)
+                  dest.parent.mkdir(parents=True,exist_ok=True)
+                  content=z.read(name)
+                  assert len(content)<8_000_000, f"Unexpected file size: {rel}"
+                  dest.write_bytes(content)
+                  print(f"IMPORTED {rel}: {len(content)} bytes")
+                  return True
+              for p in ["dist/index.js","main.py","package.json","plugin.json"]:
+                  assert copy(p), f"Missing required release file {p}"
+              for n in names:
+                  if n.startswith(root+"visualizer-packs/") and not n.endswith("/"):
+                      copy(n[len(root):])
+                  if n.startswith(root) and n.endswith((".cjs",".py")) and ("/" not in n[len(root):]) and n[len(root):].startswith("GTM_4."):
+                      copy(n[len(root):],"tests/"+Path(n).name)
+              pkg=json.loads(Path("package.json").read_text())
+              plugin=json.loads(Path("plugin.json").read_text())
+              print("RELEASE VERSIONS",pkg.get("version"),plugin.get("version"))
+              assert pkg.get("version")=="4.4.1", "Unexpected package version"
+              assert plugin.get("version")=="4.4.1", "Unexpected plugin version"
+              ast.parse(Path("main.py").read_text())
+              js=Path("dist/index.js").read_text()
+              for word in ("Arcade","Chess","Paddle","visualizer","ResonaDeck"):
+                  print(f"STRING COUNT {word}: {js.count(word)}")
+              print("FRONTEND BYTES",len(js.encode()))
+          PY
+          node --check dist/index.js
+          python3 -m py_compile main.py
+      - name: Commit exact release runtime to isolated refactor branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist/index.js main.py plugin.json package.json visualizer-packs tests
+          if git diff --cached --quiet; then echo "Runtime is already synchronized"; exit 0; fi
+          git commit -m "chore: import checksum-verified GTM 4.4.1 runtime for isolated cleanup"
+          git push origin HEAD:refactor/gtm-441-music-first
