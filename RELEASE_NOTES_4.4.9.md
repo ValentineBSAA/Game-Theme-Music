@@ -20,6 +20,12 @@ Extremely strong learned Pong AI defenders could exchange 300+ returns without a
 
 **Not included:** Human-playable Arcade games, controller claiming, player-versus-AI or local multiplayer games. Earlier 4.4.1 materials describe historical experiments, not 4.4.9 functionality.
 
+## Optional visuals and screenshot gallery
+
+GTM's visualizers are **completely optional**. Use **Quick Access → GTM → Visualizers → Enable Home visualizers → OFF** to hide the animated footer while game soundtracks, Ambient and Store music keep working. **Shuffle All** is a separate control for track-change scene cycling.
+
+The [4.4.9 screenshot gallery](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/SCREENSHOTS.md) includes **15 real captures** grouped into AI spectator scenes, other music visualizers and customization controls. **Not all visualizers are pictured.** The original `GTM.4.4.9.screenshots.zip` is also an optional release download, **not the installer**.
+
 ## Verification
 
 - Old defect reproduced: two 300-second, max-learned AI runs ended 0–0 after 342 and 316 successful returns.
