@@ -69,7 +69,10 @@ jobs:
             echo "::endgroup::"
           done
           python3 tests/GTM_4.1.3_BACKEND_POWER_TESTS.py
-          python3 tests/GTM_4.4.2_MUSIC_FIRST_PACKS_TEST.py
+          # Run an isolated backend import with its actual Python dependencies.
+          python3 -m venv "$RUNNER_TEMP/gtm442-test-venv"
+          "$RUNNER_TEMP/gtm442-test-venv/bin/python" -m pip install -q --disable-pip-version-check aiohttp certifi
+          "$RUNNER_TEMP/gtm442-test-venv/bin/python" tests/GTM_4.4.2_MUSIC_FIRST_PACKS_TEST.py
       - name: Commit validated preview to refactor branch only
         shell: bash
         run: |
