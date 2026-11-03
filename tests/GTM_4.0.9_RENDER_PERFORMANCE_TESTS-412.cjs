@@ -1,7 +1,7 @@
 /** GTM 4.0.9: refresh pacing, adaptive Canvas quality, no renderer regressions. */
 'use strict';
 const fs=require('node:fs'), assert=require('node:assert/strict'),vm=require('node:vm');
-const source=fs.readFileSync(__dirname+'/../dist/index.js','utf8');
+const source=fs.readFileSync(__dirname+'/dist/index.js','utf8');
 const begin=source.indexOf('// GTM 4.0.9: a refresh-aware, render-cost-limited footer governor.');
 const end=source.indexOf('function GtmV371HomeBottomVisualizer() {',begin);
 assert(begin>0&&end>begin);

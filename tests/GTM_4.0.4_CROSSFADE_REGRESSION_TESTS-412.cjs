@@ -2,7 +2,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-const src=fs.readFileSync(__dirname+'/../dist/index.js','utf8');
+const src=fs.readFileSync(__dirname+'/dist/index.js','utf8');
 const start=src.indexOf('class AudioEngine {');
 const end=src.indexOf('const audioEngine = (() => {',start);
 assert(start>0 && end>start);

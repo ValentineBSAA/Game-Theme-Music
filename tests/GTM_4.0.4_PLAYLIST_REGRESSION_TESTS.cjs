@@ -41,6 +41,7 @@ function context({playlist='store',resolveTrack}={}) {
     gtmV390AmbientActive:null,gtmV390AmbientHandoffs:[],gtmV401StoreHandoffs:[],
     gtmV389SourceClass:()=> 'gtm-loopback-audio',gtmFriendlyTrackTitle:(_title,id)=>String(id),
     audioEngine:engine,
+    gtmResonaDeckFocus:{active:false},gtm408ExternalOwnsAudio:()=>sandbox.gtmResonaDeckFocus.active,desktopPlaybackBlocked:false,
     getAmbientSurface:()=> 'home',getStorePlaybackSurface:()=> playlist==='ambient'?'home':'store',
     getStorePlaybackSurfaceInfo:()=>({surface:'store',source:'mock'}),
     gtmV360BaseSteamSurfaceInfo:()=>({surface:'store'}),
@@ -63,7 +64,7 @@ function context({playlist='store',resolveTrack}={}) {
   return {sandbox,settings,engine,calls,Controller:sandbox.Controller};
 }
 async function main(){
-  assert(src.includes('const GTM_VERSION = "4.0.4";'));
+  assert(src.includes('const GTM_VERSION = "4.0.9";'));
   assert(src.includes("if (value.includes('/decky/store')) return 'decky';"));
   assert(src.includes('gtmV310FooterHostColor'));
   assert(src.includes('gtmV389PrepareAudioCors'));

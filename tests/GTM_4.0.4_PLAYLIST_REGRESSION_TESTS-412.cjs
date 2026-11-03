@@ -2,7 +2,7 @@
 const fs = require('node:fs');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
-const src = fs.readFileSync(__dirname+'/../dist/index.js','utf8');
+const src = fs.readFileSync(__dirname+'/dist/index.js','utf8');
 function extract(begin,end) {
   const i=src.indexOf(begin); assert(i>=0,begin+' missing');
   const j=src.indexOf(end,i); assert(j>i,end+' missing');

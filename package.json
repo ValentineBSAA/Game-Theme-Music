@@ -1,7 +1,7 @@
 {
   "name": "sdh-gamethememusic",
-  "version": "4.1.2",
-  "description": "Game Theme Music 4.1.2: delayed Ambient wake/restart, Sleep Mode controls, smooth ResonaDeck visualizers and protected audio focus.",
+  "version": "4.4.1",
+  "description": "GTM 4.4.1 Public Beta: focused, larger couch-readable Chess board and preserved Arcade navigation.",
   "type": "module",
   "scripts": {
     "build": "rollup -c",

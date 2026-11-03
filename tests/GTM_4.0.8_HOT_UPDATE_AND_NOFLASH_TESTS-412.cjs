@@ -1,6 +1,6 @@
 /** GTM 4.0.9 hardware scenario simulation: hot GTM reload with Plex already playing. */
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const src=fs.readFileSync(__dirname+'/../dist/index.js','utf8');
+const src=fs.readFileSync(__dirname+'/dist/index.js','utf8');
 function extract(a,b){let x=src.indexOf(a),y=src.indexOf(b,x);assert(x>=0&&y>x,`missing ${a}`);return src.slice(x,y);}
 const ownership=extract('const GTM408_RD_LIVE_FOCUS=', '// 3.8.9: Chromium captureStream');
 const focus=extract('// 4.0.7: Recover an eligible Home Ambient session','\nconst AMBIENT_OWNER =');

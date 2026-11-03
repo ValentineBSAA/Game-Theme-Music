@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
-const js = fs.readFileSync(path.join(__dirname,'../dist/index.js'),'utf8');
+const js = fs.readFileSync(path.join(__dirname,'dist/index.js'),'utf8');
 const before = js.indexOf('const gtm411AmbientSleepGuard =');
 const after = js.indexOf('class AmbientController {', before);
 assert(before > 0 && after > before,'must define the 4.1.2 sleep guard');

@@ -8,7 +8,7 @@ with tempfile.TemporaryDirectory(prefix='gtm404_pack_') as tmp:
     spec=importlib.util.spec_from_file_location('gtm404_backend',ROOT/'main.py');mod=importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
     plugin=object.__new__(mod.Plugin)
     builtin=json.loads((ROOT/'visualizer-packs/volume1/manifest.json').read_text())
-    assert len(plugin._validate_visualizer_pack(builtin)['scenes'])==10
+    assert len(plugin._validate_visualizer_pack(builtin)['scenes'])==12
     async def test():
         loaded=await plugin.list_visualizer_packs()
         assert loaded['ok'] and loaded['packs'][0]['pack_id']=='gtm_visual_worlds_vol1',loaded

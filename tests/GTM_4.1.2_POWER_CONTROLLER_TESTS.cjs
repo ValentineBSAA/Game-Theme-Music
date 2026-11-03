@@ -1,5 +1,5 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const js=fs.readFileSync(__dirname+'/../dist/index.js','utf8');
+const js=fs.readFileSync(__dirname+'/dist/index.js','utf8');
 const i=js.indexOf('const gtm411AmbientSleepGuard ='),j=js.indexOf('const ambientController = new AmbientController();',i);
 assert(i>0&&j>i);
 let now=1_000_000;

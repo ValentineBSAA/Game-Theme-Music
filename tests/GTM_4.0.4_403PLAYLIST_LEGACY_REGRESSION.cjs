@@ -63,7 +63,7 @@ function context({playlist='store',resolveTrack}={}) {
   return {sandbox,settings,engine,calls,Controller:sandbox.Controller};
 }
 async function main(){
-  assert(src.includes('const GTM_VERSION = "4.0.4";'));
+  assert(src.includes('const GTM_VERSION = "4.0.6";'));
   assert(src.includes("if (value.includes('/decky/store')) return 'decky';"));
   assert(src.includes('gtmV310FooterHostColor'));
   assert(src.includes('gtmV389PrepareAudioCors'));

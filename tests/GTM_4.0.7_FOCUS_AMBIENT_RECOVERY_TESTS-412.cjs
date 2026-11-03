@@ -1,6 +1,6 @@
 /** 4.0.7 focused regression: ResonaDeck pause/stop returns to Home Ambient. */
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const src=fs.readFileSync(__dirname+'/../dist/index.js','utf8');
+const src=fs.readFileSync(__dirname+'/dist/index.js','utf8');
 function extract(a,b){const i=src.indexOf(a);const j=src.indexOf(b,i);assert(i>=0&&j>i,`${a}: missing`);return src.slice(i,j);}
 const focusCode=extract('// 4.0.7: Recover an eligible Home Ambient session','\nconst AMBIENT_OWNER =');
 const ambientCode=extract('class AmbientController {','\nconst ambientController = new AmbientController();');

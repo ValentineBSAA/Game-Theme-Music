@@ -16,6 +16,8 @@ const ctx={window,console,performance:{now:()=>1200},Date,
   setTimeout:()=>0,
   CustomEvent:class{constructor(type,opts){this.type=type;this.detail=opts?.detail}},
   Event:class{constructor(type){this.type=type}},
+  gtm408ReadLiveResonaFocus:()=>({known:false,active:false,session:""}),gtm408ReconcileResonaFocus:()=>{},gtmResonaDeckFocus:{active:false},setResonaDeckAudioFocus:()=>{},
+  gtm409QualityScale:()=>1,
   GTM_V371_MODES:['off','ambience','alchemy','ribbons','plasma','scope','starlight','kaleidoscope','bassfloor','pulseengine','skyline','arc','resonance'],
   GTM_V376_LABELS:{},GTM_V376_GROUPS:[{id:'off',label:'Off',modes:['off']},{id:'retro',label:'Retro',modes:['ambience','alchemy','ribbons','plasma','scope','starlight','kaleidoscope']},{id:'rhythm',label:'Rhythm',modes:['bassfloor','skyline']},{id:'signature',label:'Signature',modes:['pulseengine','arc','resonance']}],
   settingsLoaded:true,listeners$1:new Set(),snapshot$1:{},gtmV371Hsl:h=>[h,.45,.65]
