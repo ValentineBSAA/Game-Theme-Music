@@ -39,5 +39,5 @@ assert(source.includes('displayBands[i]=follow(displayBands[i],bands[i])'),'inte
 assert(source.includes("entry.target?.closest?.('[data-gtm-live-footer]')"),'ignore self-generated DOM changes');
 assert(source.includes("key:'gtm406-scene-stable'"),'no-remount canvas preserved');
 assert(source.includes('gtm406BlendOutgoingFrame(accentRef.current,gtm406Fade.current,now)'));
-assert(source.includes('const GTM_VERSION = "4.4.2";'));
+assert(source.includes('const GTM_VERSION = "4.4.3";'));
 console.log('PASS GTM 4.0.9: 60/90/40/30Hz cadence, adaptive resolution before economy FPS, hysteresis, audio-envelope interpolation, glow-filter removal, footer continuity, version.');
