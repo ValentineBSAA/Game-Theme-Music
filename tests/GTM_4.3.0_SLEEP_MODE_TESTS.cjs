@@ -64,5 +64,5 @@ assert(js.includes('await this.gtm411ResumeOwnAudio(settings, surface);'));
 assert(js.includes('label: \'Sleep Mode • delayed Ambient start\''));
 assert(js.includes('label: \'Wake / restart delay\''));
 assert(js.includes('Math.max(1600, latest.fadeInMs)'));
-assert(js.includes('const GTM_VERSION = "4.4.2"'));
+assert(js.includes('const GTM_VERSION = "4.4.3"'));
 console.log('PASS 4.1.4: delayed startup, hidden/sleep, wake, timer jump, preview/manual override, adjustable grace, ResonaDeck priority, soft fade, cleanup');
