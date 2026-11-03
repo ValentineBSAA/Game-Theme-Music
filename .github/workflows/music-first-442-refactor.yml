@@ -47,6 +47,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Historical regression scripts expect installer-layout relative paths.
+          mkdir -p tests/dist
+          ln -s ../../dist/index.js tests/dist/index.js
+          ln -s ../main.py tests/main.py
+          trap 'rm -f tests/dist/index.js tests/main.py; rmdir tests/dist 2>/dev/null || true' EXIT
           for file in \
             tests/GTM_4.3.0_CROSSFADE_REGRESSION_TESTS.cjs \
             tests/GTM_4.3.0_FOCUS_INTEGRATION.cjs \
