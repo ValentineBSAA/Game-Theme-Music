@@ -21468,7 +21468,7 @@ function GtmV371HomeBottomVisualizer() {
         const complexScene=!!selectedScene&&(selectedScene.category==='experiments'||selectedScene.layers?.some(layer=>layer.effect==='neon_pong'));
         const pongScene=!!selectedScene?.layers?.some(layer=>layer.effect==='neon_pong');
         const publishSafety=()=>{window.__GTM_ARCADE_RENDER_HEALTH__={mode:visual.mode,
-            arcade:arcadeScene,status:renderSafety.latched?'suspended':'running',
+            complexVisual:complexScene,status:renderSafety.latched?'suspended':'running',
             reason:renderSafety.reason,failures:renderSafety.failures,slowFrames:renderSafety.slowFrames,
             lastError:renderSafety.lastError,updatedAt:performance.now()};};
         publishSafety();
