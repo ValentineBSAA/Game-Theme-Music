@@ -10,7 +10,7 @@ GTM remains a **music and visualizer plugin** for Decky Loader. The Arcade start
 
 **[🎮 Public beta feedback and game reports](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4)** · [4.4.1 beta notes](docs/RELEASE_NOTES_4.4.1.md) · [Hardware verification matrix](TESTING.md) · [Install instructions](docs/GETTING_STARTED.md)
 
-> **Download status:** The **4.4.1 Public Beta installer is awaiting maintainer upload**. Once published, obtain the named plugin ZIP from **[Releases](https://github.com/ValentineBSAA/Game-Theme-Music/releases)**. The most recent currently published asset on GitHub is [4.1.2](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2). **Do not install GitHub's auto-generated “Source code” ZIP.** The main-branch runtime files still reflect the 4.1.2 source snapshot pending an exact-version source synchronization. [Details](SOURCE.md).
+> **Download status:** For **4.4.1 Public Beta**, obtain the named plugin ZIP when it appears on **[Releases](https://github.com/ValentineBSAA/Game-Theme-Music/releases)**. The latest release asset confirmed while preparing these notes was [4.1.2](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2). **Do not install GitHub's auto-generated “Source code” ZIP.** The main-branch runtime files still reflect the 4.1.2 source snapshot pending an exact-version source synchronization. [Details](SOURCE.md).
 
 ## 🎵 GTM's main purpose hasn't changed
 
@@ -56,7 +56,7 @@ Use Decky Loader's manual **plugin ZIP** installer, not GitHub's source archive.
 
 `f287d2f85eb5e52ec64b38eb4e6702292139e6db128ea379899db88b956cb537`
 
-If that exact asset is uploaded, users can verify it against [the release manifest](docs/RELEASE_MANIFEST_4.4.1.md). The release itself is not yet published at the time these docs were written.
+If that exact asset is uploaded, users can verify it against [the release manifest](docs/RELEASE_MANIFEST_4.4.1.md). Check the Releases page for current availability; the 4.4.1 upload is performed separately by the maintainer.
 
 [Release notes](docs/RELEASE_NOTES_4.4.1.md) · [Getting started](docs/GETTING_STARTED.md) · [Testing](TESTING.md) · [Source integrity](SOURCE.md) · [Community hub](docs/COMMUNITY_FEATURES.md) · [Changelog](CHANGELOG.md)
 

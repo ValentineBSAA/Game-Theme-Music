@@ -1,10 +1,10 @@
-# 4.4.1 Public Beta documentation and community status (candidate; installer upload pending)
+# 4.4.1 Public Beta documentation and community status (candidate handoff prepared)
 
 - **Music-first positioning:** The Arcade is an optional, experimental extension of GTM visualizers, not a guaranteed new product direction.
 - **Steam Deck acceptance:** Neon Paddle Championship, Orbital Duel and Orbit Defenders reported working including local multiplayer; Neon Strike reported working but multiplayer not fully confirmed. Beat Catcher hardware coverage incomplete.
 - **Chess:** focused board enlarged and physically accepted for display; **game remains VERY EARLY ALPHA** and may be changed or removed.
 - **Original visualizers:** maintainer reports working, including repaired nested navigation. A brief Pong controller/AI handoff stutter remains known.
-- **Community feedback:** [4.4.1 beta issue](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4); installer is not yet uploaded. GitHub main branch remains at the 4.1.2 runtime snapshot, separate from this documentation update.
+- **Community feedback:** [4.4.1 beta issue](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4); release ZIP is distributed separately. GitHub main branch remains at the 4.1.2 runtime snapshot, separate from this documentation update.
 
 ---
 

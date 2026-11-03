@@ -2,7 +2,7 @@
 
 ## What is published and what is being prepared?
 
-- **4.4.1 Public Beta:** Maintainer-accepted candidate for release, **ZIP upload pending**. [Release notes](docs/RELEASE_NOTES_4.4.1.md) and [expected checksum](docs/RELEASE_MANIFEST_4.4.1.md).
+- **4.4.1 Public Beta:** Maintainer-accepted candidate for release, ZIP prepared for maintainer upload; see Releases for current availability. [Release notes](docs/RELEASE_NOTES_4.4.1.md) and [expected checksum](docs/RELEASE_MANIFEST_4.4.1.md).
 - **4.1.2:** [Most recent currently published release on GitHub](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2) at the time of the 4.4.1 documentation update.
 - **3.7.0:** [Older stable release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V3.7.0).
 

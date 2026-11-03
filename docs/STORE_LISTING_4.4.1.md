@@ -13,4 +13,4 @@ GTM brings game-specific soundtracks, Home Ambient, Steam/Decky Store music, pla
 
 **Arcade games are visualizer experiments, not GTM's new permanent direction.** We welcome feedback on which belong here.
 
-[GitHub Releases](https://github.com/ValentineBSAA/Game-Theme-Music/releases) (4.4.1 ZIP upload pending) · [Full notes](RELEASE_NOTES_4.4.1.md) · [Feedback](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4) · [Testing](../TESTING.md)
+[GitHub Releases](https://github.com/ValentineBSAA/Game-Theme-Music/releases) (check for the maintainer-uploaded 4.4.1 ZIP) · [Full notes](RELEASE_NOTES_4.4.1.md) · [Feedback](https://github.com/ValentineBSAA/Game-Theme-Music/issues/4) · [Testing](../TESTING.md)

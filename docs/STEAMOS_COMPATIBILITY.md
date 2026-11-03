@@ -10,7 +10,7 @@ The maintainer reports on a **real Steam Deck**:
 - **Chess:** enlarged board now displays and functions visually in Couch / TV; **game remains very early alpha**, not a completed chess experience.
 - **Beat Catcher:** included but no complete, game-by-game physical acceptance reported.
 
-These are qualitative observations, not calibrated performance or cross-hardware coverage. A beta candidate build and its docs are available, while publication of the 4.4.1 GitHub installer is pending.
+These are qualitative observations, not calibrated performance or cross-hardware coverage. The beta candidate has been packaged; check GitHub Releases for the current status of its installer upload.
 
 ## Earlier 4.1.2 hardware checks
 

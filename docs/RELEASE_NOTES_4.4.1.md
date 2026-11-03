@@ -1,6 +1,6 @@
 # GTM 4.4.1 | Public Beta release notes 🎵🎮
 
-**Status:** Public Beta candidate; ZIP upload is pending. **Version:** 4.4.1. **Previous candidate:** 4.4.0. **Primary product:** music playback + music-reactive visualizers. **Arcade:** optional experimental feature.
+**Status:** Public Beta candidate; obtain the installable ZIP from Releases after the maintainer publishes it. **Version:** 4.4.1. **Previous candidate:** 4.4.0. **Primary product:** music playback + music-reactive visualizers. **Arcade:** optional experimental feature.
 
 ## Why an Arcade in a music plugin?
 
@@ -40,7 +40,7 @@ Existing music features, Ambient/Home playback, game tracks, Store music, playli
 
 ## Release installation and integrity
 
-**When the maintainer publishes 4.4.1**, install the **Game-Theme-Music-4.4.1-PUBLIC-BETA-CHESS-FOCUSED-BOARD.zip** asset from [GitHub Releases](https://github.com/ValentineBSAA/Game-Theme-Music/releases); the generated source archive is not a valid installer.
+**For the published 4.4.1 release**, install the **Game-Theme-Music-4.4.1-PUBLIC-BETA-CHESS-FOCUSED-BOARD.zip** asset from [GitHub Releases](https://github.com/ValentineBSAA/Game-Theme-Music/releases); the generated source archive is not a valid installer.
 
 Expected ZIP SHA-256: `f287d2f85eb5e52ec64b38eb4e6702292139e6db128ea379899db88b956cb537`.
 

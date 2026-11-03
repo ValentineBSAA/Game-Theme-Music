@@ -1,6 +1,6 @@
 # GTM 4.4.1 Public Beta: expected installer manifest
 
-**Status:** Candidate handoff checksum. The 4.4.1 GitHub release asset is **not yet published** as of this manifest.
+**Status:** Checksum for the maintainer-approved 4.4.1 candidate. GitHub availability depends on when the maintainer uploads the release ZIP.
 
 **Filename:** `Game-Theme-Music-4.4.1-PUBLIC-BETA-CHESS-FOCUSED-BOARD.zip`
 

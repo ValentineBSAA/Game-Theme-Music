@@ -5,7 +5,7 @@ GTM is a **music-first Steam Deck Decky Loader plugin**. It provides music for g
 ## Install or update
 
 1. Open [GitHub Releases](https://github.com/ValentineBSAA/Game-Theme-Music/releases) and download the actual maintainer-uploaded **Game Theme Music plugin ZIP** for the version you want.
-2. **4.4.1 is awaiting maintainer upload.** Until then, [4.1.2](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2) is the newest published release asset.
+2. Look for **4.4.1** on the Releases page. If it is not listed yet, [4.1.2](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2) remains an available published release asset.
 3. Install the plugin ZIP through Decky Loader's manual plugin install flow. Do **not** use GitHub's generated "Source code" ZIP.
 4. Preserve your playlists/settings when updating. For 4.4.1, see the [candidate checksum](RELEASE_MANIFEST_4.4.1.md).
 
