@@ -35,7 +35,7 @@ function create({surface='home',games=0}={}){
  return {sandbox,ambient,calls,engine,timers,setSurface:r=>route=r,setGames:n=>running=n,flush:()=>{for(const [k,v] of [...timers]){timers.delete(k);v.fn();}}};
 }
 async function test(){
- assert(src.includes('const GTM_VERSION = "4.4.2";'));
+ assert(src.includes('const GTM_VERSION = "4.4.3";'));
  // Initially start Ambient, yield when ResonaDeck plays, then recover on pause.
  {
   const h=create();await h.ambient.sync(true);assert.equal(h.engine.snapshot.state,'playing');
