@@ -1,0 +1,23 @@
+name: Recover verified 4.4.1 source archive for visual effects restoration
+on:
+  push:
+    branches: [refactor/gtm-441-music-first]
+    paths: [.github/workflows/recover-gtm441-preserve-effects.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify immutable 4.4.1 beta package
+        run: |
+          curl -fLsS --retry 3 -o "$RUNNER_TEMP/GTM-4.4.1-original.zip" 'https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.4.1/Game-Theme-Music-4.4.1-PUBLIC-BETA-CHESS-FOCUSED-BOARD.zip'
+          echo "f287d2f85eb5e52ec64b38eb4e6702292139e6db128ea379899db88b956cb537  $RUNNER_TEMP/GTM-4.4.1-original.zip" | sha256sum -c -
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GTM-441-ORIGINAL-FOR-VISUAL-PRESERVATION
+          path: ${{ runner.temp }}/GTM-4.4.1-original.zip
+          retention-days: 1
