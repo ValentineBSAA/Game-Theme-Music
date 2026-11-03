@@ -98,7 +98,7 @@ def package(input_zip, output_zip):
             assert all(json.loads(built.read(ROOT+r))["version"] == VERSION for r in ("plugin.json","package.json"))
             assert 'const GTM_VERSION = "4.4.3";' in built.read(ROOT+"dist/index.js").decode()
             assert 'DECKY_PLUGIN_VERSION", "4.4.3"' in built.read(ROOT+"main.py").decode()
-            assert built.read(ROOT+"logo.png").startswith(b"\\x89PNG\\r\\n\\x1a\\n")
+            assert built.read(ROOT+"logo.png").startswith(b"\x89PNG\r\n\x1a\n")
         print(f"Validated store ZIP: {output_zip} ({output_zip.stat().st_size} bytes, 17 scenes, one folder, icons included)")
 
 if __name__ == "__main__":
