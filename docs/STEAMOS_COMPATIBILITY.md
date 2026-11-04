@@ -1,6 +1,6 @@
 # GTM 4.4.9: SteamOS compatibility and known limitations
 
-**Maintainer: Valentine. Current public release: 4.4.9.**
+**Maintainer: Valentine. Current public release: 4.4.9.** GTM is in [active maintenance](MAINTENANCE.md), prioritizing real bug reports and platform compatibility without new major features.
 
 ## Verified on physical Steam Deck (November 3, 2026)
 
