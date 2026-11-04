@@ -6,6 +6,8 @@ labels: ""
 assignees: ""
 ---
 
+**GTM 4.4.9 is actively maintained.** Bug fixes, compatibility, reliability, accessibility and existing-feature repairs are priorities. Visualizers can be switched **OFF** independently of music playback. [Maintenance policy](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/MAINTENANCE.md).
+
 ## What happened?
 
 Describe the behavior in plain language.
@@ -27,7 +29,7 @@ What should Game Theme Music do instead?
 - **Visualizer or scene:** e.g. Neon Paddle Classic/Thunder/Starlight, or another scene:
 - **If AI spectator:** physics mode, AI learning level if known, approximate time without scoring, powers, or other visible behavior:
 - **Layout:** Default or Couch/TV:
-- **Colors, CSS Loader theme, and Shuffle All setting:**
+- **Visualizers enabled ON/OFF, Colors, CSS Loader theme, and Shuffle All setting:**
 - **What still works correctly?**
 
 **GTM 4.4.9 does not include player-controlled or multiplayer Arcade gameplay.** For historical 4.4.1 discussions see the development history; do not assume old controller options are present.
@@ -35,7 +37,7 @@ What should Game Theme Music do instead?
 ## Steam Deck configuration
 
 - Steam Deck model (OLED/LCD):
-- SteamOS version/channel:
+- SteamOS version/channel (and whether the issue began after an update):
 - Decky Loader version:
 - Connected display or controller, if relevant:
 - Steam / non-Steam game, if related:

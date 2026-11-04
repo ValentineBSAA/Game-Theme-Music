@@ -1,3 +1,5 @@
+> **Project status (November 3, 2026):** GTM 4.4.9 is feature-complete for its present music-first direction and has entered **active maintenance**. Future releases prioritize bug fixes, compatibility, reliability and narrow polish rather than major new features. This is a documentation/maintenance-policy change, **not a new plugin release or version bump**. See [Maintenance Policy](docs/MAINTENANCE.md).
+
 ## 4.4.9 · AI Spectator Scoring and Music-First Release
 
 - Fixed learned, high-skill Pong AI vs AI exhibitions that could remain scoreless for five minutes or longer. Bounded rally pressure and shot variation generate **real** goals without granting artificial points or resetting AI learning.

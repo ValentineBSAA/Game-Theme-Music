@@ -1,61 +1,52 @@
-name: "💡 Feature request"
-description: "Suggest a practical Game Theme Music improvement for Steam Deck."
-title: "[Feature] "
+name: "💡 Improvement idea (maintenance phase)"
+description: "Share a practical idea; GTM 4.4.9 is feature-complete and focused on maintenance."
+title: "[Idea] "
 body:
   - type: markdown
     attributes:
       value: |
-        ## Thanks for helping improve GTM! 🎵
-        GTM **4.4.9 is music-first**. The Arcade Spectator page is for autonomous AI-vs-AI visuals, **not playable or multiplayer Arcade games**.
-        Please describe the problem you're trying to solve. Ideas are welcome; requests and votes are not guaranteed plans or release dates.
-        Check the [community ideas guide](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/COMMUNITY_FEATURES.md) and [existing requests](https://github.com/ValentineBSAA/Game-Theme-Music/issues) first.
+        ## Thanks for helping GTM 🎵
+        **GTM 4.4.9 is feature-complete for the current music-first direction and actively maintained.**
+        My priorities are **bug fixes, reliability, SteamOS/Decky compatibility, accessibility and small quality-of-life repairs**.
+        There is **no active roadmap for major new features, playable Arcade games or multiplayer**. Ideas are still welcome, but many will be deferred or declined. A suggestion or vote does **not** promise an update.
+        For something broken, please use the [bug report form](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) instead.
+        Read the [maintenance policy](https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/MAINTENANCE.md) and check [existing issues](https://github.com/ValentineBSAA/Game-Theme-Music/issues) first.
   - type: dropdown
     id: area
     attributes:
-      label: "Which part of GTM would this improve?"
+      label: "Which existing GTM area is affected?"
       options:
-        - "Visual Worlds and animation"
-        - "AI-vs-AI Arcade Spectator visualizers"
-        - "Color palettes, effects and customization"
-        - "Quick Menu, navigation and accessibility"
-        - "Default / Couch-TV footer layout"
-        - "Game soundtrack playback"
-        - "Ambient / Home music"
-        - "Steam / Decky Store music"
-        - "Playlists, discovery and library management"
-        - "Visualizer packs"
-        - "ResonaDeck interoperability"
-        - "Performance, SteamOS or Decky compatibility"
-        - "Something else"
+        - "Reliability and performance"
+        - "SteamOS / Decky compatibility"
+        - "Music and playlists (Game, Ambient, Store)"
+        - "Quick Menu and controller navigation"
+        - "Visual Worlds (optional)"
+        - "AI spectator visualizers"
+        - "Visual contrast, CSS colors and Couch/TV layout"
+        - "Visualizer packs and integrations"
+        - "Accessibility and existing quality of life"
+        - "Other / new idea (not scheduled)"
     validations:
       required: true
   - type: textarea
     id: idea
     attributes:
-      label: "What should be improved?"
-      description: "Explain the desired behavior in your own words."
-      placeholder: "I'd love to be able to..."
+      label: "What would improve your experience?"
+      description: "Describe a real situation on your Steam Deck or TV."
+      placeholder: "When I use GTM, I would find it easier if..."
     validations:
       required: true
   - type: textarea
     id: why
     attributes:
-      label: "Why would this help?"
-      description: "Describe a real situation on your Steam Deck or TV."
-      placeholder: "While browsing Steam Home..."
+      label: "Why would it help?"
+      description: "Explain the problem, not just the preferred implementation."
     validations:
       required: true
   - type: textarea
-    id: experience
+    id: details
     attributes:
-      label: "What would a good result look like?"
-      description: "Optional controls, visual behavior or flow."
-    validations:
-      required: false
-  - type: textarea
-    id: extra
-    attributes:
-      label: "Additional information"
-      description: "Screenshots or mockups are optional. Do not include passwords or private data."
+      label: "Anything else? (optional)"
+      description: "Screenshots are optional; remove private information and tokens."
     validations:
       required: false

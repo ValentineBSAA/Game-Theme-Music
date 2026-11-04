@@ -1,6 +1,6 @@
 # Game Theme Music: releases and rollback
 
-**Current public version:** **4.4.9**, developed by Valentine.
+**Current public version:** **4.4.9**, developed by Valentine. **Status: feature-complete for the current direction, actively maintained.** No new plugin version was created by this policy change. See the [maintenance policy](MAINTENANCE.md).
 
 | Version | Public status | What it is |
 | --- | --- | --- |
