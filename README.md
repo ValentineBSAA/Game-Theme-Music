@@ -5,7 +5,7 @@
 # 🎵 Game Theme Music
 ### Make your Steam Deck sound as good as it looks.
 
-**Developed by Valentine · Current release: 4.4.9 · Steam Deck / Decky Loader**
+**Developed by Valentine · Current release: 4.4.9 · Active maintenance · Steam Deck / Decky Loader**
 
 [**Download 4.4.9**](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) · [View 15 real screenshots](docs/SCREENSHOTS.md) · [Getting started](docs/GETTING_STARTED.md) · [Current release notes](docs/RELEASE_NOTES_4.4.9.md) · [Get help](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new/choose)
 
@@ -13,6 +13,8 @@
 
 **Game Theme Music (GTM)** is a music-first Decky Loader plugin for Steam Deck. Play soundtracks for Steam and non-Steam games, add music to Home and Store browsing, and customize music-reactive visual worlds. GTM also offers optional **AI-versus-AI spectator visualizers** that animate automatically alongside music. **There are no human-playable or multiplayer Arcade games in 4.4.9.**
 
+> **Current direction:** GTM 4.4.9 is **feature-complete for now and actively maintained**. I'm focusing on reliability, bug fixes, SteamOS/Decky compatibility, playback, settings and polish rather than adding more major features. **GTM is not abandoned or end-of-life.** [Read the maintenance policy](docs/MAINTENANCE.md).
+>
 > **Version 4.4.9** is a regular public release, without a Beta suffix. Valentine verified the one-time Steam Home welcome and a genuine Pong AI spectator goal on physical hardware. Comprehensive compatibility testing across all SteamOS builds, themes, and visualizer configurations is ongoing.
 
 ## Get GTM
@@ -62,18 +64,22 @@ Earlier learned-max Pong AI opponents could complete five minutes without scorin
 
 [Full 4.4.9 release notes](docs/RELEASE_NOTES_4.4.9.md) · [Testing and verified hardware observations](TESTING.md) · [Compatibility notes](docs/STEAMOS_COMPATIBILITY.md)
 
+## Active maintenance and community feedback
+
+I'm keeping GTM music-first and maintaining the features already here. Fixes, compatibility work, documentation and meaningful quality-of-life repairs remain welcome; new games and major feature expansions aren't currently planned. **There's no fixed update schedule or promise that every suggestion will be implemented.** For what is in scope, see the [maintenance policy](docs/MAINTENANCE.md) and [contributing guide](CONTRIBUTING.md). The current version stays **4.4.9** until a real software update is needed.
+
 ## Need help or have an idea?
 
 - **[Report a bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md)**. GTM version, Deck/SteamOS details and reproduction steps are helpful; screenshots and logs are optional.
 - **[Request a feature](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=feature_request.yml)** or visit the **[Community Ideas Hub](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2)**.
-- **[Vote on priorities](https://github.com/ValentineBSAA/Game-Theme-Music/issues/3)** through reactions. Votes guide decisions but do not guarantee implementation.
+- **[Read maintenance priorities](docs/MAINTENANCE.md)**. The earlier feature-expansion poll is archived; future fixes are guided by reproducible bugs and compatibility needs rather than a promised feature roadmap.
 - **[Browse the visualizer gallery](docs/SCREENSHOTS.md)**. Historical screenshots are labeled; don't mistake concept art for current hardware screenshots.
 
 ## Project notes
 
 **Maintainer:** Valentine ([ValentineBSAA](https://github.com/ValentineBSAA)). **License:** GPL-3.0-only (see LICENSE). The repository tracks the 4.4.9 runtime and release tests. Large bundled dependencies are included in the *release installer*, not GitHub's source ZIP. The public **4.4.9 installer is self-contained**; you do not need any earlier GTM release to install it.
 
-[Source and release integrity](SOURCE.md) · [Version history](CHANGELOG.md) · [Archived development README](docs/DEVELOPMENT_HISTORY.md) · [Release index](docs/RELEASE_INDEX.md)
+[Maintenance policy](docs/MAINTENANCE.md) · [Contributing](CONTRIBUTING.md) · [Source and release integrity](SOURCE.md) · [Version history](CHANGELOG.md) · [Archived development README](docs/DEVELOPMENT_HISTORY.md) · [Release index](docs/RELEASE_INDEX.md)
 
 Thank you for installing, testing, and helping improve GTM. ❤️
 
