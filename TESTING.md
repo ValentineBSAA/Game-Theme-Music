@@ -1,14 +1,31 @@
-# GTM 4.4.9: testing and verification
+# Game Theme Music 4.4.9: testing and maintenance verification
 
-## Steam Deck observations (maintainer, November 3, 2026)
+**Maintainer: Valentine.** GTM is feature-complete for its current music-first direction and is **actively maintained**, not abandoned. See the [maintenance policy](docs/MAINTENANCE.md).
 
-- **PASS (reported):** the version 4.4.9 welcome appears full-screen on Steam Home, with Valentine's message and a Continue to Home action.
-- **PASS (reported):** AI-versus-AI Neon Paddle produced a genuine goal on physical hardware after the 4.4.9 scoring update.
-- **Still to verify:** long-term spectator variety and learning progression; persistence after full reinstall and multiple restarts; all Quick Menu nested sections, TV/Couch styles, SteamOS themes, ResonaDeck and Ambient/Store playback on each supported configuration.
+## Steam Deck observations (November 3, 2026)
 
-## Automated release checks
+- **Observed on hardware:** GTM 4.4.9's welcome appeared full-screen on Steam Home with Valentine's message and Continue to Home.
+- **Observed on hardware:** Neon Paddle AI-versus-AI produced a genuine goal after the 4.4.9 scoring fix.
+- **Not fully verified:** Every scene, all CSS palettes, different Decky/SteamOS versions, multi-hour AI sessions, sleep/wake and reboot persistence, imported packs, TV/Couch sizes and ResonaDeck/Ambient/Store integrations.
 
-The release preparation workflow reconstructs the ZIP from the checksum-verified V4.4.1 binary plus the immutable GTM 4.4.9 delta and verifies individual modified file hashes against the tested ZIP. It then runs `node --check dist/index.js`, `python -m py_compile main.py`, `GTM_4.4.9_PONG_SCORING_REGRESSION.cjs`, `GTM_4.4.9_ALL_MODES_REGRESSION.cjs`, and `tests/GTM_4.4.6_SHUFFLE_REGRESSION_TEST.cjs`. The package must contain 555 direct-installable plugin files, with aligned 4.4.9 metadata.
+These observations do **not** certify universal stability or every hardware configuration.
 
-**Hardware confirmation is scoped to the specific observations above.** Do not represent automated results as comprehensive Deck hardware acceptance.
+## Active read-only CI
 
+The repository's **GTM version-aware source and regression checks** GitHub Action runs on pull requests and pushes to `main`. For the existing **4.4.9** source it checks:
+
+- `plugin.json` and `package.json` version agreement, developer attribution and compiled runtime hash.
+- `node --check dist/index.js` and `python3 -m py_compile main.py`.
+- `node GTM_4.4.9_PONG_SCORING_REGRESSION.cjs` (real-goal rules and high-skill match behavior).
+- `node GTM_4.4.9_ALL_MODES_REGRESSION.cjs` (all 12 physics modes).
+- `node tests/GTM_4.4.6_SHUFFLE_REGRESSION_TEST.cjs` (saved shuffle ON/OFF behavior).
+
+**CI does not publish releases, rewrite the installed plugin or validate every Steam Deck interaction.** The former one-shot workflows that wrote old 3.x/4.x release contents back onto `main` have been retired to protect the maintained 4.4.9 source.
+
+## Existing installer and historical build record
+
+The currently published [V4.4.9 ZIP](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) remains the standalone Decky installer. The archived *historical build provenance* described in [SOURCE.md](SOURCE.md) references a previous 4.4.1 beta installer that is no longer a published GitHub release asset. **Do not restore or republish 4.4.1 as a prerequisite**. No older installer is needed to install 4.4.9.
+
+For future bug-fix releases, validate current sources and the resulting installable ZIP separately, including device verification when possible. A new version should ship only when there is a real fix worth delivering; there is no fixed release cadence.
+
+[Compatibility checks](docs/STEAMOS_COMPATIBILITY.md) · [Report a bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) · [Maintenance policy](docs/MAINTENANCE.md)
