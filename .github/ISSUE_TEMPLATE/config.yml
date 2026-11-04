@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: "🛠️ GTM 4.4.9 maintenance and support"
+    url: "https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/MAINTENANCE.md"
+    about: "What GTM maintains, how to report bugs, and what features aren't planned."
   - name: "🎵 Community ideas & voting guide"
     url: "https://github.com/ValentineBSAA/Game-Theme-Music/blob/main/docs/COMMUNITY_FEATURES.md"
     about: "How to share, support and follow GTM feature requests and community polls."
