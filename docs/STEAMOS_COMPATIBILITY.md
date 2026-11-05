@@ -1,8 +1,8 @@
-# GTM 4.4.9: SteamOS compatibility and known limitations
+# GTM 4.5.8: SteamOS compatibility and known limitations
 
-**Maintainer: Valentine. Current public release: 4.4.9.** GTM is in [active maintenance](MAINTENANCE.md), prioritizing real bug reports and platform compatibility without new major features.
+**Maintainer: Valentine. Current public release: 4.5.8.** GTM is in [active maintenance](MAINTENANCE.md), prioritizing real bug reports and platform compatibility without new major features.
 
-## Verified on physical Steam Deck (November 3, 2026)
+## Verified on physical Steam Deck (earlier 4.4.9 checks on November 3, 2026, plus 4.5.8 integration)
 
 - The full-screen **per-version welcome** appeared on **Steam Home** in the maintainer's photograph.
 - After the 4.4.9 scoring update, **Neon Paddle AI versus AI** produced a legitimate goal on the maintainer's Steam Deck.
@@ -24,12 +24,17 @@ These are **specific observations**, not a blanket certification of every scene,
 - Ambient/Store playlists, crossfade and audio focus with ResonaDeck.
 - Imported visualizer packs, SteamOS/Decky versions other than the maintainer's actual configuration.
 
+## 4.5.8 hardware integration
+
+- The maintainer confirmed the **GTM / ResonaDeck live visualizer ON/OFF integration** on physical Steam Deck hardware.
+- Checks from the 4.4.9 test remain historical observations, not new comprehensive 4.5.8 regression certifications.
+
 ## Current gameplay status
 
-**4.4.9 is spectator-only.** AI-vs-AI animations are not controller games. Former human multiplayer, player claiming, the Chess alpha and playable Arcade controls belong to historical 4.4.1-era material, not the current release.
+**4.5.8 remains spectator-only.** AI-vs-AI animations are not controller games. Former human multiplayer, player claiming, the Chess alpha and playable Arcade controls belong to historical 4.4.1-era material, not the current release.
 
 ## Report compatibility issues
 
 Please specify GTM version, Steam Deck model, SteamOS version/channel, Decky version, theme, selected visualizer, footer layout and steps to reproduce. Logs, clips and screenshots can help but are **optional**. Remove passwords, account tokens and private details.
 
-[Current release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) · [Testing status](../TESTING.md) · [Report a bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) · [Main README](../README.md)
+[Current release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8) · [Testing status](../TESTING.md) · [Report a bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) · [Main README](../README.md)
