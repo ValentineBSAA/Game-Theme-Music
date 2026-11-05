@@ -1,4 +1,4 @@
-"""Game Theme Music 4.4.6 Spectator Edition preview backend.
+"""Game Theme Music 4.5.8 testing backend.
 
 Cached audio is streamed over a tokenized loopback server. Provider, storage,
 update, health, and diagnostic operations are exposed as Decky RPC methods.
@@ -38,7 +38,7 @@ from settings import SettingsManager  # type: ignore
 logging.basicConfig(level=logging.INFO)
 logger = getattr(decky, "logger", logging.getLogger(__name__))
 
-PLUGIN_VERSION = getattr(decky, "DECKY_PLUGIN_VERSION", "4.4.9")
+PLUGIN_VERSION = getattr(decky, "DECKY_PLUGIN_VERSION", "4.5.8")
 INDEX_VERSION = 1
 DEFAULT_STORAGE_LIMIT_MB = 2048
 MAX_AUDIO_BYTES = 2 * 1024**3
@@ -584,6 +584,8 @@ class Plugin:
         "crt_pulse", "liquid_chrome", "disc_prism", "beat_pinball",
         "seismic_mountains", "mechanical_iris", "sakura_tempest",
         "supernova_bloom", "neon_pong", "tidal_bloom",
+        "y2k_spectrum", "cyber_tunnel", "laser_oscilloscope", "prism_loom", "celestial_clockwork", "liquid_hologram",
+        "vhs_nightdrive", "fracture_cathedral", "mercury_tide", "prism_kaleid", "solar_reactor", "data_rain", "heart_pulse", "solar_array", "digital_rainforest",
     })
     VISUAL_CATEGORIES = frozenset({"retro", "rhythm", "signature", "anime", "arcade"})
     # v3 adds a bounded visual-program VM; v1/v2 retain their existing validation.
