@@ -5,26 +5,26 @@
 # 🎵 Game Theme Music
 ### Make your Steam Deck sound as good as it looks.
 
-**Developed by Valentine · Current release: 4.4.9 · Active maintenance · Steam Deck / Decky Loader**
+**Developed by Valentine · Current release: 4.5.8 · Active maintenance · Steam Deck / Decky Loader**
 
-[**Download 4.4.9**](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) · [View 15 real screenshots](docs/SCREENSHOTS.md) · [Getting started](docs/GETTING_STARTED.md) · [Current release notes](docs/RELEASE_NOTES_4.4.9.md) · [Get help](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new/choose)
+[**Download 4.5.8**](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8) · [View 15 real screenshots](docs/SCREENSHOTS.md) · [Getting started](docs/GETTING_STARTED.md) · [Current release notes](docs/RELEASE_NOTES_4.5.8.md) · [Get help](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new/choose)
 
 </div>
 
-**Game Theme Music (GTM)** is a music-first Decky Loader plugin for Steam Deck. Play soundtracks for Steam and non-Steam games, add music to Home and Store browsing, and customize music-reactive visual worlds. GTM also offers optional **AI-versus-AI spectator visualizers** that animate automatically alongside music. **There are no human-playable or multiplayer Arcade games in 4.4.9.**
+**Game Theme Music (GTM)** is a music-first Decky Loader plugin for Steam Deck. Play soundtracks for Steam and non-Steam games, add music to Home and Store browsing, and customize music-reactive visual worlds. GTM also offers optional **AI-versus-AI spectator visualizers** that animate automatically alongside music. **Arcade Spectator remains a watch-only, AI-versus-AI feature in 4.5.8; it does not advertise human-playable multiplayer.**
 
-> **Current direction:** GTM 4.4.9 is **feature-complete for now and actively maintained**. I'm focusing on reliability, bug fixes, SteamOS/Decky compatibility, playback, settings and polish rather than adding more major features. **GTM is not abandoned or end-of-life.** [Read the maintenance policy](docs/MAINTENANCE.md).
+> **Current direction:** GTM 4.5.8 is **feature-complete for now and actively maintained**. I'm focusing on reliability, bug fixes, SteamOS/Decky compatibility, playback, settings and polish rather than adding more major features. **GTM is not abandoned or end-of-life.** [Read the maintenance policy](docs/MAINTENANCE.md).
 >
-> **Version 4.4.9** is a regular public release, without a Beta suffix. Valentine verified the one-time Steam Home welcome and a genuine Pong AI spectator goal on physical hardware. Comprehensive compatibility testing across all SteamOS builds, themes, and visualizer configurations is ongoing.
+> **Version 4.5.8** is the current regular public release. Its paired visualizer controls with ResonaDeck were tested on physical Steam Deck hardware. Broader compatibility across SteamOS builds, themes, and visualizer configurations is not guaranteed.
 
 ## Get GTM
 
-1. Open the [**4.4.9 release page**](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9).
-2. Under **Assets**, download **`Game-Theme-Music-4.4.9.zip`**. Use the **attached plugin ZIP**, **not** GitHub's auto-generated `Source code` archive.
+1. Open the [**4.5.8 release page**](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8).
+2. Under **Assets**, download **`Game-Theme-Music-4.5.8.zip`**. Use the **attached plugin ZIP**, **not** GitHub's auto-generated `Source code` archive.
 3. Install the plugin ZIP through Decky Loader's manual installation option on Steam Deck. Keep a backup before changing versions. Existing preferences are intended to remain intact during normal updates.
 4. Open GTM in Quick Access. The one-time welcome displays on **Steam Home** when Quick Access is closed; press **A / Cross** to continue.
 
-The release also supplies `SHA256SUMS.txt` for verifying the download. Full instructions: **[Getting started](docs/GETTING_STARTED.md)**.
+Verify the installable ZIP against [the recorded SHA-256 checksum](docs/RELEASE_ASSET_SHA256_4.5.8.txt). Full instructions: **[Getting started](docs/GETTING_STARTED.md)**.
 
 ## 🎛️ Visualizers are optional
 
@@ -37,12 +37,12 @@ The release also supplies `SHA256SUMS.txt` for verifying the download. Full inst
 | 🎮 **Game Music** | Soundtracks for Steam and non-Steam titles, playlist management and optional crossfade. |
 | 🌙 **Ambient / Home** | Background music while browsing Steam Home, with configurable sleep/wake behavior. |
 | 🛍️ **Store Music** | Configure music for Steam and Decky Store browsing. |
-| 🌈 **Visual Worlds** | **17 built-in visual worlds**, including original retro, rhythm, signature, anime and spectator-style scenes; optional custom packs. |
+| 🌈 **Visual Worlds** | **Expanded visualizer collection**, including original retro, rhythm, signature, anime and spectator-style scenes; optional custom packs. |
 | 🏓 **Arcade Spectator** | **Watch-only AI-versus-AI scenes**, adaptive Pong opponents, auto-changing paddles, arenas, ball physics and **32 powers/effects**. No gameplay controls or multiplayer matchmaking. |
 | 🎨 **Customize** | Controller-friendly Visualizers and Arcade Spectator tabs, nested scene categories, palette and color settings, music reactivity and Default / Couch-TV footer layout. |
-| 🎧 **ResonaDeck** | Compatible audio-focus and music-reactive visualizer integration with the separate Plex player. |
+| 🎧 **ResonaDeck** | Compatible music-reactive integration and bidirectional live visualizer ON/OFF with ResonaDeck 1.4.9. |
 
-## 📸 Real Steam Deck screenshots from 4.4.9
+## 📸 Previous-version Steam Deck screenshots (4.4.9)
 
 **A selection of 15 screenshots, not every visualizer.** The gallery shows AI spectator scenes, traditional music visualizers and the Quick Menu, including the ON/OFF switches. Different visualizer packs, colors and effects are not all pictured.
 
@@ -58,15 +58,15 @@ Open **Decky Quick Access → GTM → Visualizers** to choose a collection and t
 
 For Couch/TV viewing, choose the larger footer layout; choose Default for a compact Home layout. [Step-by-step controls](docs/GETTING_STARTED.md).
 
-### What's new in 4.4.9?
+### What's new in 4.5.8?
 
-Earlier learned-max Pong AI opponents could complete five minutes without scoring. The new spectator rally director increases pressure during long rallies, encouraging **real goals** while retaining skill learning and physical ball/paddle collisions. No points are awarded by timer. The 4.4.8 welcome, Quick Menu improvements, visualizer packs, color controls, effects and playback systems remain.
+Six new built-in visualizer scenes, a controller-friendly two-column browser, improved eight-second audio crossfade and two-way ResonaDeck visualizer control. The 4.4.9 Pong spectator scoring repair and other existing music features are retained. See the notes for the full details and limitations.
 
-[Full 4.4.9 release notes](docs/RELEASE_NOTES_4.4.9.md) · [Testing and verified hardware observations](TESTING.md) · [Compatibility notes](docs/STEAMOS_COMPATIBILITY.md)
+[Full 4.5.8 release notes](docs/RELEASE_NOTES_4.5.8.md) · [Testing and verified hardware observations](TESTING.md) · [Compatibility notes](docs/STEAMOS_COMPATIBILITY.md)
 
 ## Active maintenance and community feedback
 
-I'm keeping GTM music-first and maintaining the features already here. Fixes, compatibility work, documentation and meaningful quality-of-life repairs remain welcome; new games and major feature expansions aren't currently planned. **There's no fixed update schedule or promise that every suggestion will be implemented.** For what is in scope, see the [maintenance policy](docs/MAINTENANCE.md) and [contributing guide](CONTRIBUTING.md). The current version stays **4.4.9** until a real software update is needed.
+I'm keeping GTM music-first and maintaining the features already here. Fixes, compatibility work, documentation and meaningful quality-of-life repairs remain welcome; new games and major feature expansions aren't currently planned. **There's no fixed update schedule or promise that every suggestion will be implemented.** For what is in scope, see the [maintenance policy](docs/MAINTENANCE.md) and [contributing guide](CONTRIBUTING.md). The current stable release is **4.5.8**; updates remain selective and focused on stability.
 
 ## Need help or have an idea?
 
@@ -77,7 +77,7 @@ I'm keeping GTM music-first and maintaining the features already here. Fixes, co
 
 ## Project notes
 
-**Maintainer:** Valentine ([ValentineBSAA](https://github.com/ValentineBSAA)). **License:** GPL-3.0-only (see LICENSE). The repository tracks the 4.4.9 runtime and release tests. Large bundled dependencies are included in the *release installer*, not GitHub's source ZIP. The public **4.4.9 installer is self-contained**; you do not need any earlier GTM release to install it.
+**Maintainer:** Valentine ([ValentineBSAA](https://github.com/ValentineBSAA)). **License:** GPL-3.0-only (see LICENSE). The repository tracks the 4.5.8 runtime snapshot and release tests. Large bundled dependencies are included in the *release installer*, not GitHub's source ZIP. The public **4.5.8 installer is self-contained**; you do not need an earlier GTM release to install it.
 
 [Maintenance policy](docs/MAINTENANCE.md) · [Contributing](CONTRIBUTING.md) · [Source and release integrity](SOURCE.md) · [Version history](CHANGELOG.md) · [Archived development README](docs/DEVELOPMENT_HISTORY.md) · [Release index](docs/RELEASE_INDEX.md)
 

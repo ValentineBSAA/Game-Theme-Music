@@ -7,9 +7,9 @@
     "tags": [
       "audio"
     ],
-    "description": "GTM 4.4.9: improve AI-vs-AI Pong scoring with real rally pressure and sharper shots; preserve all 4.4.8 Home, Quick Menu, visualizer and music features.",
+    "description": "Game Theme Music 4.5.8: controller-friendly visualizers, responsive audio crossfade, ResonaDeck bridge and community updates.",
     "image": "https://raw.githubusercontent.com/ValentineBSAA/Game-Theme-Music/main/assets/game-theme-music-icon.webp"
   },
-  "description": "GTM 4.4.9: improve AI-vs-AI Pong scoring with real rally pressure and sharper shots; preserve all 4.4.8 Home, Quick Menu, visualizer and music features.",
-  "version": "4.4.9"
+  "description": "Game Theme Music 4.5.8: bidirectional GTM and ResonaDeck visualizer control, premium visualizers, controller navigation and improved music crossfade.",
+  "version": "4.5.8"
 }

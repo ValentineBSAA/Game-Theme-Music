@@ -21,7 +21,7 @@ DRAW = {'rect': ('x','y','w','h'), 'circle': ('x','y','r'), 'line': ('x','y','x2
 CATEGORIES = {'retro','rhythm','signature','anime','arcade'}
 SCENERIES = {'solid','arcade','storm','stars','nebula','aurora','ocean','sunset','forest','city'}
 OVERLAYS = {'sparks','lightning','rings','stardust','comets','scanlines','confetti','orbits','hexagons','laser','snow','embers','grid','waves','shards','flares','bubbles'}
-EFFECTS = {'crt_pulse','liquid_chrome','disc_prism','beat_pinball','seismic_mountains','mechanical_iris','sakura_tempest','supernova_bloom','neon_pong','tidal_bloom'}
+EFFECTS = {'crt_pulse','liquid_chrome','disc_prism','beat_pinball','seismic_mountains','mechanical_iris','sakura_tempest','supernova_bloom','neon_pong','tidal_bloom','y2k_spectrum','cyber_tunnel','laser_oscilloscope','prism_loom','celestial_clockwork','liquid_hologram','vhs_nightdrive','fracture_cathedral','mercury_tide','prism_kaleid','solar_reactor','data_rain','heart_pulse','solar_array','digital_rainforest'}
 
 def fail(message):
     raise ValueError('Pack v3: ' + message)
@@ -160,14 +160,18 @@ def validate_pack(payload, legacy_validator):
         if interaction is not None:
             if not isinstance(interaction,dict) or set(interaction)-{'modes','default','kind','action_label'}:
                 fail('interaction accepts only kind, modes, default and action_label')
-            if interaction.get('kind') not in ('game','interactive_art'):
-                fail('interaction.kind must be game or interactive_art')
+            if interaction.get('kind') not in ('game','interactive_art','spectator'):
+                fail('interaction.kind must be game, interactive_art or spectator')
             valid_modes={'ai_ai','player_ai','player_player','solo'}
             modes=interaction.get('modes')
             if not isinstance(modes,list) or not 1<=len(modes)<=4 or len(modes)!=len(set(modes)) or not set(modes)<=valid_modes:
                 fail('invalid interaction modes')
             if interaction.get('default','ai_ai') not in modes:
                 fail('interaction default must be supported')
+            # 4.5.0: shipped spectator worlds are intentionally AI-only. Accept
+            # their safe declarative stage, but disallow human-control modes.
+            if interaction.get('kind')=='spectator' and modes!=['ai_ai']:
+                fail('spectator worlds must be AI vs AI only')
             interaction={'kind':interaction['kind'],'modes':modes,'default':interaction.get('default','ai_ai'),'action_label':label(interaction.get('action_label','Action'),'interaction.action_label',32)}
         if len(scene.get('layers',[]))>3:fail('too many legacy layers')
         for layer in scene.get('layers',[]):

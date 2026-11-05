@@ -3,8 +3,8 @@
   "pack_id": "gtm_visual_worlds_vol1",
   "name": "GTM Visual Worlds • Volume 1",
   "author": "Valentine • GTM",
-  "version": "1.3.1",
-  "description": "GTM 4.1.5: distinctly painted Pong arenas with reusable safe scene backgrounds and power effects.",
+  "version": "1.4.0",
+  "description": "GTM 4.5.0: original Y2K and modern panoramic audio-reactive worlds; preserves living Pong arenas.",
   "scenes": [
     {
       "id": "world_crt_pulse",
@@ -260,6 +260,240 @@
         "motion": 0.65,
         "reactivity": 1.0
       }
+    },
+    {
+      "id": "world_millennium_analyzer",
+      "title": "Millennium Analyzer • 2003",
+      "category": "retro",
+      "layers": [
+        {
+          "effect": "y2k_spectrum",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0,
+          "audio": {
+            "intensity": {
+              "source": "energy",
+              "amount": 0.18
+            }
+          }
+        }
+      ],
+      "background": {
+        "style": "city",
+        "base": "#051022",
+        "accent": "#4bfae7",
+        "density": 0.7,
+        "motion": 0.65,
+        "reactivity": 0.45
+      },
+      "overlays": [
+        {
+          "effect": "scanlines",
+          "trigger": "always",
+          "color": "auto",
+          "density": 0.7,
+          "speed": 0.8,
+          "intensity": 0.2
+        }
+      ]
+    },
+    {
+      "id": "world_cyber_highway_2003",
+      "title": "Cyber Highway • 2003",
+      "category": "retro",
+      "layers": [
+        {
+          "effect": "cyber_tunnel",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0,
+          "audio": {
+            "intensity": {
+              "source": "energy",
+              "amount": 0.18
+            }
+          }
+        }
+      ],
+      "background": {
+        "style": "arcade",
+        "base": "#02071e",
+        "accent": "#74baff",
+        "density": 0.7,
+        "motion": 0.85,
+        "reactivity": 0.45
+      },
+      "overlays": [
+        {
+          "effect": "laser",
+          "trigger": "beat",
+          "color": "auto",
+          "density": 0.7,
+          "speed": 0.8,
+          "intensity": 0.45
+        }
+      ]
+    },
+    {
+      "id": "world_glass_oscilloscope",
+      "title": "Glass Oscilloscope",
+      "category": "rhythm",
+      "layers": [
+        {
+          "effect": "laser_oscilloscope",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0,
+          "audio": {
+            "intensity": {
+              "source": "energy",
+              "amount": 0.18
+            }
+          }
+        }
+      ],
+      "background": {
+        "style": "solid",
+        "base": "#030b17",
+        "accent": "#38dfff",
+        "density": 0.7,
+        "motion": 0.65,
+        "reactivity": 0.45
+      },
+      "overlays": [
+        {
+          "effect": "waves",
+          "trigger": "treble",
+          "color": "auto",
+          "density": 0.7,
+          "speed": 0.8,
+          "intensity": 0.3
+        }
+      ]
+    },
+    {
+      "id": "world_prism_loom",
+      "title": "Prism Loom • Spectral Weave",
+      "category": "signature",
+      "layers": [
+        {
+          "effect": "prism_loom",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0,
+          "audio": {
+            "intensity": {
+              "source": "energy",
+              "amount": 0.18
+            }
+          }
+        }
+      ],
+      "background": {
+        "style": "nebula",
+        "base": "#130622",
+        "accent": "#dd75ff",
+        "density": 0.7,
+        "motion": 0.65,
+        "reactivity": 0.45
+      },
+      "overlays": [
+        {
+          "effect": "shards",
+          "trigger": "beat",
+          "color": "auto",
+          "density": 0.7,
+          "speed": 0.8,
+          "intensity": 0.35
+        }
+      ]
+    },
+    {
+      "id": "world_celestial_clockwork",
+      "title": "Celestial Clockwork",
+      "category": "signature",
+      "layers": [
+        {
+          "effect": "celestial_clockwork",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0,
+          "audio": {
+            "intensity": {
+              "source": "energy",
+              "amount": 0.18
+            }
+          }
+        }
+      ],
+      "background": {
+        "style": "stars",
+        "base": "#070c23",
+        "accent": "#bfcaff",
+        "density": 0.7,
+        "motion": 0.65,
+        "reactivity": 0.45
+      },
+      "overlays": [
+        {
+          "effect": "orbits",
+          "trigger": "always",
+          "color": "auto",
+          "density": 0.7,
+          "speed": 0.8,
+          "intensity": 0.38
+        }
+      ]
+    },
+    {
+      "id": "world_liquid_hologram",
+      "title": "Liquid Hologram",
+      "category": "signature",
+      "layers": [
+        {
+          "effect": "liquid_hologram",
+          "scale": 1,
+          "speed": 1,
+          "density": 1,
+          "intensity": 1,
+          "hueShift": 0,
+          "audio": {
+            "intensity": {
+              "source": "energy",
+              "amount": 0.18
+            }
+          }
+        }
+      ],
+      "background": {
+        "style": "aurora",
+        "base": "#080d26",
+        "accent": "#a188ff",
+        "density": 0.7,
+        "motion": 0.65,
+        "reactivity": 0.45
+      },
+      "overlays": [
+        {
+          "effect": "flares",
+          "trigger": "bass",
+          "color": "auto",
+          "density": 0.7,
+          "speed": 0.8,
+          "intensity": 0.32
+        }
+      ]
     }
   ]
 }
