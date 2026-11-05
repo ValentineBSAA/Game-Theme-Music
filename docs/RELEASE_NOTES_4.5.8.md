@@ -1,8 +1,8 @@
 # Game Theme Music 4.5.8 | Visualizer Renaissance & ResonaDeck Bridge
 
 **Developer:** Valentine  
-**Release type:** Proposed public release  
-**Target asset:** `Game-Theme-Music-4.5.8.zip`
+**Release type:** Stable public release · Published November 5, 2026  
+**Published asset:** `Game-Theme-Music-4.5.8.zip`
 
 This release advances GTM's music-first design with visualizer creativity, controller usability, crossfade playback, and two-way ResonaDeck interoperability.
 
@@ -19,7 +19,11 @@ This release advances GTM's music-first design with visualizer creativity, contr
 - ResonaDeck is optional. Visualizer controls work in GTM standalone.
 - Steam Deck testing confirmed bidirectional control and successful ResonaDeck integration. Some audio-source-specific crossfade and sleep/wake cases can vary by environment.
 - GTM remains focused on music and AI Arcade Spectator. Historical playable arcade experiments are **not** advertised as shipping features.
-- The optional visualizer pack is a separate ZIP, not the GTM installer.
+- Optional extension packs, when available, are separate from the GTM installer.
+
+## Published release
+
+[Download V4.5.8](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8) · [SHA-256 checksum](RELEASE_ASSET_SHA256_4.5.8.txt) · [ResonaDeck 1.4.9](https://github.com/ValentineBSAA/ResonaDeck/releases/tag/1.4.9)
 
 ## Installation
 Download the specifically named **Game-Theme-Music-4.5.8.zip** asset under GitHub Releases. GitHub's auto-generated source-code archive is not the Decky Loader plugin installer.
