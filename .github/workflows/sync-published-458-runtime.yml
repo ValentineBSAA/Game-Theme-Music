@@ -1,0 +1,85 @@
+name: Sync published 4.5.8 runtime exactly
+on:
+  push:
+    branches:
+      - release-prep/4.5.8
+    paths:
+      - '.github/workflows/sync-published-458-runtime.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: published-runtime-4.5.8
+  cancel-in-progress: false
+jobs:
+  sync-published-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Download and authenticate the public installer
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --retry-delay 3 --output "$RUNNER_TEMP/Game-Theme-Music-4.5.8.zip" \
+            "https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.5.8/Game-Theme-Music-4.5.8.zip"
+          echo "4c3ace93a998a2dab7c023e507c19ab0dae8b5b5756bc1ea328e3a325b340324  $RUNNER_TEMP/Game-Theme-Music-4.5.8.zip" | sha256sum --check
+          export INSTALLER="$RUNNER_TEMP/Game-Theme-Music-4.5.8.zip"
+          python3 - <<'PY'
+          import os, pathlib,zipfile,json
+          root=pathlib.Path('.')
+          install=pathlib.Path(os.environ['INSTALLER'])
+          expected_root='Game-Theme-Music/'
+          explicit=set(["main.py","dist/index.js","package.json","plugin.json","gtm_pack_v3.py","pack_validate.py","THIRD-PARTY-NOTICES.md","icon.png","logo.png"])
+          folders=tuple(["assets/","mutagen/","third_party/","visualizer-packs/arcade/","visualizer-packs/volume1/"])
+          changed=[]
+          with zipfile.ZipFile(install) as z:
+              assert z.testzip() is None
+              assert z.read(expected_root+'plugin.json') and z.read(expected_root+'package.json')
+              meta=json.loads(z.read(expected_root+'plugin.json'))
+              pkg=json.loads(z.read(expected_root+'package.json'))
+              assert meta['version']==pkg['version']=='4.5.8'
+              for name in z.namelist():
+                  if not name.startswith(expected_root) or name.endswith('/'):
+                      continue
+                  rel=name[len(expected_root):]
+                  if rel in explicit or rel.startswith(folders):
+                      target=root/rel
+                      target.parent.mkdir(parents=True,exist_ok=True)
+                      data=z.read(name)
+                      target.write_bytes(data)
+                      changed.append(rel)
+              pass
+              assert (root/'dist/index.js').read_bytes()==z.read(expected_root+'dist/index.js')
+          print('Synced',len(changed),'tracked runtime files from verified release ZIP')
+          PY
+      - name: Validate copied runtime before committing
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check dist/index.js
+          python3 - <<'PY'
+          import pathlib,ast,json,zipfile,os
+          assert json.loads(pathlib.Path('plugin.json').read_text())['version']=='4.5.8'
+          assert json.loads(pathlib.Path('package.json').read_text())['version']=='4.5.8'
+          for file in ['main.py']:
+              ast.parse(pathlib.Path(file).read_text(encoding='utf-8'),filename=file)
+          assert 'gtm405ReceiveExternal' in pathlib.Path('dist/index.js').read_text()
+          print('Validated published release runtime 4.5.8')
+          PY
+      - name: Commit verified runtime to release preparation branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "main.py" "dist/index.js" "package.json" "plugin.json" "gtm_pack_v3.py" "pack_validate.py" "THIRD-PARTY-NOTICES.md" "icon.png" "logo.png" "assets/" "mutagen/" "third_party/" "visualizer-packs/arcade/" "visualizer-packs/volume1/"
+          if git diff --cached --quiet; then
+            echo "No runtime differences; published files already match"
+          else
+            git commit -m "release: synchronize exact published 4.5.8 plugin runtime"
+            git push origin "HEAD:release-prep/4.5.8"
+          fi
