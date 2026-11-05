@@ -1,11 +1,11 @@
-## 4.5.8 · Release preparation (not yet publicly published)
+## 4.5.8 · Stable public release (November 5, 2026)
 
 - Six built-in visualizers, optional imported collections, and a controller-friendly two-column selection grid.
 - Dual-player eight-second crossfade improvements and optional in-visualizer progress display.
 - GTM and ResonaDeck now share live visualizer ON/OFF through a version-independent bridge; last explicit user action wins.
 - Updated CSS-theme contrast, compact welcome/branding, Game Card Music layout, and sleep/wake recovery safeguards.
 
-See [release notes](docs/RELEASE_NOTES_4.5.8.md) for scope and caveats. **Publish the matching 4.5.8 runtime and named ZIP asset before marking this released.**
+See [release notes](docs/RELEASE_NOTES_4.5.8.md) for scope and caveats. The published [V4.5.8 release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8) includes the verified named installer ZIP.
 
 > **Project status (November 3, 2026):** GTM 4.4.9 is feature-complete for its present music-first direction and has entered **active maintenance**. Future releases prioritize bug fixes, compatibility, reliability and narrow polish rather than major new features. This is a documentation/maintenance-policy change, **not a new plugin release or version bump**. See [Maintenance Policy](docs/MAINTENANCE.md).
 
