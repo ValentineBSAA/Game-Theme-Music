@@ -1,6 +1,6 @@
 # 🎵 GTM community ideas and feature requests
 
-GTM is a **music-first Steam Deck plugin** maintained by Valentine. **4.4.9 is feature-complete for its current direction and in active maintenance.** The priority is fixing bugs, preventing regressions, supporting SteamOS/Decky changes and improving reliability, not adding a constant stream of new features. The project is **not abandoned**. [Read the maintenance policy](MAINTENANCE.md). In the current **4.4.9** release, Arcade-themed visualizers are **automatic AI spectator scenes**, not human-playable games. The playable Arcade and early-alpha Chess described in older 4.4.1 notes are historical experiments, not active 4.4.9 features.
+GTM is a **music-first Steam Deck plugin** maintained by Valentine. **4.5.8 is feature-complete for its current direction and in active maintenance.** The priority is fixing bugs, preventing regressions, supporting SteamOS/Decky changes and improving reliability, not adding a constant stream of new features. The project is **not abandoned**. [Read the maintenance policy](MAINTENANCE.md). In the current **4.5.8** release, Arcade-themed visualizers are **automatic AI spectator scenes**, not human-playable games. The playable Arcade and early-alpha Chess described in older 4.4.1 notes are historical experiments, not active 4.5.8 features.
 
 ## Participate
 
@@ -27,4 +27,4 @@ Look for existing ideas first; supporting a related issue is helpful. If yours i
 
 The earlier feature-priority poll used reactions on individual option comments. It is now **archived as an earlier planning discussion**, not an invitation to assume new visualizer or Arcade features are coming. GitHub Discussions is not enabled for this repository, so Issues remains the supported feedback channel.
 
-[Maintenance policy](MAINTENANCE.md) · [Back to GTM](../README.md) · [Getting started](GETTING_STARTED.md) · [Current release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9)
+[Maintenance policy](MAINTENANCE.md) · [Back to GTM](../README.md) · [Getting started](GETTING_STARTED.md) · [Current release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8)
