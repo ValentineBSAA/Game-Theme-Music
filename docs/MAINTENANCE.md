@@ -1,4 +1,4 @@
-# GTM Maintenance Policy | Version 4.4.9 onward
+# GTM Maintenance Policy | Version 4.5.8 onward
 
 **Developer and maintainer: Valentine**  
 **Project status: Feature-complete for the current music-first direction. Actively maintained.**
@@ -32,7 +32,7 @@ Use **Quick Access → GTM → Visualizers → Enable Home visualizers → OFF**
 
 Use the [bug report form](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md). Please include:
 
-1. GTM version (currently **4.4.9**), Steam Deck OLED/LCD, SteamOS and Decky Loader versions if known.
+1. GTM version (currently **4.5.8**), Steam Deck OLED/LCD, SteamOS and Decky Loader versions if known.
 2. What happened, what should have happened and steps to reproduce.
 3. The affected area: game soundtrack, Ambient, Store, visualizer collection, AI spectator, pack manager, CSS theme, or ResonaDeck integration.
 4. Relevant settings: visualizers ON/OFF, Shuffle All, Default/Couch-TV, palette, selected scene, sleep/wake or controller details.
@@ -42,7 +42,7 @@ I may ask for a confirmation on real hardware before considering a change fully 
 
 ## Release approach
 
-- **4.4.9 remains the current public release.** No version bump is required to declare maintenance status.
+- **4.5.8 is the current public stable release.** The maintenance policy does not itself require further version changes.
 - Patches are released when a real fix or compatibility update is ready and verified. There is **no fixed release cadence**.
 - Existing functions and settings should be preserved unless a documented bug or compatibility issue requires a change.
 - Run relevant automated checks and actual Steam Deck testing where possible. Automated tests alone do not prove universal hardware compatibility.
