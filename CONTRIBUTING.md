@@ -1,6 +1,6 @@
 # Contributing to Game Theme Music
 
-**Maintainer: Valentine · Current public version: 4.4.9 · Active maintenance**
+**Maintainer: Valentine · Current public version: 4.5.8 · Active maintenance**
 
 Thank you for your interest in improving GTM. The current music-first experience is **feature-complete for its present direction**. Contributions are most valuable when they repair or verify something existing rather than expand the plugin into a new product.
 
@@ -15,7 +15,7 @@ Thank you for your interest in improving GTM. The current music-first experience
 
 - Preserve music playback, stored playlists and explicit OFF choices. Visualizers themselves are **optional** and must never be required for music.
 - Keep controller navigation and Default/Couch-TV layouts usable, including with CSS themes.
-- Avoid changing the published 4.4.9 tag or release ZIP for a source-only/documentation PR.
+- Avoid changing the published 4.5.8 tag or release ZIP for a source-only/documentation PR.
 - Never put access tokens, account credentials, user-private music libraries or personally identifying details in commits or issue logs.
 - Write or update a regression test when feasible. Explain which behavior was tested in the PR.
 - Prefer an actual Steam Deck or docked setup check for UI, audio focus and sleep/wake work. Be clear when hardware testing was not available.
@@ -28,4 +28,4 @@ The read-only [GTM regression workflow](.github/workflows/publish-369-source.yml
 
 There is no guaranteed response time or automatic merge approval. The maintainer chooses which changes fit GTM's maintenance scope. Reports and fixes may be deferred if they can't be reproduced or if the cost and risk outweigh the benefit.
 
-[Current release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) · [Bug form](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) · [Maintenance policy](docs/MAINTENANCE.md)
+[Current release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8) · [Bug form](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) · [Maintenance policy](docs/MAINTENANCE.md)
