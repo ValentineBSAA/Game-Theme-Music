@@ -1,0 +1,54 @@
+# One-time lease-guarded correction of a release tag created before source synchronization.
+# The published installer ZIP is immutable and is NEVER modified by this workflow.
+name: Align V4.5.8 source tag with verified runtime
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/align-458-release-tag.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  align-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Validate current source against exact published ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --retry-delay 3 --output "$RUNNER_TEMP/Game-Theme-Music-4.5.8.zip" \
+            "https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.5.8/Game-Theme-Music-4.5.8.zip"
+          echo "4c3ace93a998a2dab7c023e507c19ab0dae8b5b5756bc1ea328e3a325b340324  $RUNNER_TEMP/Game-Theme-Music-4.5.8.zip" | sha256sum -c -
+          export INSTALLER="$RUNNER_TEMP/Game-Theme-Music-4.5.8.zip"
+          python3 - <<'PY'
+          import json, os, pathlib, zipfile
+          archive=pathlib.Path(os.environ['INSTALLER'])
+          with zipfile.ZipFile(archive) as z:
+              assert z.testzip() is None
+              for path in ["dist/index.js","main.py","plugin.json","package.json","visualizer-packs/volume1/manifest.json"]:
+                  assert pathlib.Path(path).read_bytes() == z.read('Game-Theme-Music/'+path), f'mismatch: {path}'
+              assert json.loads(pathlib.Path('package.json').read_text())['version']=='4.5.8'
+              assert json.loads(pathlib.Path('plugin.json').read_text())['version']=='4.5.8'
+          print('Verified V4.5.8: source bytes match published installer')
+          PY
+      - name: Correct original tag only if it still points to the observed old source
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected_old="7f7e393b3a4d0a60f1b26c2a6ca81b7f9a541edc"
+          current="$(git ls-remote --tags origin "refs/tags/V4.5.8" | awk '{print $1}')"
+          if [[ "$current" == "$GITHUB_SHA" ]]; then
+            echo "V4.5.8 already points to this verified commit"
+            exit 0
+          fi
+          if [[ "$current" != "$expected_old" ]]; then
+            echo "::error::Tag was independently moved. Expected $expected_old, got $current; refusing to rewrite."
+            exit 1
+          fi
+          git push --force-with-lease="refs/tags/V4.5.8:$expected_old" origin "HEAD:refs/tags/V4.5.8"
+          echo "V4.5.8 aligned to verified source commit $GITHUB_SHA"
