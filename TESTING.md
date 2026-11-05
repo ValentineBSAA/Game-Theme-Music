@@ -1,3 +1,5 @@
+> **Current stable release:** GTM 4.5.8 ([published installer](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8)). This document preserves the 4.4.9 hardware and physics regression history below. The current GitHub Actions check validates 4.5.8 metadata, JavaScript/Python syntax and published-runtime synchronization; the older fixed-version Pong test files are not automatically rerun against 4.5.8. The maintainer separately verified 4.5.8 ↔ ResonaDeck visualizer controls on Steam Deck. For the newest changes, see [4.5.8 release notes](docs/RELEASE_NOTES_4.5.8.md).
+
 # Game Theme Music 4.4.9: testing and maintenance verification
 
 **Maintainer: Valentine.** GTM is feature-complete for its current music-first direction and is **actively maintained**, not abandoned. See the [maintenance policy](docs/MAINTENANCE.md).
@@ -24,7 +26,7 @@ The repository's **GTM version-aware source and regression checks** GitHub Actio
 
 ## Existing installer and historical build record
 
-The currently published [V4.4.9 ZIP](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) remains the standalone Decky installer. The archived *historical build provenance* described in [SOURCE.md](SOURCE.md) references a previous 4.4.1 beta installer that is no longer a published GitHub release asset. **Do not restore or republish 4.4.1 as a prerequisite**. No older installer is needed to install 4.4.9.
+The previous published [V4.4.9 ZIP](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) remains a historical standalone Decky installer. The archived *historical build provenance* described in [SOURCE.md](SOURCE.md) references a previous 4.4.1 beta installer that is no longer a published GitHub release asset. **Do not restore or republish 4.4.1 as a prerequisite**. No older installer is needed to install 4.5.8.
 
 For future bug-fix releases, validate current sources and the resulting installable ZIP separately, including device verification when possible. A new version should ship only when there is a real fix worth delivering; there is no fixed release cadence.
 
