@@ -1,3 +1,5 @@
+> **Release preparation:** GTM 4.5.8 has been tested on Steam Deck and its installer is prepared. See [4.5.8 release notes](docs/RELEASE_NOTES_4.5.8.md) and [asset checksum](docs/RELEASE_ASSET_SHA256_4.5.8.txt). The public 4.4.9 release remains current **until the 4.5.8 runtime and asset are published**.
+
 <div align="center">
 
 ![Game Theme Music banner](assets/game-theme-music-banner.webp)
