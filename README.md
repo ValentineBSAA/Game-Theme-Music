@@ -11,6 +11,8 @@
 
 </div>
 
+> **Next stable build: GTM 4.6.5 (hardware-tested, installer upload pending).** The [4.6.5 documentation](docs/RELEASE_NOTES_4.6.5.md) covers customizable Library context-menu shortcuts, A–Z Quick Menu navigation, Store Music recovery, performance work and visualizer behavior paired with ResonaDeck 1.5.6. **The latest published download is still 4.5.8** until the new release asset is uploaded; do not use GitHub's source-code ZIP as an installer. [Testing details](TESTING.md).
+
 **Game Theme Music (GTM)** is a music-first Decky Loader plugin for Steam Deck. Play soundtracks for Steam and non-Steam games, add music to Home and Store browsing, and customize music-reactive visual worlds. GTM also offers optional **AI-versus-AI spectator visualizers** that animate automatically alongside music. **Arcade Spectator remains a watch-only, AI-versus-AI feature in 4.5.8; it does not advertise human-playable multiplayer.**
 
 > **Current direction:** GTM 4.5.8 is **feature-complete for now and actively maintained**. I'm focusing on reliability, bug fixes, SteamOS/Decky compatibility, playback, settings and polish rather than adding more major features. **GTM is not abandoned or end-of-life.** [Read the maintenance policy](docs/MAINTENANCE.md).
@@ -40,7 +42,7 @@ Verify the installable ZIP against [the recorded SHA-256 checksum](docs/RELEASE_
 | 🌈 **Visual Worlds** | **Expanded visualizer collection**, including original retro, rhythm, signature, anime and spectator-style scenes; optional custom packs. |
 | 🏓 **Arcade Spectator** | **Watch-only AI-versus-AI scenes**, adaptive Pong opponents, auto-changing paddles, arenas, ball physics and **32 powers/effects**. No gameplay controls or multiplayer matchmaking. |
 | 🎨 **Customize** | Controller-friendly Visualizers and Arcade Spectator tabs, nested scene categories, palette and color settings, music reactivity and Default / Couch-TV footer layout. |
-| 🎧 **ResonaDeck** | Compatible music-reactive integration and bidirectional live visualizer ON/OFF with ResonaDeck 1.4.9. |
+| 🎧 **ResonaDeck** | Music-reactive integration and live visualizer ON/OFF. The verified 4.6.5 pairing is ResonaDeck 1.5.6; an enabled visualizer stays hidden until eligible music plays. |
 
 ## 📸 Previous-version Steam Deck screenshots (4.4.9)
 
@@ -57,6 +59,10 @@ Verify the installable ZIP against [the recorded SHA-256 checksum](docs/RELEASE_
 Open **Decky Quick Access → GTM → Visualizers** to choose a collection and then a scene. Opening a collection only browses it; select a scene to activate it. The **Arcade Spectator** page controls the autonomous spectator visuals. Both areas expose relevant color, reaction and layout controls. **Shuffle All Visualizers on Track Change** is optional and its explicitly saved Off state is designed to survive updates.
 
 For Couch/TV viewing, choose the larger footer layout; choose Default for a compact Home layout. [Step-by-step controls](docs/GETTING_STARTED.md).
+
+### Preparing GTM 4.6.5
+
+The maintainer has verified the new **independent Library context-menu visibility controls** (Change Music, Change Ambient Playlist and Change Store Playlist), the **Browse all pages · A–Z** dropdown, and Store Music recovery. Paired with **ResonaDeck 1.5.6**, saved visualizer settings no longer trigger unwanted ON commands when the plugins start: the Home visualizer remains hidden without music and activates during eligible playback when enabled. See the [4.6.5 release notes](docs/RELEASE_NOTES_4.6.5.md). The 4.6.5 ZIP has not yet been uploaded to GitHub.
 
 ### What's new in 4.5.8?
 
