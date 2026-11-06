@@ -12612,6 +12612,14 @@ const GTM460_CSS = `
   color: var(--gtm-interactive-accent,var(--gtm-text)) !important;
   font-weight: 900 !important;
 }
+/* 4.6.1: the real Quick Menu image badge needs readable contrast too. */
+.gtm-root.gtm-v301-root .gtm-v301-brand-badges .gtm-v301-brand-version {
+ color:#ffffff !important; background:#253451 !important;
+ border:1px solid #b1e9ff !important; border-left:3px solid #6be0fa !important;
+ font-size:10px !important;font-weight:950 !important;
+ text-shadow:0 1px 2px #000 !important;
+ box-shadow:0 2px 8px rgba(0,0,0,.55) !important;
+}
 @media (prefers-reduced-motion: reduce) {
  .gtm-root .gtm-switch-button,.gtm-root .gtm-switch-pill,.gtm-root .gtm-switch-state { transition: none !important; }
 }
@@ -13295,15 +13303,15 @@ function LegacyIndex() {
 // 3.0.0 controller-first application shell ----------------------------------
 const GTM_V3_PAGE_KEY = 'gtm:v3:last-page';
 const GTM_V3_PAGES = [
-    { id: 'now', label: 'Now', icon: '♫' },
-    { id: 'game', label: 'Game', icon: '◆' },
     { id: 'ambient', label: 'Ambient', icon: '☁' },
-    { id: 'store', label: 'Store', icon: '▣' },
-    { id: 'library', label: 'Library', icon: '▦' },
-    { id: 'visualizers', label: 'Visualizers', icon: '◉' },
     { id: 'arcade', label: 'Arcade', icon: '✧' },
+    { id: 'game', label: 'Game', icon: '◆' },
+    { id: 'health', label: 'Health', icon: '✦' },
+    { id: 'library', label: 'Library', icon: '▦' },
+    { id: 'now', label: 'Now', icon: '♫' },
     { id: 'settings', label: 'Settings', icon: '⚙' },
-    { id: 'health', label: 'Health', icon: '✦' }
+    { id: 'store', label: 'Store', icon: '▣' },
+    { id: 'visualizers', label: 'Visualizers', icon: '◉' }
 ];
 function gtmV3LoadPage() {
     try {
@@ -14597,16 +14605,17 @@ function GtmV301Icon({ name, size = 20 }) {
     return window.SP_REACT.createElement('svg', common, ...children);
 }
 
+// 4.6.1: alphabetic navigation for visible tabs and LB/RB; stable IDs retain saved page.
 const GTM_V301_PAGES = [
-    { id: 'now', label: 'Now Playing', short: 'Now', icon: 'music' },
-    { id: 'game', label: 'Game Card Music', short: 'Cards', icon: 'game' },
-    { id: 'ambient', label: 'Ambient', short: 'Ambient', icon: 'ambient' },
-    { id: 'store', label: 'Store Music', short: 'Store', icon: 'store' },
-    { id: 'library', label: 'Music Library', short: 'Library', icon: 'library' },
-    { id: 'visualizers', label: 'Visualizers', short: 'Visuals', icon: 'visualizers' },
+    { id: 'ambient', label: 'Ambient Music', short: 'Ambient', icon: 'ambient' },
     { id: 'arcade', label: 'Arcade Spectator', short: 'Arcade', icon: 'spectator' },
+    { id: 'game', label: 'Game Card Music', short: 'Cards', icon: 'game' },
+    { id: 'health', label: 'Health', short: 'Health', icon: 'health' },
+    { id: 'library', label: 'Music Library', short: 'Library', icon: 'library' },
+    { id: 'now', label: 'Now Playing', short: 'Now', icon: 'music' },
     { id: 'settings', label: 'Settings', short: 'Settings', icon: 'settings' },
-    { id: 'health', label: 'Health', short: 'Health', icon: 'health' }
+    { id: 'store', label: 'Store Music', short: 'Store', icon: 'store' },
+    { id: 'visualizers', label: 'Visualizers', short: 'Visuals', icon: 'visualizers' }
 ];
 
 function GtmV301BrandBanner({ onActivate }) {
@@ -14646,7 +14655,7 @@ function GtmV301PageRail({ activePage, onPrevious, onNext }) {
             window.SP_REACT.createElement('span', { className: 'gtm-v301-page-current-icon' }, window.SP_REACT.createElement(GtmV301Icon, { name: current.icon, size: 22 })),
             window.SP_REACT.createElement('span', { className: 'gtm-v301-page-current-copy' },
                 window.SP_REACT.createElement('strong', null, current.label),
-                window.SP_REACT.createElement('small', null, `${index + 1} of ${GTM_V301_PAGES.length} · LB/RB changes pages`))),
+                window.SP_REACT.createElement('small', null, `${index + 1} of ${GTM_V301_PAGES.length} · A–Z · LB/RB to browse`))),
         window.SP_REACT.createElement('div', {
             className: 'gtm-v301-page-button gtm-v301-page-next gtm-v349-shoulder-display',
             onClick: () => onNext('button'),
@@ -17012,12 +17021,14 @@ function Gtm448HomeWelcome(){
     e('h1',{style:{fontSize:'clamp(23px,3vw,30px)',lineHeight:1.13,margin:'5px 0 6px',color:'#ffffff'}},'Thank you for being here'),
     e('div',{style:{fontWeight:700,color:'#d3c5ff',fontSize:13,marginBottom:12}},`GTM ${GTM_VERSION} · Community testing`),
     e('p',{style:{fontSize:'clamp(14px,1.7vw,17px)',lineHeight:1.48,margin:'0 auto 13px',maxWidth:600}},
-     'Thank you for testing Game Theme Music and for being part of the community. Your feedback, ideas and bug reports help make GTM better for everyone.'),
+     'Welcome to GTM 4.6.1 testing! Your feedback helped simplify the Library menu without removing your music features. This update makes navigation clearer, too.'),
     e('div',{className:'gtm455-welcome-highlights',style:{margin:'0 auto 15px',maxWidth:580,padding:'9px 13px',borderRadius:10,
        border:'1px solid rgba(136,210,251,.36)',background:'rgba(255,255,255,.055)',fontSize:12.5,lineHeight:1.5,color:'#e2eafa',textAlign:'left'}},
-      e('strong',{style:{display:'block',fontSize:12,letterSpacing:.65,color:'#9beafa',marginBottom:2}},'4.5.8 HIGHLIGHTS'),
-      e('span',{style:{display:'block'}},'GTM and ResonaDeck power toggles work both ways'),
-      e('span',{style:{display:'block'}},'Latest button press wins · Audio stays uninterrupted')),
+      e('strong',{style:{display:'block',fontSize:12,letterSpacing:.65,color:'#9beafa',marginBottom:2}},'4.6.1 TEST · WHAT IS NEW'),
+      e('span',{style:{display:'block'}},'Only three Library menu switches: Change Music, Ambient Playlist, and Store Playlist.'),
+      e('span',{style:{display:'block'}},'Hide any combination of those shortcuts without stopping playback or deleting music.'),
+      e('span',{style:{display:'block'}},'Browse GTM pages alphabetically with LB/RB. Game Card Music, Health, and Now Playing are easier to find.'),
+      e('span',{style:{display:'block'}},'Quick ON/OFF lighting stays smooth; the banner version is easier to read.')),
     e('div',{className:'gtm455-developer-credit',style:{display:'flex',alignItems:'center',justifyContent:'center',gap:9,
        margin:'0 auto 15px',fontSize:14,color:'#edf6ff',fontWeight:800}},
       e('img',{className:'gtm455-developer-avatar',src:GTM453_GITHUB_AVATAR,alt:'ValentineBSAA avatar',
