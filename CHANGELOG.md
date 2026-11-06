@@ -1,3 +1,16 @@
+## 4.6.5 | Stable-ready maintenance update (November 6, 2026)
+
+**Validated locally and by the maintainer on a Steam Deck; the GitHub release ZIP is awaiting upload.** The previously published GitHub installer is still V4.5.8 until the new release is uploaded.
+
+- **Library context-menu control (fixes #10):** independent visibility switches for Change Music, Change Ambient Playlist and Change Store Playlist. Mixed ON/OFF combinations work without disabling music or erasing playlists; the unrelated TitleDeck menu is left alone.
+- **Quick Menu navigation:** A–Z page dropdown plus LB/RB section switching, with competing focus/scroll operations removed to reduce visible jumping.
+- **Performance cleanup:** less redundant Ambient/Store storage activity, narrower Steam theme observation, cleaner background listener/bridge lifecycle; no wholesale removal of features.
+- **Store Music:** corrected a regression introduced during optimization; the maintainer confirmed playback returned in 4.6.4 and the fix carries forward.
+- **Visualizer sharing:** with ResonaDeck 1.5.6, startup preferences no longer masquerade as deliberate toggle commands. GTM's Home visualizer stays hidden while no eligible music plays, even if enabled, and appears during supported playback. OFF from either plugin hides visuals without stopping music.
+- **Preserved:** YT-DLP and QuickJS executables, Ambient, music playlists, CSS Loader theme adaptation, crossfade and existing watch-only Arcade Spectator features.
+
+**Verification:** physical Deck checks for context-menu controls, Store Music recovery, styled ResonaDeck Quick Menu and idle-versus-playing visualizer behavior; focused offline regression tests and syntax/archive checks. This is not a claim of exhaustive Decky/SteamOS compatibility. See [4.6.5 release notes](docs/RELEASE_NOTES_4.6.5.md) and [testing status](TESTING.md).
+
 ## 4.5.8 · Stable public release (November 5, 2026)
 
 - Six built-in visualizers, optional imported collections, and a controller-friendly two-column selection grid.
