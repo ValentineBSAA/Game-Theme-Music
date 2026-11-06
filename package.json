@@ -1,7 +1,7 @@
 {
   "name": "sdh-gamethememusic",
-  "version": "4.6.0",
-  "description": "GTM 4.6.0 TEST: configurable library context-menu visibility, faster switch feedback and contrast-safe version banners.",
+  "version": "4.6.1",
+  "description": "GTM 4.6.1 TEST: three GTM-only context-menu switches, alphabetical Quick Menu navigation, a clearer welcome and theme-safe version badge.",
   "type": "module",
   "scripts": {
     "build": "rollup -c",
