@@ -1,3 +1,5 @@
+> **Historical release-candidate notes:** This 4.6.5 document records a then-unresolved ResonaDeck audio-reactivity test. The currently released version is [GTM 4.6.7](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.6.7). Music reactivity was subsequently observed working after refreshing ResonaDeck's sharing switch. See the [current 4.6.7 notes](RELEASE_NOTES_4.6.7.md).
+
 # Game Theme Music 4.6.5 | Stable maintenance, controller polish and shared visualizers
 
 **Developer:** Valentine  
