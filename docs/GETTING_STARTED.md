@@ -45,14 +45,14 @@ Open **Quick Access → GTM → Visualizers**. Browse the two-column controller-
 
 The **Arcade Spectator** Quick Menu page controls optional automatic exhibitions. Neon Paddle has Classic, Thunder and Starlight versions. AI 1 and AI 2 play without human input; paddle colors, arena backgrounds, ball appearances and effects can change automatically. The system includes **32 ball powers** and adaptive AI.
 
-There are **no player-versus-AI, player-versus-player, controller claiming or matchmaking controls** in the current 4.5.8 edition. "Arcade" refers to visualizers, not playable games.
+There are **no player-versus-AI, player-versus-player, controller claiming or matchmaking controls** in the current 4.6.7 edition. "Arcade" refers to visualizers, not playable games.
 
 ## What updates should I expect?
 
-**4.5.8 continues the music-first direction and is actively maintained.** I continue fixing issues, following platform compatibility and maintaining the existing playback and visualizer features. This does not mean the plugin is abandoned or that all hardware configurations have been fully tested. There's no promised update schedule. Read the [maintenance policy](MAINTENANCE.md) for the current priorities and how to report problems.
+**4.6.7 continues the music-first direction and is actively maintained.** I continue fixing issues, following platform compatibility and maintaining the existing playback and visualizer features. This does not mean the plugin is abandoned or that all hardware configurations have been fully tested. There's no promised update schedule. Read the [maintenance policy](MAINTENANCE.md) for the current priorities and how to report problems.
 
 ## Need help?
 
 Check [hardware compatibility and limitations](STEAMOS_COMPATIBILITY.md), [testing scope](../TESTING.md), or [report a bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md). Include what you expected, what happened and the GTM version, plus Deck/SteamOS details when available. Screenshots are optional; remove private data.
 
-[Back to GTM homepage](../README.md) · [Release notes](RELEASE_NOTES_4.5.8.md)
+[Back to GTM homepage](../README.md) · [Release notes](RELEASE_NOTES_4.6.7.md)
