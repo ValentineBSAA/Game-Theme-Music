@@ -3,3 +3,8 @@ node_modules/
 .DS_Store
 *.log
 dist/*.map
+
+# Python generated files and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
