@@ -37,7 +37,7 @@ const legacy=pageRows('const GTM_V3_PAGES = [','function gtmV3LoadPage');
 const manager=pageRows('const GTM_V330_MANAGER_SECTIONS = [','function gtmV330ReadLaunch');
 assertAlphabetical(quick,9);assertAlphabetical(legacy,9);assertAlphabetical(manager,6);
 assert.deepEqual(quick.map(x=>x.id),legacy.map(x=>x.id));
-assert.deepEqual(quick.map(x=>x.id),['arcade','ambient','game','health','library','now','settings','store','visualizers']);
+assert.deepEqual(quick.map(x=>x.id),['ambient','arcade','game','health','library','now','settings','store','visualizers']);
 assert.deepEqual(manager.map(x=>x.id),['ambient','find','games','import','library','store']);
 assert.ok(runtime.includes("localStorage.getItem(GTM_V3_PAGE_KEY)"),'Existing page selection storage preserved');
 assert.ok(runtime.includes('GTM_V301_PAGES.findIndex'),'LB/RB still use current ordered page IDs');
