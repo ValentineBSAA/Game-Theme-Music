@@ -6,7 +6,7 @@ This is a test build for the November 6, 2026 user-feedback cleanup. It is not a
 - Settings → Library Context Menu now contains **only three** independent controls: Change Music, Change Ambient Music Playlist, and Change Store Music Playlist.
 - Every switch defaults ON; OFF hides only its corresponding GTM shortcut. Saved music, playlist contents, and playback remain untouched.
 - Removed all 4.6.0 experimental handling of TitleDeck, Change Artwork, and Steam Developer context-menu entries. Other plugins and native Steam entries are untouched.
-- Nine Quick Menu pages now appear A-Z: Arcade Spectator, Ambient Music, Game Card Music, Health, Music Library, Now Playing, Settings, Store Music, Visualizers.
+- Nine Quick Menu pages now appear A-Z: Ambient Music, Arcade Spectator, Game Card Music, Health, Music Library, Now Playing, Settings, Store Music, Visualizers.
 - The six Full Manager sections also appear A-Z. Page route IDs and saved page keys have not changed.
 - More descriptive labels, guidance for hidden shortcuts, and an A-Z page hint accompany navigation.
 - Version-specific Steam Home welcome now summarizes 4.6.1 changes. The **actual Quick Menu banner** version badge has theme-aware text and background. The tested fast switch light response is preserved.
