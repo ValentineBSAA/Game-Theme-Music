@@ -1,15 +1,17 @@
-## 4.6.5 | Stable-ready maintenance update (November 6, 2026)
+## 4.6.7 | Stable public release (November 6, 2026)
 
-**Several features were validated locally and on Steam Deck, but public release is paused: ResonaDeck 1.5.6 audio-frequency reactivity remains unresolved.** The previously published GitHub installer is still V4.5.8 until the new release is uploaded.
+- **Community-requested Library menu controls (resolves #10):** independent hide/show switches for Change Music, Change Ambient Playlist and Change Store Playlist. Verified mixed combinations on Deck; music features remain available.
+- **Quick Access usability:** A–Z section dropdown, LB/RB focus/scroll improvements, adaptive theme observations with fewer unnecessary checks.
+- **Native Steam Store and Decky Plugin Store:** improved detection on entry and exit, including native Steam Store lingering music, Decky Store overlays over a stale Home route, and audio startup after hot plugin updates.
+- **Store player recovery:** previously READY-but-silent Store player can be started; deliberate pause and existing ResonaDeck playback retain priority.
+- **Audio coordination / visualizer behavior:** GTM 4.6.7 + ResonaDeck 1.5.7 share live visualizer control; a saved ON preference does not force idle Home visuals. Audio-frequency reaction was confirmed after the ResonaDeck share toggle was refreshed; automatic first-connect on every configuration is not universally verified.
+- **Efficiency:** filtered redundant Ambient/Store state writes, tightened theme watching and cleanup. **YT-DLP and QuickJS preserved.**
+- **Maintainer acceptance:** both Store surfaces start music, leave/stop appropriately and yield to ongoing ResonaDeck playback, tested on a physical Steam Deck **without rebooting** after updating. Automated syntax, archive and focused Store navigation checks also passed. No claim of universal SteamOS/theme compatibility.
 
-- **Library context-menu control (fixes #10):** independent visibility switches for Change Music, Change Ambient Playlist and Change Store Playlist. Mixed ON/OFF combinations work without disabling music or erasing playlists; the unrelated TitleDeck menu is left alone.
-- **Quick Menu navigation:** A–Z page dropdown plus LB/RB section switching, with competing focus/scroll operations removed to reduce visible jumping.
-- **Performance cleanup:** less redundant Ambient/Store storage activity, narrower Steam theme observation, cleaner background listener/bridge lifecycle; no wholesale removal of features.
-- **Store Music:** corrected a regression introduced during optimization; the maintainer confirmed playback returned in 4.6.4 and the fix carries forward.
-- **Visualizer sharing:** with ResonaDeck 1.5.6, startup preferences no longer masquerade as deliberate toggle commands. GTM's Home visualizer stays hidden while no eligible music plays, even if enabled, and appears during supported playback. OFF from either plugin hides visuals without stopping music.
-- **Preserved:** YT-DLP and QuickJS executables, Ambient, music playlists, CSS Loader theme adaptation, crossfade and existing watch-only Arcade Spectator features.
+**Current installer:** [Game-Theme-Music-4.6.7.zip](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.6.7/Game-Theme-Music-4.6.7.zip) · [Full release notes](docs/RELEASE_NOTES_4.6.7.md) · [Testing](TESTING.md) · [SHA-256](docs/RELEASE_ASSET_SHA256_4.6.7.txt).
 
-**Verification:** physical Deck checks for context-menu controls, Store Music recovery, styled ResonaDeck Quick Menu and idle-versus-playing visualizer visibility. **Not passed: ResonaDeck frequency-responsive visualizer movement**; focused offline regression tests and syntax/archive checks. This is not a claim of exhaustive Decky/SteamOS compatibility. See [4.6.5 release notes](docs/RELEASE_NOTES_4.6.5.md) and [testing status](TESTING.md).
+### Earlier 4.6.x iterations (not separate current releases)
+4.6.1–4.6.6 were maintainer-tested maintenance iterations covering context-menu settings, menu performance, ResonaDeck visualizer coordination and Store Music startup. The 4.6.5 candidate was temporarily held when audio-reactive telemetry required a manual reconnect; later testing demonstrated frequency response after toggling the ResonaDeck switch, and 4.6.7 passed the final Store tests. These milestones are historical; install **4.6.7**.
 
 ## 4.5.8 · Stable public release (November 5, 2026)
 
