@@ -8,6 +8,7 @@ on:
       - 'main.py'
       - 'package.json'
       - 'plugin.json'
+      - 'CHANGELOG.md'
       - 'tests/gtm_461_menu_and_navigation.cjs'
       - '.github/workflows/build-461-test.yml'
   workflow_dispatch:
@@ -46,12 +47,13 @@ jobs:
           src=pathlib.Path(os.environ['GTM_TEST_BASE'])
           out=pathlib.Path('dist-test/Game-Theme-Music-4.6.1-TEST.zip')
           base='Game-Theme-Music/'
-          overlays=('dist/index.js','main.py','plugin.json','package.json')
+          overlays=('dist/index.js','main.py','plugin.json','package.json','CHANGELOG.md')
           patch={base+name:pathlib.Path(name).read_bytes() for name in overlays}
           assert json.loads(patch[base+'plugin.json'])['version']=='4.6.1'
           assert json.loads(patch[base+'package.json'])['version']=='4.6.1'
           assert b'const GTM_VERSION = "4.6.1";' in patch[base+'dist/index.js']
           assert b'4.6.1' in patch[base+'main.py']
+          assert b'4.6.1' in patch[base+'CHANGELOG.md']
           with zipfile.ZipFile(src) as zin,zipfile.ZipFile(out,'w') as zout:
               assert zin.testzip() is None
               entries=set(zin.namelist())
@@ -63,6 +65,7 @@ jobs:
               assert z.testzip() is None
               assert json.loads(z.read(base+'plugin.json'))['version']=='4.6.1'
               assert z.read(base+'dist/index.js')==patch[base+'dist/index.js']
+              assert z.read(base+'CHANGELOG.md')==patch[base+'CHANGELOG.md']
               assert len(z.namelist())==len(entries)
           checksum=hashlib.sha256(out.read_bytes()).hexdigest()
           pathlib.Path('dist-test/SHA256.txt').write_text(f'{checksum}  {out.name}\n')
