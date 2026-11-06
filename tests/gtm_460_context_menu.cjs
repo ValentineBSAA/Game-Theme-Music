@@ -27,7 +27,7 @@ const mock={
 const ctx=vm.createContext(mock);
 const code=section('const spliceChangeMusic =','const handleItemDupes =')+
  section('function gtm460MenuLabel(row)','const patchMenuItems =')+
- '\\nthis.suite={spliceChangeMusic,gtm460FilterExternalMenuItems};';
+ '\nthis.suite={spliceChangeMusic,gtm460FilterExternalMenuItems};';
 vm.runInContext(code,ctx,{timeout:1000});
 const {spliceChangeMusic,gtm460FilterExternalMenuItems}=ctx.suite;
 function menu(flags={}){
