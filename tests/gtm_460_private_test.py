@@ -23,7 +23,7 @@ flags = [
     "contextMenuShowDeveloper",
 ]
 for flag in flags:
-    assert re.search(r"\\b" + flag + r": true\\b", js), f"Missing enabled default: {flag}"
+    assert f"{flag}: true" in js, f"Missing enabled default: {flag}"
     assert f"value?.{flag} !== false" in js, f"Missing persisted settings normalization: {flag}"
     assert f"['{flag}'" in js, f"Missing settings switch: {flag}"
 assert "function gtm460HideOtherShortcuts" in js
