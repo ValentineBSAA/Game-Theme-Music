@@ -7,9 +7,9 @@
     "tags": [
       "audio"
     ],
-    "description": "GTM 4.6.0 TEST: configurable context-menu shortcuts and adaptive switch/version styling.",
+    "description": "GTM 4.6.1 TEST: configurable GTM menu shortcuts, A-Z pages and readable welcome/version badge.",
     "image": "https://raw.githubusercontent.com/ValentineBSAA/Game-Theme-Music/main/assets/game-theme-music-icon.webp"
   },
-  "description": "GTM 4.6.0 TEST: context-menu visibility and UI readability.",
-  "version": "4.6.0"
+  "description": "GTM 4.6.1 TEST: clean context-menu settings and alphabetical navigation.",
+  "version": "4.6.1"
 }
