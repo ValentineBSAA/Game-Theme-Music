@@ -1,3 +1,25 @@
+## 4.6.1 · Private test build (November 6, 2026)
+
+GTM 4.6.1 is a focused usability update following physical Steam Deck testing of 4.6.0. This is **not** a public Stable release.
+
+### Library Context Menu
+- Keep the three confirmed-working ON/OFF switches in **Settings → Library Context Menu**: **Change Music**, **Change Ambient Music Playlist**, and **Change Store Music Playlist**.
+- Each switch hides only its own GTM Library shortcut. All default ON and persist separately, so users can show any combination.
+- Hiding a shortcut never disables playback, clears a playlist, or removes its normal editor elsewhere in GTM.
+- Remove the unrequested, experimental **TitleDeck**, **Change Artwork**, and **Developer** controls and the code that filtered other plugins' or Steam's entries.
+
+### Navigation and presentation
+- Arrange the Quick Menu pages alphabetically: **Arcade Spectator, Ambient Music, Game Card Music, Health, Music Library, Now Playing, Settings, Store Music, Visualizers**.
+- Arrange Full Manager sections alphabetically, clarify labels and helpful descriptions, and preserve existing route IDs and saved page selections.
+- Refresh the version-specific Steam Home welcome with this build's actual changes and concise instructions.
+- Preserve the fast, non-flashing switch response confirmed on a physical Deck. Improve the **active** banner's version badge contrast in both CSS Loader light and dark themes.
+
+### Testing notes
+- The three GTM shortcut combinations and Quick Menu switch behavior were physically verified by the maintainer in 4.6.0; the 4.6.1 cleanup and page order require fresh Deck verification.
+- Test LB/RB page navigation, B to close, manager navigation and restored saved settings; run automated syntax and context-menu regression tests before installing.
+
+---
+
 ## 4.5.8 · Stable public release (November 5, 2026)
 
 - Six built-in visualizers, optional imported collections, and a controller-friendly two-column selection grid.
