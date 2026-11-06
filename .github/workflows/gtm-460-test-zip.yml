@@ -1,0 +1,65 @@
+name: GTM 4.6.0 test ZIP (not a release)
+on:
+  push:
+    branches:
+      - test/4.6.0-context-menu-visibility
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-test-zip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout isolated test branch
+        uses: actions/checkout@v4
+      - name: Validate test runtime and preference regressions
+        run: |
+          set -euo pipefail
+          node --check dist/index.js
+          node tests/gtm_460_context_menu.cjs
+          python3 -m py_compile main.py
+      - name: Download verified stable base ZIP
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --retry-delay 3 \
+            --output "$RUNNER_TEMP/Game-Theme-Music-4.5.8.zip" \
+            "https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.5.8/Game-Theme-Music-4.5.8.zip"
+          echo "4c3ace93a998a2dab7c023e507c19ab0dae8b5b5756bc1ea328e3a325b340324  $RUNNER_TEMP/Game-Theme-Music-4.5.8.zip" | sha256sum --check
+      - name: Assemble standalone installable 4.6.0 TEST ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          export BASE_ZIP="$RUNNER_TEMP/Game-Theme-Music-4.5.8.zip"
+          python3 - <<'PY'
+          import json, os, pathlib, zipfile, hashlib
+          root='Game-Theme-Music/'
+          base=pathlib.Path(os.environ['BASE_ZIP'])
+          output=pathlib.Path('Game-Theme-Music-4.6.0-TEST.zip')
+          overlays={root+k:pathlib.Path(k).read_bytes() for k in
+                    ['dist/index.js','main.py','package.json','plugin.json']}
+          with zipfile.ZipFile(base) as src:
+              assert src.testzip() is None, 'Base archive corrupted'
+              names=set(src.namelist())
+              assert set(overlays).issubset(names),'Base missing a runtime file'
+              with zipfile.ZipFile(output,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as dst:
+                  for info in src.infolist():
+                      assert info.filename.startswith(root) and '..' not in pathlib.PurePosixPath(info.filename).parts
+                      dst.writestr(info,overlays.get(info.filename,src.read(info.filename)))
+          with zipfile.ZipFile(output) as built:
+              assert built.testzip() is None
+              metadata=json.loads(built.read(root+'plugin.json'))
+              pkg=json.loads(built.read(root+'package.json'))
+              assert metadata['version']==pkg['version']=='4.6.0'
+              assert b'const GTM_VERSION = "4.6.0";' in built.read(root+'dist/index.js')
+              assert built.read(root+'dist/index.js')==overlays[root+'dist/index.js']
+              assert len(built.namelist())==len(set(built.namelist())), 'duplicate ZIP entries'
+          print(output,output.stat().st_size,'bytes',hashlib.sha256(output.read_bytes()).hexdigest())
+          PY
+      - name: Upload installable test ZIP (not a public Release)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Game-Theme-Music-4.6.0-TEST
+          path: Game-Theme-Music-4.6.0-TEST.zip
+          if-no-files-found: error
+          retention-days: 14
