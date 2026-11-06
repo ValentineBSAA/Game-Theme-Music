@@ -46,12 +46,13 @@ jobs:
           source=pathlib.Path(os.environ['GTM_TEST_BASE'])
           target=pathlib.Path('dist-test/Game-Theme-Music-4.6.1-TEST.zip')
           root='Game-Theme-Music/'
-          overlay=('dist/index.js','main.py','plugin.json','package.json')
+          overlay=('dist/index.js','main.py','plugin.json','package.json','CHANGELOG.md')
           overrides={root+file:pathlib.Path(file).read_bytes() for file in overlay}
           assert json.loads(overrides[root+'plugin.json'])['version']=='4.6.1'
           assert json.loads(overrides[root+'package.json'])['version']=='4.6.1'
           assert b'const GTM_VERSION = "4.6.1";' in overrides[root+'dist/index.js']
           assert b'4.6.1' in overrides[root+'main.py']
+          assert overrides[root+'CHANGELOG.md'].startswith(b'## 4.6.1')
           with zipfile.ZipFile(source) as zin, zipfile.ZipFile(target,'w') as zout:
               assert zin.testzip() is None
               existing=set(zin.namelist())
@@ -64,6 +65,7 @@ jobs:
               assert len(z.namelist())==len(existing)
               assert z.read(root+'dist/index.js')==overrides[root+'dist/index.js']
               assert json.loads(z.read(root+'plugin.json'))['version']=='4.6.1'
+              assert z.read(root+'CHANGELOG.md').startswith(b'## 4.6.1')
           checksum=hashlib.sha256(target.read_bytes()).hexdigest()
           pathlib.Path('dist-test/SHA256.txt').write_text(f'{checksum}  {target.name}\n')
           print(f'PASS: {target}, {target.stat().st_size} bytes, sha256 {checksum}')
