@@ -1,3 +1,5 @@
+> **Historical gallery:** The images below were captured in GTM 4.4.9. The current release is [GTM 4.6.7](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.6.7); these photos do not document the newer A–Z menu or independent context-menu switches.
+
 # Game Theme Music 4.4.9: Screenshot Gallery 📸
 
 **Actual 1920 × 1080 GTM 4.4.9 Steam Home and Quick Menu screenshots supplied by Valentine.** These are the **15 screenshots shared with this release**, **not the full visualizer collection**. Some scenes, powers, color variations, and packs are not pictured. Effects can appear differently depending on selected music, mode, palette, CSS theme and footer layout.
