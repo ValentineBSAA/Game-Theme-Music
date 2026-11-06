@@ -12598,6 +12598,18 @@ const GTM460_CSS = `
   background: var(--gtm-panel-2) !important;
   box-shadow: inset 0 0 0 1px var(--gtm-border-strong) !important;
 }
+/* 4.6.1: active banner version uses the adaptive Steam/CSS Loader palette. */
+.gtm-root .gtm-v301-brand-badges .gtm-v301-brand-version {
+  color: color-mix(in srgb, var(--gtm-text) 84%, var(--gtm-interactive-accent,var(--gtm-cyan)) 16%) !important;
+  background: var(--gtm-panel-2) !important;
+  border: 1px solid var(--gtm-border-strong) !important;
+  border-left: 3px solid var(--gtm-interactive-accent,var(--gtm-cyan)) !important;
+  text-shadow: none !important;
+  font-size: 10px !important;
+  font-weight: 950 !important;
+  letter-spacing: .04em;
+  box-shadow: 0 0 0 1px var(--gtm-border) !important;
+}
 .gtm-root .gtm-v3-chip.is-version {
   color: var(--gtm-interactive-accent,var(--gtm-text)) !important;
   border: 1px solid var(--gtm-border-strong) !important;
