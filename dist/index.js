@@ -13307,8 +13307,8 @@ function LegacyIndex() {
 // 3.0.0 controller-first application shell ----------------------------------
 const GTM_V3_PAGE_KEY = 'gtm:v3:last-page';
 const GTM_V3_PAGES = [
-    { id: 'arcade', label: 'Arcade Spectator', icon: '✧' },
     { id: 'ambient', label: 'Ambient Music', icon: '☁' },
+    { id: 'arcade', label: 'Arcade Spectator', icon: '✧' },
     { id: 'game', label: 'Game Card Music', icon: '◆' },
     { id: 'health', label: 'Health', icon: '✦' },
     { id: 'library', label: 'Music Library', icon: '▦' },
@@ -14611,8 +14611,8 @@ function GtmV301Icon({ name, size = 20 }) {
 
 // A-Z Quick Menu pages. Preserve IDs so old page preferences still work.
 const GTM_V301_PAGES = [
-    { id: 'arcade', label: 'Arcade Spectator', short: 'Arcade', icon: 'spectator' },
     { id: 'ambient', label: 'Ambient Music', short: 'Ambient', icon: 'ambient' },
+    { id: 'arcade', label: 'Arcade Spectator', short: 'Arcade', icon: 'spectator' },
     { id: 'game', label: 'Game Card Music', short: 'Cards', icon: 'game' },
     { id: 'health', label: 'Health', short: 'Health', icon: 'health' },
     { id: 'library', label: 'Music Library', short: 'Library', icon: 'library' },
