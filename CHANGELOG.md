@@ -1,3 +1,15 @@
+## 4.6.1 · Private Test Build (November 6, 2026)
+
+- Kept the three GTM-owned **Library Context Menu** visibility switches for Change Music, Change Ambient Music Playlist, and Change Store Music Playlist. Each remains independently configurable and defaults to **ON**.
+- Removed the experimental TitleDeck, artwork and Steam Developer visibility switches and removed all external context-menu filtering. Other plugins and native Steam menu items are never intentionally modified.
+- Confirmed from developer's physical Steam Deck test of 4.6.0: arbitrary combinations of the three GTM shortcuts correctly hide or show; the Quick Menu ON/OFF controls no longer flash.
+- Sorted all nine navigation pages alphabetically while keeping their existing IDs, saved-page behavior, and LB/RB paging. Added an optional **Browse all pages · A–Z** controller-friendly quick-jump panel.
+- Rewrote the one-time Steam Home welcome with version-specific 4.6.1 changes and a clearer description of hiding shortcuts versus disabling playback.
+- Preserved faster, steady switch feedback and improved the contrast of the actual banner version badge across adaptive themes.
+- No music library data, soundtracks, existing playlists, or ResonaDeck integration are intentionally altered. The package is **TEST**, not a public Stable release; physical Steam Deck verification is still required.
+
+See [4.6.1 test notes](docs/GTM_4.6.1_TEST.md). Changes are based on the last public GitHub 4.5.8 installer; reconcile any separately maintained 4.5.9 changes before public promotion.
+
 ## 4.5.8 · Stable public release (November 5, 2026)
 
 - Six built-in visualizers, optional imported collections, and a controller-friendly two-column selection grid.
