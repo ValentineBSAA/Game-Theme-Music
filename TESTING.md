@@ -1,6 +1,25 @@
-> **4.6.5 release on hold pending ResonaDeck audio-reactivity diagnosis.** The maintainer's Steam Deck checks confirm individually hidden/visible Library context-menu entries, Store Music playback restored, and paired ResonaDeck 1.5.6 visualizers staying hidden at idle and appearing with eligible music. **Audio-reactive movement to the actual track has NOT passed: the maintainer reports the visualizer is not reacting to ResonaDeck music.** These are **reported physical hardware observations**, not universal performance measurements or a claim that all SteamOS/CSS themes were tested. Offline regression coverage included navigation, storage/state preservation and shared visualizer commands. The actual 4.6.5 release asset has not yet been uploaded; **V4.5.8 remains the published GitHub download**. [New release notes](docs/RELEASE_NOTES_4.6.5.md).
+# GTM 4.6.7: physical Steam Deck verification (November 6, 2026)
 
-> **Current stable release:** GTM 4.5.8 ([published installer](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8)). This document preserves the 4.4.9 hardware and physics regression history below. The current GitHub Actions check validates 4.5.8 metadata, JavaScript/Python syntax and published-runtime synchronization; the older fixed-version Pong test files are not automatically rerun against 4.5.8. The maintainer separately verified 4.5.8 ↔ ResonaDeck visualizer controls on Steam Deck. For the newest changes, see [4.5.8 release notes](docs/RELEASE_NOTES_4.5.8.md).
+**Latest stable:** [V4.6.7](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.6.7) · [Release notes](docs/RELEASE_NOTES_4.6.7.md).
+
+| Test | Observation |
+| --- | --- |
+| All three independent GTM Library context-menu visibility switches | **PASS**, including mixed ON/OFF combinations |
+| Browse all pages A–Z and LB/RB navigation | **PASS** during maintainer testing |
+| Decky Plugin Store music starts and stops | **PASS** |
+| Native Steam Store music starts and stops when leaving | **PASS** after 4.6.7 exit-detection fix |
+| Final Store tests after installing 4.6.7, without reboot | **PASS** |
+| GTM yields Store audio to ResonaDeck already playing | **PASS** |
+| Enabled Home visualizer hidden without eligible music, then shown with music | **PASS** |
+| ResonaDeck music-frequency response | **PASS after manually toggling sharing OFF/ON**; universal automatic first-connect still requires monitoring |
+| Syntax, ZIP integrity, focused Store navigation tests, YT-DLP/QuickJS preservation | **PASS** in packaging checks |
+| Every SteamOS/Decky build, CSS Loader theme, streaming format and extended play session | **Not universally verified** |
+
+A full Steam Deck restart is **not normally required**. A Steam restart can still clear stale plugin hooks after a hot update, if needed.
+
+**Source / CI scope:** The main-branch tracked runtime snapshot still reflects an older version, so passing older fixed-version GitHub Actions checks does not automatically prove parity with the published 4.6.7 ZIP. See [SOURCE.md](SOURCE.md).
+
+## Historical testing archive
 
 # Game Theme Music 4.4.9: testing and maintenance verification
 
