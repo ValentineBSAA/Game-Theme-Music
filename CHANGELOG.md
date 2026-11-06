@@ -1,3 +1,18 @@
+## 4.6.1 · TEST BUILD (November 6, 2026)
+
+> **Test branch only. Not published as Stable.** Built on GTM 4.6.0 TEST, which used the verified public 4.5.8 runtime as its base. Integrate any separately developed 4.5.9 changes before a public release.
+
+- **Library Context Menu:** Keep just three independent, persistent **GTM** shortcuts: Change Music, Change Ambient Music Playlist, and Change Store Music Playlist. Turning one OFF hides its row without disabling playback or deleting playlists. Existing preferences are retained on upgrade.
+- **Remove experimental external-plugin controls:** GTM no longer offers switches for TitleDeck, Change Artwork, or Steam Developer. The third-party-menu filtering code is removed; these entries belong to their own providers.
+- **Alphabetical page navigation:** Main LB/RB pages are now Ambient, Arcade Spectator, Game Card Music, Health, Music Library, Now Playing, Settings, Store Music, and Visualizers. The saved page ID and default opening **Now Playing** remain unchanged.
+- **Clarity:** Shorter switch descriptions explain ON=show and OFF=hide; the page rail calls out A–Z navigation.
+- **Welcome and visual feedback:** One-time Steam Home welcome now describes the **4.6.1 changes**, with more legible version styling and the already-tested fast, steady ON/OFF lighting preserved.
+- **Physical feedback from 4.6.0:** User verified all three switches work independently and no Quick Menu flashing was observed. Physical verification of 4.6.1 is still required.
+
+See [GTM 4.6.1 test notes](docs/GTM_4.6.1_TEST.md). No published release, Stable tag, or issue status was changed.
+
+---
+
 ## 4.5.8 · Stable public release (November 5, 2026)
 
 - Six built-in visualizers, optional imported collections, and a controller-friendly two-column selection grid.
