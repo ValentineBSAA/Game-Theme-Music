@@ -1,23 +1,21 @@
-# Getting started with Game Theme Music 4.5.8 🎵
+# Getting started with Game Theme Music 4.6.7 🎵
 
-**Developer: Valentine. Status: actively maintained, with major feature development paused.** GTM is a music-first Decky Loader plugin for Steam Deck, with custom soundtracks, Ambient/Store music, reactive visualizers and **watch-only** AI spectator scenes. There are **no playable Arcade modes or local multiplayer controls** in 4.5.8.
+**Developer: Valentine. Status: actively maintained, with major feature development paused.** GTM is a music-first Decky Loader plugin for Steam Deck, with custom soundtracks, Ambient/Store music, reactive visualizers and **watch-only** AI spectator scenes. There are **no playable Arcade modes or local multiplayer controls** in 4.6.7.
 
-## GTM 4.6.5: new controls (public release paused)
+## 4.6.7: navigation and Library context-menu controls
 
-The maintainer verified several 4.6.5 controls on Steam Deck, but **the paired ResonaDeck visualizer is not yet reacting to audio**. Public release preparation is paused. In **Quick Access → GTM**, use **Browse all pages · A–Z** to jump directly to a section or LB/RB to page between sections. In the Library context-menu settings, independently show or hide **Change Music**, **Change Ambient Playlist** and **Change Store Playlist**; hiding a shortcut never disables playback. These switches affect only GTM's own shortcuts, not TitleDeck or Steam actions.
+Use **Quick Access → GTM → Browse all pages · A–Z** to jump directly to a page, or LB/RB to switch pages. In GTM Settings, independently show or hide **Change Music**, **Change Ambient Playlist** and **Change Store Playlist** in Steam Library context menus. Hiding a shortcut never disables playback or modifies TitleDeck entries.
 
-In **Visualizers → Enable Home visualizers**, ON permits supported visuals **while eligible music is playing**, not during silence; OFF hides visuals without stopping sound. A compatible ResonaDeck 1.5.6 can also change the live toggle. A saved ResonaDeck ON preference at plugin startup does not override the user's latest explicit OFF selection.
-
-**For now:** the existing 4.5.8 download instructions immediately below remain accurate. After 4.6.5 is published, install its **named plugin ZIP asset** from Releases, not the auto-generated source archive. See [4.6.5 changes](RELEASE_NOTES_4.6.5.md).
+The **Enable Home visualizers** toggle controls whether visuals are permitted during supported music, not whether an idle visualizer must always display. With ResonaDeck 1.5.7, visuals can react to Plex/Jellyfin music. If the display appears but isn't responding to audio, try toggling **GTM Visualizers** OFF then ON in ResonaDeck to refresh capture. A fully automatic first-connect is not proven universal.
 
 ## Install or update
 
-1. Download the **`Game-Theme-Music-4.5.8.zip`** asset from the [official 4.5.8 release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8).
+1. Download the **`Game-Theme-Music-4.6.7.zip`** asset from the [official 4.6.7 release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.6.7).
 2. Use Decky Loader's manual ZIP installation option. **Do not select the auto-generated GitHub source ZIP**; it is not a complete installer.
 3. Leave Decky's persistent settings in place when upgrading to keep your playlists, palettes, shuffle preference and AI learning.
 4. Return to **Steam Home** and close Quick Access. GTM's full-screen thank-you from Valentine appears once per version on Home. Press **A / Cross** to continue; it is not a page inside Quick Access.
 
-The public ZIP is self-contained and **does not require a previous GTM version**. Check the [published 4.5.8 checksum](RELEASE_ASSET_SHA256_4.5.8.txt) to verify the download. [Release index and rollback](RELEASE_INDEX.md).
+The public ZIP is self-contained and **does not require a previous GTM version**. Check the [published 4.6.7 checksum](RELEASE_ASSET_SHA256_4.6.7.txt) to verify the download. [Release index and rollback](RELEASE_INDEX.md).
 
 ## Music
 
