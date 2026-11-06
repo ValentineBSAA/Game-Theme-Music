@@ -12624,9 +12624,10 @@ const GTM460_CSS = `
  .gtm-root .gtm-switch-button,.gtm-root .gtm-switch-pill,.gtm-root .gtm-switch-state { transition: none !important; }
 }
 `;
+const GTM461_CSS = "\n/* 4.6.1: optional A–Z jump list with native gamepad focus. */\n.gtm-root .gtm461-jump-shell {margin:0 8px 8px;min-width:0;}\n.gtm-root .gtm461-jump-toggle {width:100%!important;min-height:38px!important;\n  background:var(--gtm-panel)!important;color:var(--gtm-text)!important;\n  border:1px solid var(--gtm-border)!important;border-radius:9px!important;\n  font-size:11px!important;font-weight:800!important;}\n.gtm-root .gtm461-jump-grid {display:flex;flex-direction:column;gap:5px;margin-top:6px;}\n.gtm-root .gtm461-jump-row {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;}\n.gtm-root .gtm461-jump-item {min-height:44px!important;min-width:0!important;\n  background:var(--gtm-control)!important;color:var(--gtm-text)!important;\n  border:1px solid var(--gtm-border)!important;padding:6px!important;\n  white-space:normal!important;line-height:1.2!important;font-size:11px!important;}\n.gtm-root .gtm461-jump-item.is-active {border-color:var(--gtm-interactive-accent,var(--gtm-border-strong))!important;\n  box-shadow:inset 0 0 0 1px var(--gtm-border-strong)!important;}\n.gtm-root.gtm-v301-root .gtm-v301-brand-badges .gtm-v301-brand-version {\n  color:var(--gtm-text)!important;-webkit-text-fill-color:var(--gtm-text)!important;\n  background:var(--gtm-panel-2)!important;\n  border:2px solid var(--gtm-interactive-accent,var(--gtm-border-strong))!important;\n  font-weight:950!important;text-shadow:none!important;\n}\n";
 function ThemeStyles() {
     return window.SP_REACT.createElement("style", {
-        dangerouslySetInnerHTML: { __html: GTM_THEME_CSS + GTM448_MENU_CSS + GTM452_BROWSER_CSS + GTM460_CSS }
+        dangerouslySetInnerHTML: { __html: GTM_THEME_CSS + GTM448_MENU_CSS + GTM452_BROWSER_CSS + GTM460_CSS + GTM461_CSS }
     });
 }
 
@@ -14665,6 +14666,25 @@ function GtmV301PageRail({ activePage, onPrevious, onNext }) {
             window.SP_REACT.createElement('span', { className: 'gtm-v301-shoulder-key' }, 'RB')));
 }
 
+// 4.6.1: optional alphabetical jump grid. Hidden until requested, so the
+// familiar LB/RB controls stay unchanged and do not increase menu load.
+function GtmV461PageJump({activePage,onChange}) {
+ const [open,setOpen]=SP_REACT.useState(false);
+ const e=window.SP_REACT.createElement;
+ const rows=[GTM_V301_PAGES.slice(0,3),GTM_V301_PAGES.slice(3,6),GTM_V301_PAGES.slice(6,9)];
+ return e('div',{className:'gtm461-jump-shell'},
+  e(DFL.DialogButton,{className:'gtm461-jump-toggle','aria-expanded':open,
+   onOKActionDescription:open?'Hide page list':'Browse pages alphabetically',
+   onClick:()=>setOpen(value=>!value)},(open?'▴ Hide':'▾ Browse')+' all pages · A–Z'),
+  open?e(DFL.Focusable,{className:'gtm461-jump-grid','flow-children':'down'},
+    rows.map((row,index)=>e(DFL.Focusable,{key:index,className:'gtm461-jump-row','flow-children':'right'},
+      row.map(page=>e(DFL.DialogButton,{key:page.id,
+       className:'gtm461-jump-item'+(page.id===activePage?' is-active':''),
+       'aria-pressed':page.id===activePage,
+       onOKActionDescription:'Open '+page.label,
+       onClick:()=>{onChange(page.id);setOpen(false);}
+      },page.label))))) : null);
+}
 function gtmV301FocusRail(direction = 1, rootRef = null) {
     const root = rootRef?.current || null;
     const win = gtmV303OwnerWindow(root) || globalThis.window;
@@ -17146,7 +17166,8 @@ function Index() {
         window.SP_REACT.createElement(GtmV303AutoMetadataRepair, null),
         window.SP_REACT.createElement(DFL.Focusable, { className: 'gtm-v304-top-stack', 'flow-children': 'down' },
             window.SP_REACT.createElement(GtmV301BrandBanner, { onActivate: () => selectPage('now', -1, 'banner') }),
-            window.SP_REACT.createElement(GtmV301PageRail, { activePage, onPrevious: (source) => stepPage(-1, source), onNext: (source) => stepPage(1, source) })),
+            window.SP_REACT.createElement(GtmV301PageRail, { activePage, onPrevious: (source) => stepPage(-1, source), onNext: (source) => stepPage(1, source) }),
+            window.SP_REACT.createElement(GtmV461PageJump, { activePage, onChange: page => selectPage(page, 1, 'jump') })),
         window.SP_REACT.createElement(DFL.Focusable, { className: 'gtm-v3-page gtm-v301-page', 'flow-children': 'down' }, content),
         window.SP_REACT.createElement('div', { className: 'gtm-v3-footer' }, `Game Theme Music v${GTM_VERSION} · 23 Living Worlds`));
 }
