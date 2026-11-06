@@ -75,22 +75,6 @@ I'm keeping GTM music-first and maintaining the features already here. Fixes, co
 - **[Read maintenance priorities](docs/MAINTENANCE.md)**. The earlier feature-expansion poll is archived; future fixes are guided by reproducible bugs and compatibility needs rather than a promised feature roadmap.
 - **[Browse the visualizer gallery](docs/SCREENSHOTS.md)**. Historical screenshots are labeled; don't mistake concept art for current hardware screenshots.
 
-## ❤️ A little note from me
-
-I started working on Game Theme Music because I liked what it did and saw things I wanted to improve. One fix led to another, then more music features, visualizers, and plenty of Steam Deck testing. I really enjoy working on this stuff, and I'm happy people are giving it a try.
-
-If Game Theme Music has made your Steam Deck a little more fun and you'd like to help support my **ongoing development and maintenance**, you can leave a donation through Cash App. **It's completely optional.** The plugin is free, nothing is locked behind donations, and simply using it, reporting a bug, or sharing feedback means a lot to me.
-
-I also want to give credit to the **original Game Theme Music creator and contributors**. This project started with their work; any donations here support **my maintenance and improvements**, not a claim that I created the original plugin.
-
-<p align="center">
-  <a href="https://cash.app/$jilvalentinebsaa" title="Optional Cash App donation to support Valentine's ongoing development"><img src="assets/donate-support.webp" alt="Green Donate and Support badge for Valentine's Cash App" width="150"></a>
-  <br>
-  <strong><a href="https://cash.app/$jilvalentinebsaa">Support my development on Cash App · $jilvalentinebsaa</a></strong>
-  <br>
-  <sub>No pressure, no paid features. Thank you for being here. ❤️</sub>
-</p>
-
 ## 🗂️ Development archive
 
 Looking for an older store listing, preview note, test report or experimental regression script? I moved the historical files into a **[browseable development archive](docs/archive/README.md)** so the repository homepage is easier to navigate.
