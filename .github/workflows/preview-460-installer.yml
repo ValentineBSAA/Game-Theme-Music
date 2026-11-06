@@ -1,0 +1,79 @@
+name: GTM 4.6.0 Preview installable ZIP
+on:
+  push:
+    branches:
+      - preview/4.6.0-context-menu-controls
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out preview source
+        uses: actions/checkout@v4
+      - name: Validate source and context-menu behavior
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check dist/index.js
+          node tests/GTM_4.6.0_CONTEXT_VISIBILITY_TEST.cjs
+          python3 - <<'PY'
+          import ast,json,pathlib
+          p=pathlib.Path('.')
+          assert json.loads((p/'plugin.json').read_text())['version']=='4.6.0'
+          assert json.loads((p/'package.json').read_text())['version']=='4.6.0'
+          ast.parse((p/'main.py').read_text(),filename='main.py')
+          print('PASS 4.6.0 preview backend/frontend metadata and syntax')
+          PY
+      - name: Download checksum-verified current published installer
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --retry-delay 3 \
+            --output "$RUNNER_TEMP/Game-Theme-Music-4.5.8.zip" \
+            "https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.5.8/Game-Theme-Music-4.5.8.zip"
+          echo "4c3ace93a998a2dab7c023e507c19ab0dae8b5b5756bc1ea328e3a325b340324  $RUNNER_TEMP/Game-Theme-Music-4.5.8.zip" | sha256sum -c -
+      - name: Assemble directly installable Decky Preview ZIP
+        shell: bash
+        env:
+          ORIGINAL: ${{ runner.temp }}/Game-Theme-Music-4.5.8.zip
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,zipfile
+          root='Game-Theme-Music/'
+          base=pathlib.Path('.')
+          original=pathlib.Path(os.environ['ORIGINAL'])
+          out=pathlib.Path('Game-Theme-Music-4.6.0-Preview.zip')
+          overlay=('dist/index.js','main.py','package.json','plugin.json')
+          with zipfile.ZipFile(original) as src:
+              assert src.testzip() is None
+              entries=src.infolist()
+              names={entry.filename for entry in entries}
+              assert all(root+p in names for p in overlay), 'Published ZIP missing required runtime'
+              assert all(entry.filename.startswith(root) for entry in entries), 'Unexpected archive root'
+              with zipfile.ZipFile(out,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as dest:
+                  for entry in entries:
+                      relative=entry.filename[len(root):]
+                      payload=(base/relative).read_bytes() if relative in overlay else src.read(entry.filename)
+                      dest.writestr(entry,payload)
+                  dest.writestr(root+'PREVIEW_NOTES_4.6.0.md',(base/'docs/PREVIEW_NOTES_4.6.0.md').read_bytes(),compress_type=zipfile.ZIP_DEFLATED)
+          with zipfile.ZipFile(out) as check:
+              assert check.testzip() is None
+              assert json.loads(check.read(root+'plugin.json'))['version']=='4.6.0'
+              assert json.loads(check.read(root+'package.json'))['version']=='4.6.0'
+              assert check.read(root+'dist/index.js')==(base/'dist/index.js').read_bytes()
+              assert check.read(root+'main.py')==(base/'main.py').read_bytes()
+              assert 'const GTM_VERSION = "4.6.0";' in check.read(root+'dist/index.js').decode()
+          print('PASS installable preview ZIP:',out,out.stat().st_size,'bytes')
+          print('SHA256:',hashlib.sha256(out.read_bytes()).hexdigest())
+          PY
+      - name: Upload preview installer (not a GitHub release)
+        uses: actions/upload-artifact@v4
+        with:
+          name: Game-Theme-Music-4.6.0-Preview
+          path: Game-Theme-Music-4.6.0-Preview.zip
+          if-no-files-found: error
+          retention-days: 14
