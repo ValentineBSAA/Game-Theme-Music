@@ -11,7 +11,7 @@
 
 </div>
 
-> **Next stable build: GTM 4.6.5 (hardware-tested, installer upload pending).** The [4.6.5 documentation](docs/RELEASE_NOTES_4.6.5.md) covers customizable Library context-menu shortcuts, A–Z Quick Menu navigation, Store Music recovery, performance work and visualizer behavior paired with ResonaDeck 1.5.6. **The latest published download is still 4.5.8** until the new release asset is uploaded; do not use GitHub's source-code ZIP as an installer. [Testing details](TESTING.md).
+> **GTM 4.6.5 release preparation is paused.** The [4.6.5 documentation](docs/RELEASE_NOTES_4.6.5.md) covers customizable Library context-menu shortcuts, A–Z Quick Menu navigation, Store Music recovery, performance work and visualizer behavior paired with ResonaDeck 1.5.6. **ResonaDeck music-frequency reactivity has not passed hardware verification.** The Home visualizer appears during music but may not respond to the audio signal. **The latest published download is still 4.5.8** until the new release asset is uploaded; do not use GitHub's source-code ZIP as an installer. [Testing details](TESTING.md).
 
 **Game Theme Music (GTM)** is a music-first Decky Loader plugin for Steam Deck. Play soundtracks for Steam and non-Steam games, add music to Home and Store browsing, and customize music-reactive visual worlds. GTM also offers optional **AI-versus-AI spectator visualizers** that animate automatically alongside music. **Arcade Spectator remains a watch-only, AI-versus-AI feature in 4.5.8; it does not advertise human-playable multiplayer.**
 
@@ -62,7 +62,7 @@ For Couch/TV viewing, choose the larger footer layout; choose Default for a comp
 
 ### Preparing GTM 4.6.5
 
-The maintainer has verified the new **independent Library context-menu visibility controls** (Change Music, Change Ambient Playlist and Change Store Playlist), the **Browse all pages · A–Z** dropdown, and Store Music recovery. Paired with **ResonaDeck 1.5.6**, saved visualizer settings no longer trigger unwanted ON commands when the plugins start: the Home visualizer remains hidden without music and activates during eligible playback when enabled. See the [4.6.5 release notes](docs/RELEASE_NOTES_4.6.5.md). The 4.6.5 ZIP has not yet been uploaded to GitHub.
+The maintainer has verified the new **independent Library context-menu visibility controls** (Change Music, Change Ambient Playlist and Change Store Playlist), the **Browse all pages · A–Z** dropdown, and Store Music recovery. **Release is on hold because ResonaDeck's music-reactive frequency response has not been confirmed working.** Paired with **ResonaDeck 1.5.6**, saved visualizer settings no longer trigger unwanted ON commands when the plugins start: the Home visualizer remains hidden without music and activates during eligible playback when enabled. See the [4.6.5 release notes](docs/RELEASE_NOTES_4.6.5.md). The 4.6.5 ZIP has not yet been uploaded to GitHub.
 
 ### What's new in 4.5.8?
 
