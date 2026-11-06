@@ -1,4 +1,4 @@
-# Game Theme Music 4.6.0 Preview (private testing)
+# Game Theme Music 4.6.0 Preview (testing only)
 Developer: Valentine
 
 This is an EXPERIMENTAL Steam Deck test build based on the published, checksum-verified GTM 4.5.8 installer. It does not replace the stable installer and is not yet approved for public release.
@@ -27,7 +27,7 @@ This is an EXPERIMENTAL Steam Deck test build based on the published, checksum-v
 10. Check Quick Menu opening time, no duplicate menu items, and GTM/ResonaDeck cooperation.
 
 ## Build source
-Only the GitHub preview branch `preview/4.6.0-context-menu-controls` is modified. The packaging workflow downloads the original 4.5.8 official release ZIP, validates its SHA-256, and overlays the preview runtime and matching metadata. It uploads a 4.6.0 Preview test ZIP as a GitHub Actions artifact, NOT a public GitHub Release.
+This is a public repository, so the preview branch and Actions artifact are visible on GitHub; this is **not** a private distribution channel. Only the GitHub preview branch `preview/4.6.0-context-menu-controls` is modified. The packaging workflow downloads the original 4.5.8 official release ZIP, validates its SHA-256, and overlays the preview runtime and matching metadata. It uploads a 4.6.0 Preview test ZIP as a GitHub Actions artifact, NOT an official GitHub Release. GitHub Actions artifacts expire after 14 days.
 
 ## Verification
 Automated syntax and injection tests do not replace physical Steam Deck testing. No claims of hardware compatibility or an official 4.6.0 Stable release are made here.
