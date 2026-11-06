@@ -1,6 +1,6 @@
 ## 4.6.5 | Stable-ready maintenance update (November 6, 2026)
 
-**Validated locally and by the maintainer on a Steam Deck; the GitHub release ZIP is awaiting upload.** The previously published GitHub installer is still V4.5.8 until the new release is uploaded.
+**Several features were validated locally and on Steam Deck, but public release is paused: ResonaDeck 1.5.6 audio-frequency reactivity remains unresolved.** The previously published GitHub installer is still V4.5.8 until the new release is uploaded.
 
 - **Library context-menu control (fixes #10):** independent visibility switches for Change Music, Change Ambient Playlist and Change Store Playlist. Mixed ON/OFF combinations work without disabling music or erasing playlists; the unrelated TitleDeck menu is left alone.
 - **Quick Menu navigation:** A–Z page dropdown plus LB/RB section switching, with competing focus/scroll operations removed to reduce visible jumping.
@@ -9,7 +9,7 @@
 - **Visualizer sharing:** with ResonaDeck 1.5.6, startup preferences no longer masquerade as deliberate toggle commands. GTM's Home visualizer stays hidden while no eligible music plays, even if enabled, and appears during supported playback. OFF from either plugin hides visuals without stopping music.
 - **Preserved:** YT-DLP and QuickJS executables, Ambient, music playlists, CSS Loader theme adaptation, crossfade and existing watch-only Arcade Spectator features.
 
-**Verification:** physical Deck checks for context-menu controls, Store Music recovery, styled ResonaDeck Quick Menu and idle-versus-playing visualizer behavior; focused offline regression tests and syntax/archive checks. This is not a claim of exhaustive Decky/SteamOS compatibility. See [4.6.5 release notes](docs/RELEASE_NOTES_4.6.5.md) and [testing status](TESTING.md).
+**Verification:** physical Deck checks for context-menu controls, Store Music recovery, styled ResonaDeck Quick Menu and idle-versus-playing visualizer visibility. **Not passed: ResonaDeck frequency-responsive visualizer movement**; focused offline regression tests and syntax/archive checks. This is not a claim of exhaustive Decky/SteamOS compatibility. See [4.6.5 release notes](docs/RELEASE_NOTES_4.6.5.md) and [testing status](TESTING.md).
 
 ## 4.5.8 · Stable public release (November 5, 2026)
 
