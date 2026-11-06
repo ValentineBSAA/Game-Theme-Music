@@ -1,40 +1,27 @@
-# GTM 4.5.8: SteamOS compatibility and known limitations
+# GTM 4.6.7: SteamOS, Decky and CSS Loader compatibility
 
-**Maintainer: Valentine. Current public release: 4.5.8.** GTM is in [active maintenance](MAINTENANCE.md), prioritizing real bug reports and platform compatibility without new major features.
+**Current public release:** [GTM 4.6.7](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.6.7) · Active music-first maintenance.
 
-## Verified on physical Steam Deck (earlier 4.4.9 checks on November 3, 2026, plus 4.5.8 integration)
+## Verified on the maintainer's physical Steam Deck (November 6, 2026)
 
-- The full-screen **per-version welcome** appeared on **Steam Home** in the maintainer's photograph.
-- After the 4.4.9 scoring update, **Neon Paddle AI versus AI** produced a legitimate goal on the maintainer's Steam Deck.
+- Three independent GTM Library context-menu shortcuts behave correctly when hidden or shown.
+- A–Z page selection and LB/RB controller paging work.
+- Store Music starts in both **Steam's native Store** and the **Decky Plugin Store**, and stops on leaving the corresponding Store.
+- Native Store exit detection was tightened in 4.6.7. The final Store checks were performed **without restarting the Deck**.
+- GTM yields Store audio to ResonaDeck music already playing.
+- With visualizers enabled, idle Home stays free of unwanted visuals; supported playback can activate the visualizer.
+- ResonaDeck frequency-reactive visualizer movement was recovered by toggling its GTM Visualizers sharing OFF/ON. **Not a universal guarantee that first-time audio capture always connects automatically.**
 
-These are **specific observations**, not a blanket certification of every scene, SteamOS version, CSS theme, Decky version, OLED/LCD model, TV resolution, controller or audio setup.
+## Compatibility and known limitations
 
-## Automated coverage (not a hardware guarantee)
+- Native Steam Store navigation and Decky overlays can expose stale routing data after Steam/Decky updates; compatibility may require later adjustments.
+- CSS Loader theme support is maintained, but not all light/dark or community themes were physically retested.
+- Performance improvements reduce avoidable work but don't guarantee a measured opening-time improvement on every Deck.
+- Current **Arcade Spectator is watch-only AI-versus-AI**, not controllable multiplayer.
+- Imported packs, TV/Couch layouts, sleep/wake, every Decky/SteamOS build and lengthy streaming sessions have not been universally verified.
 
-- Learned high-skill AI scoring and extended Pong rallies, including all 12 spectator ball-physics modes.
-- JavaScript/Python syntax, package integrity and synchronized version metadata.
-- Explicit visualizer Shuffle All ON/OFF persistence and selected settings behavior.
+If a hot update leaves stale UI state, close/reopen Quick Access; restart Steam if necessary. A full Deck reboot is **not required** as standard install guidance.
 
-## Still worth testing
+For support include the GTM version, SteamOS/Decky versions, CSS theme, whether the issue is **Decky Plugin Store** or **native Steam Store**, and steps to reproduce. Avoid posting private credentials.
 
-- Continuous multi-hour AI spectator sessions and AI learning after reboot.
-- Controller navigation through every nested visualizer pack, collection and settings page.
-- CSS Loader palette compatibility, custom gradients and color contrast.
-- Default and Couch/TV footer size after sleep/wake and a full restart.
-- Ambient/Store playlists, crossfade and audio focus with ResonaDeck.
-- Imported visualizer packs, SteamOS/Decky versions other than the maintainer's actual configuration.
-
-## 4.5.8 hardware integration
-
-- The maintainer confirmed the **GTM / ResonaDeck live visualizer ON/OFF integration** on physical Steam Deck hardware.
-- Checks from the 4.4.9 test remain historical observations, not new comprehensive 4.5.8 regression certifications.
-
-## Current gameplay status
-
-**4.5.8 remains spectator-only.** AI-vs-AI animations are not controller games. Former human multiplayer, player claiming, the Chess alpha and playable Arcade controls belong to historical 4.4.1-era material, not the current release.
-
-## Report compatibility issues
-
-Please specify GTM version, Steam Deck model, SteamOS version/channel, Decky version, theme, selected visualizer, footer layout and steps to reproduce. Logs, clips and screenshots can help but are **optional**. Remove passwords, account tokens and private details.
-
-[Current release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8) · [Testing status](../TESTING.md) · [Report a bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new?template=bug_report.md) · [Main README](../README.md)
+[Release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.6.7) · [Testing](../TESTING.md) · [Notes](RELEASE_NOTES_4.6.7.md) · [Report an issue](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new/choose)
