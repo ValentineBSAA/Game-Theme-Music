@@ -2,7 +2,7 @@ name: Build GTM 4.6.1 TEST installer
 on:
   push:
     branches:
-      - test/4.6.1-context-menu-visibility
+      - test/4.6.1-menu-navigation
     paths:
       - 'dist/index.js'
       - 'main.py'
