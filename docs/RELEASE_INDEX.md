@@ -1,9 +1,10 @@
 # Game Theme Music: releases and rollback
 
-**Current public version:** **4.5.8**, developed by Valentine. **Status: feature-complete for the current direction, actively maintained.** The 4.5.8 release supersedes 4.4.9; the separate maintenance policy does not itself require further version changes. See the [maintenance policy](MAINTENANCE.md).
+**Current published installer:** **4.5.8**; **next verified build: 4.6.5, pending asset upload**, developed by Valentine. **Status: feature-complete for the current direction, actively maintained.** The 4.5.8 release supersedes 4.4.9; the separate maintenance policy does not itself require further version changes. See the [maintenance policy](MAINTENANCE.md).
 
 | Version | Public status | What it is |
 | --- | --- | --- |
+| **4.6.5 (release upload pending)** | **Stable build verified on maintainer's Steam Deck; not yet publicly downloadable** | Per-shortcut context-menu controls (#10), A–Z navigation, Store Music restoration, leaner background work and ResonaDeck 1.5.6 visualizer sync. [Notes](RELEASE_NOTES_4.6.5.md). |
 | **[V4.5.8](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8)** | **Current stable release** | Six added visualizers, two-column browser, crossfade improvements and two-way ResonaDeck control. |
 | **[V4.4.9](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9)** | Previous regular release | Music-first GTM, 17 visual worlds, 32 spectator ball powers, redesigned Quick Menu, AI scoring fix, one-time Home welcome. |
 | **[V4.1.2](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.1.2)** | Previous published version | Earlier music, visualizer and ResonaDeck functionality; older layout and feature set. |
