@@ -1,0 +1,77 @@
+name: Build GTM 4.6.1 TEST installer
+on:
+  push:
+    branches:
+      - test/4.6.1-menu-navigation-welcome
+    paths:
+      - 'dist/index.js'
+      - 'main.py'
+      - 'package.json'
+      - 'plugin.json'
+      - 'tests/gtm_461_menu_navigation.cjs'
+      - '.github/workflows/build-461-test.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test-and-package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout GTM 4.6.1 test branch
+        uses: actions/checkout@v4
+      - name: Validate runtime, options and navigation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check dist/index.js
+          node tests/gtm_461_menu_navigation.cjs
+          python3 -m py_compile main.py
+      - name: Download and verify published 4.5.8 installer
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --retry-delay 3 \
+            --output "$RUNNER_TEMP/base458.zip" \
+            "https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.5.8/Game-Theme-Music-4.5.8.zip"
+          echo "4c3ace93a998a2dab7c023e507c19ab0dae8b5b5756bc1ea328e3a325b340324  $RUNNER_TEMP/base458.zip" | sha256sum -c -
+          echo "GTM_TEST_BASE=$RUNNER_TEMP/base458.zip" >> "$GITHUB_ENV"
+      - name: Package direct-install GTM 4.6.1 TEST
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist-test
+          python3 - <<'PY'
+          import hashlib, os, pathlib, zipfile, json
+          source=pathlib.Path(os.environ['GTM_TEST_BASE'])
+          target=pathlib.Path('dist-test/Game-Theme-Music-4.6.1-TEST.zip')
+          root='Game-Theme-Music/'
+          overlay=('dist/index.js','main.py','plugin.json','package.json')
+          overrides={root+file:pathlib.Path(file).read_bytes() for file in overlay}
+          assert json.loads(overrides[root+'plugin.json'])['version']=='4.6.1'
+          assert json.loads(overrides[root+'package.json'])['version']=='4.6.1'
+          assert b'const GTM_VERSION = "4.6.1";' in overrides[root+'dist/index.js']
+          assert b'4.6.1' in overrides[root+'main.py']
+          with zipfile.ZipFile(source) as zin, zipfile.ZipFile(target,'w') as zout:
+              assert zin.testzip() is None
+              existing=set(zin.namelist())
+              assert set(overrides)<=existing
+              assert any('/bin/' in entry for entry in existing), 'Missing executable payload'
+              for item in zin.infolist():
+                  zout.writestr(item,overrides.get(item.filename,zin.read(item.filename)))
+          with zipfile.ZipFile(target) as z:
+              assert z.testzip() is None
+              assert len(z.namelist())==len(existing)
+              assert z.read(root+'dist/index.js')==overrides[root+'dist/index.js']
+              assert json.loads(z.read(root+'plugin.json'))['version']=='4.6.1'
+          checksum=hashlib.sha256(target.read_bytes()).hexdigest()
+          pathlib.Path('dist-test/SHA256.txt').write_text(f'{checksum}  {target.name}\n')
+          print(f'PASS: {target}, {target.stat().st_size} bytes, sha256 {checksum}')
+          PY
+      - name: Upload 4.6.1 private test installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: GTM-4.6.1-TEST-Installer
+          path: dist-test/
+          if-no-files-found: error
+          retention-days: 14
