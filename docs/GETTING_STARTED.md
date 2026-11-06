@@ -2,9 +2,9 @@
 
 **Developer: Valentine. Status: actively maintained, with major feature development paused.** GTM is a music-first Decky Loader plugin for Steam Deck, with custom soundtracks, Ambient/Store music, reactive visualizers and **watch-only** AI spectator scenes. There are **no playable Arcade modes or local multiplayer controls** in 4.5.8.
 
-## GTM 4.6.5: new controls (ZIP awaiting GitHub upload)
+## GTM 4.6.5: new controls (public release paused)
 
-The maintainer has verified the 4.6.5 maintenance build on the Steam Deck. In **Quick Access → GTM**, use **Browse all pages · A–Z** to jump directly to a section or LB/RB to page between sections. In the Library context-menu settings, independently show or hide **Change Music**, **Change Ambient Playlist** and **Change Store Playlist**; hiding a shortcut never disables playback. These switches affect only GTM's own shortcuts, not TitleDeck or Steam actions.
+The maintainer verified several 4.6.5 controls on Steam Deck, but **the paired ResonaDeck visualizer is not yet reacting to audio**. Public release preparation is paused. In **Quick Access → GTM**, use **Browse all pages · A–Z** to jump directly to a section or LB/RB to page between sections. In the Library context-menu settings, independently show or hide **Change Music**, **Change Ambient Playlist** and **Change Store Playlist**; hiding a shortcut never disables playback. These switches affect only GTM's own shortcuts, not TitleDeck or Steam actions.
 
 In **Visualizers → Enable Home visualizers**, ON permits supported visuals **while eligible music is playing**, not during silence; OFF hides visuals without stopping sound. A compatible ResonaDeck 1.5.6 can also change the live toggle. A saved ResonaDeck ON preference at plugin startup does not override the user's latest explicit OFF selection.
 
