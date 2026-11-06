@@ -9,7 +9,7 @@ GTM 4.6.1 is a focused usability update following physical Steam Deck testing of
 - Remove the unrequested, experimental **TitleDeck**, **Change Artwork**, and **Developer** controls and the code that filtered other plugins' or Steam's entries.
 
 ### Navigation and presentation
-- Arrange the Quick Menu pages alphabetically: **Arcade Spectator, Ambient Music, Game Card Music, Health, Music Library, Now Playing, Settings, Store Music, Visualizers**.
+- Arrange the Quick Menu pages alphabetically: **Ambient Music, Arcade Spectator, Game Card Music, Health, Music Library, Now Playing, Settings, Store Music, Visualizers**.
 - Arrange Full Manager sections alphabetically, clarify labels and helpful descriptions, and preserve existing route IDs and saved page selections.
 - Refresh the version-specific Steam Home welcome with this build's actual changes and concise instructions.
 - Preserve the fast, non-flashing switch response confirmed on a physical Deck. Improve the **active** banner's version badge contrast in both CSS Loader light and dark themes.
