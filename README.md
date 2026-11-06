@@ -91,6 +91,12 @@ I also want to give credit to the **original Game Theme Music creator and contri
   <sub>No pressure, no paid features. Thank you for being here. ❤️</sub>
 </p>
 
+## 🗂️ Development archive
+
+Looking for an older store listing, preview note, test report or experimental regression script? I moved the historical files into a **[browseable development archive](docs/archive/README.md)** so the repository homepage is easier to navigate.
+
+These files are preserved for reference, not current installation instructions. **For the supported plugin, use the [current 4.5.8 release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.5.8)** and the [getting-started guide](docs/GETTING_STARTED.md). Nothing from the working runtime or published installer was removed during this cleanup.
+
 ## Project notes
 
 **Maintainer:** Valentine ([ValentineBSAA](https://github.com/ValentineBSAA)). **License:** GPL-3.0-only (see LICENSE). The repository tracks the 4.5.8 runtime snapshot and release tests. Large bundled dependencies are included in the *release installer*, not GitHub's source ZIP. The public **4.5.8 installer is self-contained**; you do not need an earlier GTM release to install it.
