@@ -1,3 +1,20 @@
+## 4.6.1 · Private test build (November 6, 2026)
+
+**Community-driven menu cleanup and alphabetically organized Quick Menu. Not yet a public release.**
+
+- **Only GTM's three music shortcuts are customizable.** In **Settings → Library Context Menu**, independently show or hide **Change Music**, **Change Ambient Music Playlist** and **Change Store Music Playlist**. All start ON for new installations, and user choices are saved.
+- **Unrelated menus are left alone.** Removed the experimental TitleDeck, Change Artwork and Developer switches and their cross-plugin filtering. Other plugins and Steam keep control of their own menu entries.
+- **Confirmed behavior from the 4.6.0 hardware test is preserved.** Hidden shortcuts stay hidden until re-enabled; mixed ON/OFF selections work; music, playlists and underlying playback remain unaffected.
+- **Main Quick Menu pages are alphabetical:** Ambient Music, Arcade Spectator, Game Card Music, Health, Music Library, Now Playing, Settings, Store Music, Visualizers. LB/RB navigation, page IDs, and the Now Playing banner shortcut continue working.
+- **More welcoming first launch:** the once-per-version Steam Home message now highlights the actual 4.6.1 changes in plain language instead of older 4.5.8 release notes.
+- **Clearer everyday controls:** friendlier music-page descriptions, a more informative Library Context Menu heading, the retained responsive 65 ms switch lighting, and a contrast-safe 4.6.1 version badge on the active banner.
+
+**Validation required before Stable:** run static/runtime tests and verify Steam Deck controller navigation, all three menu toggles, dark/light CSS Loader themes, menu injection, saved settings and the Home welcome.
+
+**Build provenance:** this 4.6.1 test continues from the 4.6.0 test branch, which itself used the publicly available 4.5.8 installer as its baseline. Reconcile any unpublished 4.5.9 code before a public release.
+
+---
+
 ## 4.5.8 · Stable public release (November 5, 2026)
 
 - Six built-in visualizers, optional imported collections, and a controller-friendly two-column selection grid.
