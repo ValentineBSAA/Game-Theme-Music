@@ -12594,6 +12594,21 @@ const GTM460_FAST_SWITCH_CSS = `
 .gtm-root .gtm-switch-button.gtm-switch-on .gtm-switch-state-on {
   box-shadow:0 0 7px color-mix(in srgb,var(--gtm-interactive-accent,var(--gtm-focus,#61d9ed)) 27%,transparent)!important;
 }
+/* The version must stand out on BOTH the artwork banner and Quick Menu header.
+   The adaptive accent + on-accent pair keeps contrast safe across CSS themes. */
+.gtm-root .gtm-v301-brand-badges .gtm-v301-brand-version,
+.gtm-root .gtm-v3-header-badges .gtm-v3-chip:not(.is-theme) {
+  color:var(--gtm-on-accent,#101827)!important;
+  -webkit-text-fill-color:var(--gtm-on-accent,#101827)!important;
+  background:var(--gtm-interactive-accent,var(--gtm-focus,#61d9ed))!important;
+  border:1px solid var(--gtm-interactive-accent,var(--gtm-focus,#61d9ed))!important;
+  box-shadow:0 1px 5px var(--gtm-shadow,rgba(0,0,0,.25))!important;
+  text-shadow:none!important;
+  font-size:10px!important;
+  line-height:1.1!important;
+  font-weight:950!important;
+  letter-spacing:.045em!important;
+}
 @media (prefers-reduced-motion:reduce) {
   .gtm-root .gtm-switch-button,
   .gtm-root .gtm-switch-pill,
