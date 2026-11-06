@@ -7,9 +7,9 @@
     "tags": [
       "audio"
     ],
-    "description": "Game Theme Music 4.5.8: controller-friendly visualizers, responsive audio crossfade, ResonaDeck bridge and community updates.",
+    "description": "GTM 4.6.0 Test: customizable context-menu entries and improved light/dark interface readability.",
     "image": "https://raw.githubusercontent.com/ValentineBSAA/Game-Theme-Music/main/assets/game-theme-music-icon.webp"
   },
-  "description": "Game Theme Music 4.5.8: bidirectional GTM and ResonaDeck visualizer control, premium visualizers, controller navigation and improved music crossfade.",
-  "version": "4.5.8"
+  "description": "GTM 4.6.0 Test: customizable context-menu entries and improved light/dark interface readability.",
+  "version": "4.6.0"
 }
