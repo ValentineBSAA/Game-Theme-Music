@@ -12594,6 +12594,20 @@ const GTM460_SWITCH_CSS = `
 .gtm-root .gtm-switch-on .gtm-switch-state-on { background:var(--gtm-interactive-accent,var(--gtm-cyan))!important; color:var(--gtm-panel)!important; box-shadow:0 0 7px var(--gtm-shadow)!important; }
 .gtm-root .gtm-switch-off .gtm-switch-state-off { background:var(--gtm-control,var(--gtm-panel-2))!important; color:var(--gtm-text)!important; box-shadow:inset 0 0 0 1px var(--gtm-border)!important; }
 .gtm-root .gtm-switch-off .gtm-switch-state-on, .gtm-root .gtm-switch-on .gtm-switch-state-off { background:transparent!important; box-shadow:none!important; color:var(--gtm-text-muted)!important; }
+/* Version badge: high contrast text with theme-aware colored emphasis, not a fixed dark/light color. */
+.gtm-root.gtm-v3-root .gtm-v3-header .gtm-v3-chip.is-version {
+    min-height:25px; padding:4px 10px; font-size:11px; font-weight:900;
+    line-height:1.2; letter-spacing:.035em; font-variant-numeric:tabular-nums;
+    background:var(--gtm-focus-soft,var(--gtm-panel-2))!important;
+    color:var(--gtm-text)!important;
+    border:1px solid var(--gtm-border-strong)!important;
+    box-shadow:inset 3px 0 0 var(--gtm-interactive-accent,var(--gtm-cyan)),
+       0 0 10px var(--gtm-shadow)!important;
+}
+.gtm-root.gtm-v3-root .gtm-v3-header .gtm-v3-chip.is-version::before {
+    content:""; width:5px; height:5px; margin-right:6px; border-radius:50%;
+    background:var(--gtm-interactive-accent,var(--gtm-cyan)); flex:0 0 auto;
+}
 @media (prefers-reduced-motion:reduce) { .gtm-root .gtm-switch-button, .gtm-root .gtm-switch-state, .gtm-root .gtm-switch-pill { transition:none!important; } }
 `;
 function ThemeStyles() {
@@ -13301,7 +13315,7 @@ function GtmV3Header() {
                 window.SP_REACT.createElement('div', { className: 'gtm-v3-header-title' }, 'Game Theme Music'),
                 window.SP_REACT.createElement('div', { className: 'gtm-v3-header-subtitle' }, 'Music + Living Visual Worlds · Preview'))),
         window.SP_REACT.createElement('div', { className: 'gtm-v3-header-badges' },
-            window.SP_REACT.createElement('span', { className: 'gtm-v3-chip' }, `v${GTM_VERSION}`),
+            window.SP_REACT.createElement('span', { className: 'gtm-v3-chip is-version', 'aria-label': `Game Theme Music version ${GTM_VERSION}` }, `v${GTM_VERSION}`),
             window.SP_REACT.createElement('span', { className: `gtm-v3-chip is-theme is-${theme.mode}` }, theme.enabled === false ? 'GTM palette' : `${String(theme.mode || 'auto').toUpperCase()} · AUTO`)));
 }
 function GtmV3PageNav({ activePage, onChange }) {
