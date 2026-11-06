@@ -7,9 +7,9 @@
     "tags": [
       "audio"
     ],
-    "description": "GTM 4.6.0 TEST: configurable context-menu shortcuts and adaptive switch/version styling.",
+    "description": "GTM 4.6.1 TEST: hide GTM context-menu shortcuts independently and browse pages A–Z.",
     "image": "https://raw.githubusercontent.com/ValentineBSAA/Game-Theme-Music/main/assets/game-theme-music-icon.webp"
   },
-  "description": "GTM 4.6.0 TEST: context-menu visibility and UI readability.",
-  "version": "4.6.0"
+  "description": "GTM 4.6.1 TEST: GTM-only context-menu visibility, alphabetical page navigation, clearer settings and welcome changelog.",
+  "version": "4.6.1"
 }
