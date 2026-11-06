@@ -1,0 +1,80 @@
+name: GTM 4.6.0 private test installer
+on:
+  push:
+    branches:
+      - test/gtm-4.6.0-context-menu
+    paths:
+      - '.github/workflows/gtm-460-private-test.yml'
+      - 'tests/gtm_460_private_test.py'
+      - 'dist/index.js'
+      - 'main.py'
+      - 'package.json'
+      - 'plugin.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  make-test-installer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate test-branch source
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check dist/index.js
+          python3 tests/gtm_460_private_test.py
+      - name: Download and verify published baseline (4.5.8)
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 4 --retry-delay 3 \
+            --output "$RUNNER_TEMP/GTM-4.5.8-baseline.zip" \
+            "https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.5.8/Game-Theme-Music-4.5.8.zip"
+          echo "4c3ace93a998a2dab7c023e507c19ab0dae8b5b5756bc1ea328e3a325b340324  $RUNNER_TEMP/GTM-4.5.8-baseline.zip" | sha256sum --check
+      - name: Build standalone installable GTM 4.6.0 TEST ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          export GTM_BASE="$RUNNER_TEMP/GTM-4.5.8-baseline.zip"
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, zipfile
+          base=pathlib.Path(os.environ["GTM_BASE"])
+          root=pathlib.Path(".")
+          output=root/"out"/"Game-Theme-Music-4.6.0-TEST.zip"
+          prefix="Game-Theme-Music/"
+          replacements={prefix+x:(root/x).read_bytes() for x in (
+              "dist/index.js", "main.py", "package.json", "plugin.json"
+          )}
+          with zipfile.ZipFile(base, "r") as src:
+              assert src.testzip() is None, "Base ZIP CRC failure"
+              entries=src.infolist()
+              names=[i.filename for i in entries if not i.is_dir()]
+              assert len(names)==len(set(names)), "Base ZIP contains duplicate paths"
+              assert set(replacements).issubset(names), "Missing expected runtime path"
+              assert json.loads(src.read(prefix+"plugin.json"))["version"]=="4.5.8"
+              with zipfile.ZipFile(output, "w", allowZip64=True) as dst:
+                  for info in entries:
+                      data=b"" if info.is_dir() else replacements.get(info.filename,src.read(info.filename))
+                      dst.writestr(info,data)
+          with zipfile.ZipFile(output, "r") as check:
+              assert check.testzip() is None, "Output ZIP CRC failure"
+              assert set(replacements).issubset(check.namelist())
+              for name,data in replacements.items():
+                  assert check.read(name)==data, "Changed file mismatch "+name
+              assert json.loads(check.read(prefix+"plugin.json"))["version"]=="4.6.0"
+              assert json.loads(check.read(prefix+"package.json"))["version"]=="4.6.0"
+              assert b'const GTM_VERSION = "4.6.0";' in check.read(prefix+"dist/index.js")
+              assert any(x.startswith(prefix+"bin/") for x in check.namelist()), "Missing bundled helper binaries"
+          digest=hashlib.sha256(output.read_bytes()).hexdigest()
+          (root/"out"/"sha256.txt").write_text(digest+"  "+output.name+"\n")
+          print("PASS direct-install test ZIP:",output.name,"size",output.stat().st_size,"sha256",digest)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GTM-4.6.0-PRIVATE-TEST
+          path: out/
+          if-no-files-found: error
+          retention-days: 14
