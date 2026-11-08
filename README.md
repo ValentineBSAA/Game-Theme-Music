@@ -10,6 +10,8 @@
 
 [**⬇ Download 4.6.7**](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.6.7) · [Release notes](docs/RELEASE_NOTES_4.6.7.md) · [Getting started](docs/GETTING_STARTED.md) · [Real screenshots](docs/SCREENSHOTS.md) · [Report an issue](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new/choose)
 
+**💬 [Tell me how you're using GTM](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2)**
+
 </div>
 
 > **Current published release:** [Game Theme Music 4.6.7](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.6.7), November 6, 2026. Install the named **[Game-Theme-Music-4.6.7.zip](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.6.7/Game-Theme-Music-4.6.7.zip)** from the release's Assets, **not** GitHub's automatically generated source-code ZIP.
@@ -72,12 +74,36 @@ These are **15 genuine earlier-version captures**, not a claim that they show ev
 
 [Browse all 15 screenshots](docs/SCREENSHOTS.md)
 
+## 🎧 Tell me how you're using GTM
+
+**I'd love to hear what GTM is actually like on your Steam Deck.** ❤️
+
+Downloads tell me GTM is reaching people, but they don't tell me which parts you enjoy, what you actually use, or what could be better. Whether you've been using GTM for months or just installed it, you're welcome here.
+
+> **💬 [Join the GTM community conversation →](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2)**  
+> No bug report needed. Share your experience, a favorite feature, a screenshot, a small frustration, or simply say hello.
+
+A few things I'm curious about:
+
+- 🎵 Do you mostly use game soundtracks, Home/Ambient music, Store Music, visualizers, or ResonaDeck?
+- ✨ What's working especially well for you?
+- 🛠️ What's confusing, unreliable, or something you'd change?
+
+**Honest feedback is welcome, including criticism.** A quick sentence is enough. I'm focusing on stability, everyday usability and music-first improvements, so I can't promise every suggestion will become a feature.
+
+If you've found something broken and can reproduce it, please [open a bug report](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new/choose) so I can track it separately.
+
+*Thanks for listening and helping me make GTM better.*  
+**Valentine** 🎵
+
+---
+
 ## ❤️ Maintenance and community
 
 GTM is **actively maintained**, not abandoned. Current priorities are reproducible bug fixes, SteamOS/Decky compatibility, audio reliability, controller usability and focused polish. There is no promised feature schedule. [Maintenance policy](docs/MAINTENANCE.md) · [Contributing](CONTRIBUTING.md).
 
 - [Report a reproducible bug](https://github.com/ValentineBSAA/Game-Theme-Music/issues/new/choose). Include GTM version, SteamOS/Decky versions, affected Store surface and steps to reproduce.
-- [Community feedback hub](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2), kept open for ongoing discussion.
+- [Share your GTM experience](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2), an open thread for everyday feedback and conversation.
 - [Compatibility limitations](docs/STEAMOS_COMPATIBILITY.md), [testing record](TESTING.md), [changelog](CHANGELOG.md).
 - [Development archive](docs/archive/README.md) contains historical experiments and earlier versions. Historical notes aren't current installation instructions.
 
