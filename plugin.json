@@ -7,9 +7,9 @@
     "tags": [
       "audio"
     ],
-    "description": "Game Theme Music 4.5.8: controller-friendly visualizers, responsive audio crossfade, ResonaDeck bridge and community updates.",
+    "description": "Game Theme Music 4.6.7: native Steam Store exit detection fix; Decky Store playback and visualizer integration preserved.",
     "image": "https://raw.githubusercontent.com/ValentineBSAA/Game-Theme-Music/main/assets/game-theme-music-icon.webp"
   },
-  "description": "Game Theme Music 4.5.8: bidirectional GTM and ResonaDeck visualizer control, premium visualizers, controller navigation and improved music crossfade.",
-  "version": "4.5.8"
+  "description": "Game Theme Music 4.6.7: native Steam Store exit detection fix; Decky Store playback and visualizer integration preserved.",
+  "version": "4.6.7"
 }
