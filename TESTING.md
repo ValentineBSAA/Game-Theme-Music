@@ -17,7 +17,7 @@
 
 A full Steam Deck restart is **not normally required**. A Steam restart can still clear stale plugin hooks after a hot update, if needed.
 
-**Source / CI scope:** The main-branch tracked runtime snapshot still reflects an older version, so passing older fixed-version GitHub Actions checks does not automatically prove parity with the published 4.6.7 ZIP. See [SOURCE.md](SOURCE.md).
+**Source / CI scope:** The checked-in compiled runtime and version manifests were synchronized from the SHA-256-verified 4.6.7 installer. Syntax checks do not establish a complete reproducible source rebuild or universal Steam Deck compatibility. See [SOURCE.md](SOURCE.md).
 
 ## Historical testing archive
 

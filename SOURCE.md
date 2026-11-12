@@ -9,7 +9,7 @@ This SHA-256 **matches GitHub's release-asset digest** and the locally prepared 
 
 ### Published ZIP versus checked-in source
 
-**The release's named ZIP is the supported installable build.** At the time of this documentation update, main-branch compiled runtime/metadata still reflect an older release (4.5.8); updating documentation does **not** make those files byte-identical to the 4.6.7 ZIP. Treat the published ZIP as authoritative for installation. A separate runtime source synchronization and matching tests are required before claiming that the main branch builds 4.6.7.
+**The release's named ZIP remains the supported installable build.** The checked-in backend, compiled frontend, and both version manifests have now been copied byte-for-byte from the verified 4.6.7 installer. Packaged visual assets and development sources were also synchronized where present; see [verified runtime scope](docs/VERIFIED_RUNTIME_4.6.7.md). This does not establish that the repository can reproducibly rebuild every bundled binary, or that original development source files absent from the installer were recovered. The named ZIP remains authoritative for Decky installation.
 
 Bundled **YT-DLP** and **QuickJS** executables remain in the installable ZIP. Large binaries and other third-party components may not exist in the repository checkout. GitHub's automatically generated **Source code** ZIP is not a full Decky installation archive.
 
