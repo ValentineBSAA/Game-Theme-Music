@@ -109,7 +109,7 @@ GTM is **actively maintained**, not abandoned. Current priorities are reproducib
 
 ## Source and packaging
 
-**The published 4.6.7 installer ZIP is the canonical installable artifact.** The repository's checked-in frontend/backend source snapshot may lag behind that ZIP; do not treat the automatic GitHub source archive as a self-contained plugin or assume the checkout is byte-identical to the 4.6.7 runtime. See [SOURCE.md](SOURCE.md) for accurate provenance and [third-party notices](THIRD-PARTY-NOTICES.md).
+**The published 4.6.7 installer ZIP remains the canonical Decky installer.** The current `main` branch now contains SHA-256-verified copies of its compiled frontend, backend, version manifests and packaged assets, recorded in the [file-level verification manifest](docs/VERIFIED_RUNTIME_4.6.7.md). The original `V4.6.7` tag predates that synchronization and still contains older source metadata; its automatic GitHub **Source code** archives are historical snapshots, not the 4.6.7 installable ZIP. This source synchronization does not prove a complete reproducible rebuild of every binary. See [SOURCE.md](SOURCE.md) and [third-party notices](THIRD-PARTY-NOTICES.md).
 
 **Maintainer:** Valentine ([ValentineBSAA](https://github.com/ValentineBSAA)) · **License:** GPL-3.0-only ([LICENSE](LICENSE))
 
