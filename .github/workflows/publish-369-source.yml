@@ -48,6 +48,20 @@ jobs:
               print(f'PASS checked-in runtime {source_version}; published installer {stable} is distinct and NOT source-verified')
               print('::notice::The source checkout is older than the published installer; this workflow is not a release parity certificate.')
           else:
+              manifest=root/f'docs/VERIFIED_RUNTIME_{stable}.md'
+              if manifest.exists():
+                  listed=[]
+                  for line in manifest.read_text().splitlines():
+                      row=re.fullmatch(r'\| `([^`]+)` \| `([0-9a-f]{64})` \|',line)
+                      if not row: continue
+                      rel,digest=row.groups()
+                      file=root/rel
+                      assert file.is_file(),f'Manifest file missing: {rel}'
+                      import hashlib
+                      assert hashlib.sha256(file.read_bytes()).hexdigest()==digest,f'Published runtime checksum mismatch: {rel}'
+                      listed.append(rel)
+                  assert all(path in listed for path in ('dist/index.js','main.py','package.json','plugin.json'))
+                  print(f'PASS {len(listed)} checksummed files from published runtime {stable}')
               print(f'PASS checked-in metadata/runtime {source_version}; published {stable} references consistent')
           if source_version=='4.5.8':
               assert (root/'docs/RELEASE_NOTES_4.5.8.md').exists()
