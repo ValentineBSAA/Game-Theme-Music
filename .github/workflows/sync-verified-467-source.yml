@@ -1,0 +1,95 @@
+name: Verify and sync published GTM 4.6.7 runtime
+on:
+  push:
+    branches: [maintenance/gtm-467-source-parity-20261112]
+    paths: ['.github/workflows/sync-verified-467-source.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync-exact-release-files:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Download and authenticate immutable public 4.6.7 ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --retry-delay 2 --output "$RUNNER_TEMP/Game-Theme-Music-4.6.7.zip" \
+            "https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.6.7/Game-Theme-Music-4.6.7.zip"
+          echo "e287f1905c4981537e2756a0827b4bc3eb4364bc30db43d8f987690814ba166d  $RUNNER_TEMP/Game-Theme-Music-4.6.7.zip" | sha256sum --check
+      - name: Copy only verified files and record scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,zipfile
+          base=pathlib.Path('.')
+          archive=pathlib.Path(os.environ['RUNNER_TEMP'])/'Game-Theme-Music-4.6.7.zip'
+          prefix='Game-Theme-Music/'
+          mandatory=('main.py','dist/index.js','package.json','plugin.json')
+          optional_files=('gtm_pack_v3.py','pack_validate.py','THIRD-PARTY-NOTICES.md')
+          optional_dirs=('src/','assets/','visualizer-packs/')
+          written={}
+          with zipfile.ZipFile(archive) as z:
+              assert z.testzip() is None,'Installer ZIP failed CRC test'
+              names=set(z.namelist())
+              for rel in mandatory:
+                  assert prefix+rel in names,f'Missing installer runtime file: {rel}'
+              package=json.loads(z.read(prefix+'package.json'))
+              plugin=json.loads(z.read(prefix+'plugin.json'))
+              assert package['version']==plugin['version']=='4.6.7','Installer manifests are not both 4.6.7'
+              js=z.read(prefix+'dist/index.js')
+              assert b'const GTM_VERSION = "4.6.7";' in js,'Installer compiled version differs'
+              for entry in z.infolist():
+                  if entry.is_dir() or not entry.filename.startswith(prefix):
+                      continue
+                  rel=entry.filename[len(prefix):]
+                  if not (rel in mandatory or rel in optional_files or rel.startswith(optional_dirs)):
+                      continue
+                  path=pathlib.PurePosixPath(rel)
+                  assert rel and '..' not in path.parts and not path.is_absolute(),'Unsafe ZIP entry'
+                  assert entry.file_size<=25_000_000,f'Oversized tracked file {rel}'
+                  target=base.joinpath(*path.parts)
+                  target.parent.mkdir(parents=True,exist_ok=True)
+                  contents=z.read(entry)
+                  target.write_bytes(contents)
+                  written[rel]=hashlib.sha256(contents).hexdigest()
+          assert all(r in written for r in mandatory),'Required files not written'
+          source=base/'SOURCE.md'
+          old="**The release's named ZIP is the supported installable build.** At the time of this documentation update, main-branch compiled runtime/metadata still reflect an older release (4.5.8); updating documentation does **not** make those files byte-identical to the 4.6.7 ZIP. Treat the published ZIP as authoritative for installation. A separate runtime source synchronization and matching tests are required before claiming that the main branch builds 4.6.7."
+          new="**The release's named ZIP remains the supported installable build.** The checked-in backend, compiled frontend, and both version manifests have now been copied byte-for-byte from the verified 4.6.7 installer. Packaged visual assets and development sources were also synchronized where present; see [verified runtime scope](docs/VERIFIED_RUNTIME_4.6.7.md). This does not establish that the repository can reproducibly rebuild every bundled binary, or that original development source files absent from the installer were recovered. The named ZIP remains authoritative for Decky installation."
+          text=source.read_text()
+          assert old in text,'SOURCE.md changed: manual review required'
+          source.write_text(text.replace(old,new,1))
+          checks=base/'TESTING.md'
+          original='The main-branch tracked runtime snapshot still reflects an older version, so passing older fixed-version GitHub Actions checks does not automatically prove parity with the published 4.6.7 ZIP.'
+          corrected='The checked-in compiled runtime and version manifests were synchronized from the SHA-256-verified 4.6.7 installer. Syntax checks do not establish a complete reproducible source rebuild or universal Steam Deck compatibility.'
+          text=checks.read_text()
+          assert original in text,'TESTING.md changed: manual review required'
+          checks.write_text(text.replace(original,corrected,1))
+          tick=chr(96)
+          lines=['# GTM 4.6.7 verified checked-in runtime','',
+             'These files were copied from the published ZIP after SHA-256 and CRC verification. This is not proof of a complete rebuild from unbundled source code.','',
+             'Installer SHA-256: '+tick+'e287f1905c4981537e2756a0827b4bc3eb4364bc30db43d8f987690814ba166d'+tick,'',
+             '| File | SHA-256 |','| --- | --- |']
+          for rel,digest in sorted(written.items()):
+              lines.append('| '+tick+rel+tick+' | '+tick+digest+tick+' |')
+          lines.extend(['','The published ZIP is the supported Decky installer. This manifest makes no claim about any file not found in it.'])
+          (base/'docs/VERIFIED_RUNTIME_4.6.7.md').write_text('\n'.join(lines)+'\n')
+          print('Verified and copied',len(written),'allow-listed installer files')
+          PY
+          node --check dist/index.js
+          python3 -m py_compile main.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add main.py dist/index.js package.json plugin.json gtm_pack_v3.py pack_validate.py THIRD-PARTY-NOTICES.md src assets visualizer-packs SOURCE.md TESTING.md docs/VERIFIED_RUNTIME_4.6.7.md
+          if git diff --cached --quiet; then
+            echo "Verified files already synchronized; no commit"
+          else
+            git commit -m "release: sync verified 4.6.7 runtime from published ZIP"
+            git push origin HEAD:maintenance/gtm-467-source-parity-20261112
+          fi
