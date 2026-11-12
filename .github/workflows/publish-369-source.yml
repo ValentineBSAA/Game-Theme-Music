@@ -1,7 +1,7 @@
-name: GTM version-aware source checks
+name: GTM source and release-reference checks
 on:
   push:
-    branches: [main, release-prep/**]
+    branches: [main, release-prep/**, maintenance/gtm-467-source-parity-20261112]
   pull_request:
   workflow_dispatch:
 permissions:
@@ -12,32 +12,53 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: Version and source integrity
+      - name: Validate checked-in runtime and published-release references separately
+        shell: bash
         run: |
+          set -euo pipefail
           python3 - <<'PY'
-          import json,pathlib,re
+          import json, pathlib, re
           root=pathlib.Path('.')
           package=json.loads((root/'package.json').read_text())
           plugin=json.loads((root/'plugin.json').read_text())
-          version=package['version']
-          assert re.fullmatch(r'\d+\.\d+\.\d+',version)
-          assert version==plugin['version']
-          assert plugin['author']=='Valentine'
+          source_version=package['version']
+          assert re.fullmatch(r'\d+\.\d+\.\d+',source_version), 'Invalid package version'
+          assert source_version==plugin['version'], 'package/plugin source versions disagree'
+          assert plugin['author']=='Valentine', 'Unexpected plugin author'
           js=(root/'dist/index.js').read_text()
-          assert f'const GTM_VERSION = "{version}";' in js
-          assert version in (root/'README.md').read_text()
+          assert f'const GTM_VERSION = "{source_version}";' in js, 'Compiled runtime version differs from source manifest'
           assert (root/'main.py').exists()
           assert (root/'visualizer-packs').is_dir()
-          if version=='4.5.8':
+          readme=(root/'README.md').read_text()
+          public=re.search(r'Current published release:\*\*\s*\[Game Theme Music (\d+\.\d+\.\d+)\]',readme)
+          assert public, 'README must identify the current published installer separately'
+          stable=public.group(1)
+          notes=root/f'docs/RELEASE_NOTES_{stable}.md'
+          checksum_file=root/f'docs/RELEASE_ASSET_SHA256_{stable}.txt'
+          assert notes.is_file(), f'Missing published {stable} release notes'
+          assert checksum_file.is_file(), f'Missing published {stable} checksum'
+          checksum=checksum_file.read_text().strip()
+          assert re.fullmatch(r'[0-9a-f]{64}  Game-Theme-Music-'+re.escape(stable)+r'\.zip',checksum), 'Malformed published installer SHA-256 manifest'
+          assert f'/releases/tag/V{stable}' in readme, 'README download points at a different version'
+          source_record=(root/'SOURCE.md').read_text()
+          if source_version != stable:
+              assert 'older release' in source_record and source_version in source_record, (
+                  'Checked-in source is older than the stable installer; SOURCE.md must disclose this'
+              )
+              print(f'PASS checked-in runtime {source_version}; published installer {stable} is distinct and NOT source-verified')
+              print('::notice::The source checkout is older than the published installer; this workflow is not a release parity certificate.')
+          else:
+              print(f'PASS checked-in metadata/runtime {source_version}; published {stable} references consistent')
+          if source_version=='4.5.8':
               assert (root/'docs/RELEASE_NOTES_4.5.8.md').exists()
               assert 'gtm405ReceiveExternal' in js
-          elif version=='4.4.9':
+          elif source_version=='4.4.9':
               assert (root/'docs/RELEASE_NOTES_4.4.9.md').exists()
-          print('PASS GTM runtime', version)
           PY
           node --check dist/index.js
           python3 -m py_compile main.py
-      - name: Legacy 4.4.9 tests (when available)
+      - name: Legacy 4.4.9 tests (when applicable)
+        shell: bash
         run: |
           VERSION="$(python3 -c 'import json;print(json.load(open("package.json"))["version"])')"
           if [[ "$VERSION" == "4.4.9" ]]; then
@@ -45,5 +66,5 @@ jobs:
               if [[ -f "$test" ]]; then node "$test"; fi
             done
           else
-            echo "New version: legacy fixed-version tests are intentionally not run."
+            echo "Historical 4.4.9-only regression tests are not run against another version."
           fi
