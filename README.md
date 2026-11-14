@@ -12,6 +12,8 @@
 
 **💬 [Tell me how you're using GTM](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2)**
 
+**🇫🇷 [Lire cette page en français](README.fr.md)**
+
 </div>
 
 > **Current published release:** [Game Theme Music 4.6.7](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.6.7), November 6, 2026. Install the named **[Game-Theme-Music-4.6.7.zip](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.6.7/Game-Theme-Music-4.6.7.zip)** from the release's Assets, **not** GitHub's automatically generated source-code ZIP.
@@ -39,6 +41,8 @@ The maintainer tested the final **4.6.7** Store workflow on a physical Steam Dec
 2. In Decky Loader, use its manual **Install Plugin from ZIP** option. Keep your saved preferences when upgrading.
 3. Open **Quick Access → GTM**. The per-version welcome may appear on Steam Home when Quick Access is closed; press **A / Cross** to continue.
 4. No full Steam Deck reboot is normally necessary. If Steam keeps old menu hooks or interface state after a hot update, close/reopen Quick Access, then restart Steam if needed.
+
+Français : [guide d'installation](docs/GETTING_STARTED.fr.md) · [politique de maintenance](docs/MAINTENANCE.fr.md) · [galerie de captures](docs/SCREENSHOTS.fr.md)
 
 [Verify ZIP SHA-256](docs/RELEASE_ASSET_SHA256_4.6.7.txt) · [Full setup guide](docs/GETTING_STARTED.md) · [Release and rollback index](docs/RELEASE_INDEX.md)
 
