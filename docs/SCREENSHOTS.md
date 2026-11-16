@@ -66,7 +66,7 @@ The Quick Menu can show a selection while the game screen remains visible behind
 
 ## Other screenshots and downloads
 
-The original **`GTM.4.4.9.screenshots.zip`** is also attached to the [V4.4.9 GitHub release](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9) if you'd prefer the complete original image set in one download.
+The 15 genuine GTM 4.4.9 screenshots are preserved in this repository gallery. Open any image above to view or save it. The old 4.4.9 screenshot ZIP release link is no longer available among the current GitHub releases.
 
 For early-version captures, visit the [historical gallery section](#earlier-visualizer-history). Original pre-4.4.9 visualizers, older menus and concept images were preserved rather than mislabeled as current screenshots.
 
@@ -85,4 +85,4 @@ The 11 photographs below are genuine captures from earlier GTM development. Some
 
 Earlier [illustrative neon paddle concept](screenshots/arcade/neon-paddle-illustrative.svg), **not an actual screenshot**.
 
-[**Back to GTM**](../README.md) · [**Getting started**](GETTING_STARTED.md) · [**GTM 4.4.9 Release**](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.4.9)
+[**Back to GTM**](../README.md) · [**Getting started**](GETTING_STARTED.md)
