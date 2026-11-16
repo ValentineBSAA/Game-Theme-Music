@@ -12,6 +12,8 @@
 
 **💬 [Tell me how you're using GTM](https://github.com/ValentineBSAA/Game-Theme-Music/issues/2)**
 
+**🇫🇷 [Lire cette page en français](README.fr.md)**
+
 </div>
 
 > **Current published release:** [Game Theme Music 4.6.7](https://github.com/ValentineBSAA/Game-Theme-Music/releases/tag/V4.6.7), November 6, 2026. Install the named **[Game-Theme-Music-4.6.7.zip](https://github.com/ValentineBSAA/Game-Theme-Music/releases/download/V4.6.7/Game-Theme-Music-4.6.7.zip)** from the release's Assets, **not** GitHub's automatically generated source-code ZIP.
