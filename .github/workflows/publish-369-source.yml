@@ -71,6 +71,16 @@ jobs:
           PY
           node --check dist/index.js
           python3 -m py_compile main.py
+      - name: Check 4.6.7 file-level packaging and source integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="$(python3 -c 'import json;print(json.load(open("package.json"))["version"])')"
+          if [[ "$version" == "4.6.7" ]]; then
+            python3 scripts/verify_release_467.py --repo .
+          else
+            echo "Skipping 4.6.7-specific packaging checks for source $version"
+          fi
       - name: Legacy 4.4.9 tests (when applicable)
         shell: bash
         run: |
