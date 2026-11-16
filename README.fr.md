@@ -115,6 +115,8 @@ GTM est **activement maintenu**, pas abandonné. Les priorités actuelles sont l
 
 **Le ZIP d'installation publié en 4.6.7 reste l'installateur Decky de référence.** La branche `main` contient désormais des copies vérifiées par SHA-256 du frontend compilé, du backend, des manifestes de version et des ressources incluses, répertoriées dans le [manifeste de vérification des fichiers](docs/VERIFIED_RUNTIME_4.6.7.md). Le tag original `V4.6.7` est antérieur à cette synchronisation et conserve d'anciennes métadonnées du code source ; les archives **Source code** générées automatiquement par GitHub sont des instantanés historiques, et non le ZIP installable de la 4.6.7. Cette synchronisation ne prouve pas qu'il soit possible de reconstruire tous les binaires de manière parfaitement reproductible. Voir [SOURCE.md](SOURCE.md) et les [notices de tiers](THIRD-PARTY-NOTICES.md).
 
+**Frontend compilé vérifiable :** la version 4.6.7 peut être reconstruite octet pour octet à partir du [code JavaScript compilé conservé](src/runtime-snapshots/gtm-4.6.7.compiled.js), à l'aide de `python3 scripts/verify_frontend_snapshot.py --check`. Les fichiers sources React/TypeScript d'origine et les binaires tiers ne sont **pas** reconstitués. Voir [SOURCE.md](SOURCE.md).
+
 **Mainteneur :** Valentine ([ValentineBSAA](https://github.com/ValentineBSAA)) · **Licence :** GPL-3.0-only ([LICENSE](LICENSE))
 
 **Traduction française :** [foXaCe](https://github.com/foXaCe), contribution [#15](https://github.com/ValentineBSAA/Game-Theme-Music/pull/15).

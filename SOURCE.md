@@ -11,6 +11,16 @@ This SHA-256 **matches GitHub's release-asset digest** and the locally prepared 
 
 **The release's named ZIP remains the supported installable build.** The checked-in backend, compiled frontend, and both version manifests have now been copied byte-for-byte from the verified 4.6.7 installer. Packaged visual assets and development sources were also synchronized where present; see [verified runtime scope](docs/VERIFIED_RUNTIME_4.6.7.md). This does not establish that the repository can reproducibly rebuild every bundled binary, or that original development source files absent from the installer were recovered. The named ZIP remains authoritative for Decky installation.
 
+### Reproducible checked-in compiled frontend
+
+The repository now preserves an **editable byte-for-byte copy of the verified 4.6.7 compiled JavaScript** at [src/runtime-snapshots/gtm-4.6.7.compiled.js](src/runtime-snapshots/gtm-4.6.7.compiled.js). Both paths point to the same Git blob in this initial commit, avoiding a second independent baseline. This is *compiled source*, not recovered original React/TypeScript modules.
+
+- Run `python3 scripts/verify_frontend_snapshot.py --check` to verify the source, `dist/index.js`, version constants, and the release SHA-256 manifest.
+- Run `python3 scripts/verify_frontend_snapshot.py --build` to reconstruct `dist/index.js` from the unchanged, verified compiled snapshot.
+- For an **unreleased development branch only**, edits to the snapshot require `--build --allow-development`; that resulting bundle is no longer verified as the published 4.6.7 release.
+
+GitHub Actions checks the snapshot on each push and pull request. The original Rollup/React/TypeScript authoring sources and fully locked third-party binary toolchain have **not** been recovered. `npm run build` remains unverified because the original Rollup entrypoint/configuration is not in this repository. This addresses the compiled-runtime regeneration gap, **not** full independent source-level reproducibility.
+
 Bundled **YT-DLP** and **QuickJS** executables remain in the installable ZIP. Large binaries and other third-party components may not exist in the repository checkout. GitHub's automatically generated **Source code** ZIP is not a full Decky installation archive.
 
 ### Release-tag history and synchronized source

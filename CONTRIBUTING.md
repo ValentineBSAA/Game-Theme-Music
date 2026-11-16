@@ -22,7 +22,9 @@ Thank you for your interest in improving GTM. The current music-first experience
 
 ## Existing tests
 
-The read-only [GTM regression workflow](.github/workflows/publish-369-source.yml) checks runtime metadata, JavaScript/Python syntax, AI spectator scoring, 12 physics modes and shuffle setting persistence on pull requests. The default-branch runtime can lag behind the published installer (see SOURCE.md). A green run on older code isn't proof of 4.6.7 archive parity or full Deck compatibility.
+The [GTM source workflow](.github/workflows/publish-369-source.yml) checks version metadata, published runtime manifest hashes, compiled frontend snapshot reconstruction, and JS/Python syntax. Older 4.4.9 regression suites only run for that historical version; these checks do not replace physical Steam Deck testing.
+
+For GTM 4.6.7, run `python3 scripts/verify_frontend_snapshot.py --check` or reconstruct the verified `dist/index.js` with `python3 scripts/verify_frontend_snapshot.py --build`. [The editable compiled baseline](src/runtime-snapshots/gtm-4.6.7.compiled.js) is **not** the original React/TypeScript tree. Unreleased experimental edits require `--build --allow-development` and separate acceptance testing. See [SOURCE.md](SOURCE.md) for the precise limitations.
 
 ## Reviews and expectations
 

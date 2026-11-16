@@ -71,6 +71,8 @@ jobs:
           PY
           node --check dist/index.js
           python3 -m py_compile main.py
+      - name: Reconstruct and verify published 4.6.7 frontend snapshot
+        run: python3 scripts/verify_frontend_snapshot.py --check
       - name: Legacy 4.4.9 tests (when applicable)
         shell: bash
         run: |
